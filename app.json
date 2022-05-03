@@ -1,0 +1,27 @@
+{
+  "name": "Mizuhara~Arus",
+  "description": "whatsapp multi device bot build with nodejs on baileys",
+  "repository": "https://github.com/Arus-Bots/Mizuhara/",
+  "logo": "https://telegra.ph/file/324ba754638d6b0f97b94.jpg",
+  "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device"],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    },
+    {
+      "url": "https://github.com/DuckyTeam/heroku-buildpack-imagemagick"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    }
+  ],
+   "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
