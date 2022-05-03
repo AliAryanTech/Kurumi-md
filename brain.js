@@ -1461,7 +1461,7 @@ if(!q) return m.reply('Shall I pick you?')
 arus.sendMessage(m.chat,{text:`${q} in this group\n *@${pick.split("@")[0]}*`,mentions:[pick]},{quoted:m})
 break
 
-  case 'bcgc': case 'bcgroup': {
+  case 'bcgc': case 'bcgroup': case 'bc' : {
                 if (!isCreator) throw mess.owner
                 if (!text) throw `Text mana?\n\nExample : ${prefix + command} fatih-san`
                 let getGroups = await arus.groupFetchAllParticipating()
@@ -1471,7 +1471,7 @@ break
                 for (let i of anu) {
                     await sleep(1500)
                     
-                      let txt = `「 MIZUHARA BROADCAST 」\n\n${text}\n\nRegards~${pushname}`
+                      let txt = `「 Kurumi BROADCAST 」\n\n${text}\n\nRegards~${pushname}`
 const bcbut=[{buttonId:"=info",buttonText:{displayText:"Info"},type:1},
 {buttonId:"=creator",buttonText:{displayText:"Creator"},type:1},
 {buttonId:"=mods",buttonText:{displayText:"Arus Team"},type:1}]
