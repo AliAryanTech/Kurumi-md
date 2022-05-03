@@ -1,16 +1,11 @@
-
 <div align="center">
-    <img
-        src="https://readme-typing-svg.herokuapp.com?font=Supermercado+One&size=30&duration=4997&color=B8212C&background=FF673200&center=true&vCenter=true&lines=HI+I+AM+MIZUHARA;A+WHATSAPP+BOT+ON+BAILEYS+MULTI-DEVICE"
-            alt="Typing SVG"
-        />
-    </a>
-</p>
 
-<div align="center">
-<a href="https://c.tenor.com/G1jVjFnK_64AAAAC/chizuru-mizuhara.gif"><img src="https://c.tenor.com/G1jVjFnK_64AAAAC/chizuru-mizuhara.gif" alt="mizuhara" border="0"></a>
+<a href='https://www.linkpicture.com/view.php?img=LPic624ee0719082f1592522799'><img src='https://www.linkpicture.com/q/WhatsApp-Image-2022-04-07-at-5.59.37-PM.jpeg' type='image'></a>
 
-# **MIZUHARA : ANIME THEMED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES**
+
+
+# **🅺🆄🆁🆄🅼🅸 🆃🅾🅺🅸🆂🅰🅺🅸: A WhatsApp BOT WITH RICH CREATION FEATURES**
+
 
 </p>
 <p align="center">
