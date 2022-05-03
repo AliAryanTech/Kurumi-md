@@ -197,7 +197,7 @@ case '':
 {buttonId: '=mods', buttonText: {displayText: '💥 Arus Team'}, type: 1}
 ]
 let buttonMessaged = {
-        image: {url:"https://telegra.ph/file/645707c1698c8a9515953.jpg"},
+        image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
         caption: `*DID YOU MEAN =help ?*`,
         footer: '©Arus 2022',
         buttons: dbut,
@@ -333,7 +333,7 @@ const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
 \`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing =owner or =mods\`\`\` 
 `
 let buttonMessagei = {
-        image: { url: "https://telegra.ph/file/a0770fb26dd1ea20df8ee.jpg" },
+        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
         caption: inf,
         footer: 'Aku',
         buttons: ibut,
@@ -356,7 +356,7 @@ const mbut = [
 {buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 let buttonMessagem = {
-        image: { url: "https://telegra.ph/file/a0770fb26dd1ea20df8ee.jpg" },
+        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
         caption: mod,
         footer: '©Arus 2022',
         buttons: mbut,
