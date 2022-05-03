@@ -321,7 +321,7 @@ const ibut = [
 {buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
 {buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
-const inf=`❁ ════ ❃•💙 *MIZUHARA* 💙•❃ ════ ❁
+const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
 \`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
 ❁ ═══ ❃•📕 *INFORMATION*📕•❃ ═══ ❁
 \`\`\`A simple and easy-to-use WhatsApp bot project based on Multi-Device Baileys and written in JavaScript\`\`\`
@@ -529,7 +529,7 @@ arus.sendMessage(m.chat,{sticker:{url: webpWithMetadata}},{quoted:m})
                     fs.unlinkSync(media)
                     if (err) m.reply(err)
                     let buffer = fs.readFileSync(ran)
-                    arus.sendMessage(m.chat, { image: buffer,caption:'©MIZUHARA-2022' }, { quoted: m })
+                    arus.sendMessage(m.chat, { image: buffer,caption:'Tokisaki Kurumi' }, { quoted: m })
                     fs.unlinkSync(ran)
                 })
             }    
@@ -555,7 +555,7 @@ case 'tourl': {
         let { webp2mp4File } = require('./lib/uploader')
                 let media = await arus.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
-                await arus.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: '©MIZUHARA-2022' }, gifPlayback: true }, { quoted: m })
+                await arus.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Tokisaki Kurumi' }, gifPlayback: true }, { quoted: m })
                 await fs.unlinkSync(media)
             }
             break
@@ -652,7 +652,7 @@ break
                         { buttonId: '=group close', buttonText: { displayText: 'Close' }, type: 1 },
                         { buttonId: '=linkgc', buttonText: { displayText: 'Group link' }, type: 1 }
                     ]
-                    await arus.sendButtonText(m.chat, buttons, `*Group Open/Close*`, '©MIZUHARA-BOTTO 2022', m)
+                    await arus.sendButtonText(m.chat, buttons, `*Group Open/Close*`, 'Tokisaki Kurumi', m)
 
             }
 }
@@ -740,18 +740,6 @@ case  'play': case 'ytplay': {
         headerType: 4
     }
     arus.sendMessage(m.chat, buttonMessage, { quoted: m })
-}
-break
-case 'instagram': case 'ig': case 'igdl': {
-    if (!text) throw 'Enter Query Url!'
-    replay(mess.wait)
-    if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(text)[0])) {
-        let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(text)[0] }, 'apikey'))
-        for (let media of anu.data) NexusNwInc.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
-    } else if (/\/stories\/([^\s&]+)/.test(isUrl(text)[0])) {
-        let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(text)[0] }, 'apikey'))
-        NexusNwInc.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
-    }
 }
 break
 case 'ytmp3': case 'ytaudio': case 'yta': {
@@ -1479,7 +1467,7 @@ const bcbut=[{buttonId:"=info",buttonText:{displayText:"Info"},type:1},
 const bcbutt={
     image: fs.readFileSync('./bc.jpg'),
     caption:txt,
-    footer:`©Arus 2022`,
+    footer:`Aku`,
     buttons: bcbut,
     headerType:1
 } 
