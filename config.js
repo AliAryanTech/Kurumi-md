@@ -14,11 +14,11 @@ global.APIKeys = {
 }
 
 // Other
-global.owner = ['918231033230']
-global.packname = 'Mizuhara'
-global.prefix= ['=']
-global.author = 'Arus'
-global.sessionName = 'arus'
+global.owner = ['923087880256']
+global.packname = 'Ari'
+global.prefix= ['=', '#','!','/','&', '#', '']
+global.author = 'Ani'
+global.sessionName = 'Aku'
 global.reac = {
             cry:'Cried with',
             kiss: 'Kissed',

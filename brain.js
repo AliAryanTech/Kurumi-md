@@ -212,105 +212,72 @@ let buttonMessaged = {
 case 'help':
 
 const hlp=`
- *U^I^U ♡ Konichiwa ${pushname} Senpai, I'm Mizuhara*
+ *♡ Hajimemashite ${pushname}san, Watashiwa tokisaki kurumi*
 
 🎋 \`\`\`Here are my listed commands, Have fun in using them:-\`\`\`
 
-🈸 *GENERAL* 🈸
+🎀 *╚━(¯´•._.• ɢᴇɴᴇʀᴀʟ •._.•´¯)━╝* 🎀  
 
-\`\`\`🎯 profile
-
-🎯 rank
-
-🎯 exp
-
-🎯 delete
-
-🎯 help
-
-🎯 creator
-
-🎯 mods
-
-🎯 info\`\`\`
+\`\`\`❐ profile
+❐ rank
+❐ exp
+❐ delete
+❐ help
+❐ creator
+❐ mods
+❐ info\`\`\`
   
-⛩️ *ANIME* ⛩️
+⛩️ *╚━(¯´•._.• ᴀɴɪᴍᴇ •._.•´¯)━╝* ⛩️
 
-\`\`\`🎯 neko
+\`\`\`❐ neko
+❐ waifu
+❐ holo
+❐ fox_girl
+❐ kemonomimi
+❐ anime
+❐ manga
+❐ wallpaper\`\`\`
 
-🎯 waifu
+❄️ *╚━(¯´•._.• ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅꜱ •._.•´¯)━╝* ❄️
 
-🎯 holo
+\`\`\`❐ ping
+❐ add
+❐ kick
+❐ promote
+❐ demote
+❐ group open
+❐ group close
+❐ linkgc
+❐ setgpfp
+❐ enable/disable
+❐ antilink
+❐ events\`\`\`
 
-🎯 fox_girl
+🍁 *╚━(¯´•._.• ᴜᴛɪʟꜱ •._.•´¯)━╝* 🍁
 
-🎯 kemonomimi
+\`\`\`❐ sticker
+❐ toimg
+❐ togif
+❐ tourl\`\`\`
 
-🎯 anime
+🏷️ *╚━(¯´•._.• ᴍᴇᴅɪᴀ •._.•´¯)━╝* 🏷️
 
-🎯 manga
+\`\`\`❐ yts
+❐ ytv
+❐ yta
+❐ play
+❐ google
+❐ image\`\`\`
 
-🎯 wallpaper\`\`\`
-
-❄️ *GROUP COMMANDS* ❄️
-
-\`\`\`🎯 ping
-
-🎯 add
-
-🎯 kick
-
-🎯 promote
-
-🎯 demote
-
-🎯 group open
-
-🎯 group close
-
-🎯 linkgc
-
-🎯 setgpfp
-
-🎯 enable/disable
-
-    🍂 antilink
-
-    🍂 events\`\`\`
-
-🍁 *UTILS* 🍁
-
-\`\`\`🎯 sticker
-
-🎯 toimg
-
-🎯 togif
-
-🎯 tourl\`\`\`
-
-🏷️ *MEDIA* 🏷️
-
-\`\`\`🎯 yts
-
-🎯 ytv
-
-🎯 yta
-
-🎯 play
-
-🎯 google
-
-🎯 image\`\`\`
-
- 🍁 *©Powered by Arus* 🍁`
+ 🍁 *Modified by Aku & Powered by Arus* 🍁`
   const hhbut = [
 {buttonId: '=info', buttonText: {displayText: '📤 Info'}, type: 1},
 {buttonId: '=profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
 ]
 let hbutto = {
-        image: {url:"https://telegra.ph/file/9e58cb8f7cb23d7e7f94d.jpg"},
+        image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
         caption: hlp,
-        footer: '©Arus 2022',
+        footer: 'Ari-Ani',
         buttons: hhbut,
         headerType: 4
     }
@@ -352,23 +319,23 @@ case 'info':
 const ibut = [
 {buttonId: '=profile', buttonText: {displayText: '🎋 Profile'}, type: 1},
 {buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '=mods', buttonText: {displayText: '💥 Arus Team'}, type: 1}
+{buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 const inf=`❁ ════ ❃•💙 *MIZUHARA* 💙•❃ ════ ❁
 \`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
 ❁ ═══ ❃•📕 *INFORMATION*📕•❃ ═══ ❁
 \`\`\`A simple and easy-to-use WhatsApp bot project based on Multi-Device Baileys and written in JavaScript\`\`\`
 ❁ ══════ ❃•📄 *NOTE* 📄•❃ ══════ ❁
-\`\`\`This bot is a free open source project by THE TEAM ARUS\`\`\`
+\`\`\`This bot is a free open source project made by the team arus and Modified by Eximinati\`\`\`
 ❁ ═════ ❃•📑 *GITHUB* 📑•❃ ═════ ❁
-*_LINK:- https://github.com/Arus-Bots/Mizuhara_*
+*_LINK:- https://github.com/Eximinati/*
 ❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
 \`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing =owner or =mods\`\`\` 
 `
 let buttonMessagei = {
-        image: { url: "https://telegra.ph/file/05a5910097d3dd9743ebb.jpg" },
+        image: { url: "https://telegra.ph/file/a0770fb26dd1ea20df8ee.jpg" },
         caption: inf,
-        footer: '©Arus 2022',
+        footer: 'Aku',
         buttons: ibut,
         headerType: 4
     }
@@ -380,30 +347,16 @@ case 'mods':
 const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
 #1
 💥 *Username: Pratyush*
-🍁 *Contact: https://wa.me/+918231033230*
-#2
-💥 *Username: AiZen*
-🍂 *Contact: https://wa.me/+918709022955*
-#3
-💥 *Username: Tomioka*
-🍁 *Contact: https://wa.me/+917003213983*
-#4
-💥 *Username: Death*
-🍁 *Contact: https://wa.me/+917604016334*
-#5
-💥 *Username: Arin*
-🍁 *Contact: https://wa.me/+919330880626*
-#6
-💥 *Username: Manish*
-🍁 *Contact: https://wa.me/+919106196230*
-━━━━°❀•°:🤍 *MIZUHARA* 🤍:°•❀°━━━━`
+🍁 *Contact: https://wa.me/+923087880256*
+
+━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
 const mbut = [
 {buttonId: '=creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
 {buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '=mods', buttonText: {displayText: '💥 Arus Team'}, type: 1}
+{buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 let buttonMessagem = {
-        image: { url: "https://telegra.ph/file/05a5910097d3dd9743ebb.jpg" },
+        image: { url: "https://telegra.ph/file/a0770fb26dd1ea20df8ee.jpg" },
         caption: mod,
         footer: '©Arus 2022',
         buttons: mbut,
@@ -445,7 +398,7 @@ try {
   pfp ='https://steamuserimages-a.akamaihd.net/ugc/954087817129084207/5B7E46EE484181A676C02DFCAD48ECB1C74BC423/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
 // 
 }
-bgp=await getBuffer('https://www.wallpapermaiden.com/wallpaper/36472/download/1920x1080/kanojo-okarishimasu-mizuhara-chizuru-lying-down-pretty-anime-girl-sweater-anime.jpeg')
+bgp=await getBuffer('https://www.wallpapermaiden.com/image/2018/04/05/tokisaki-kurumi-bicolored-eyes-date-a-live-lolita-creepy-smile-dress-anime-20735-resized.jpg')
   const o = tb.get(`${m.sender}.exp`)
   var exps = (o) ? o : 0
   const rdata = expc(exps)
@@ -787,6 +740,18 @@ case  'play': case 'ytplay': {
         headerType: 4
     }
     arus.sendMessage(m.chat, buttonMessage, { quoted: m })
+}
+break
+case 'instagram': case 'ig': case 'igdl': {
+    if (!text) throw 'Enter Query Url!'
+    replay(mess.wait)
+    if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(text)[0])) {
+        let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(text)[0] }, 'apikey'))
+        for (let media of anu.data) NexusNwInc.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
+    } else if (/\/stories\/([^\s&]+)/.test(isUrl(text)[0])) {
+        let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(text)[0] }, 'apikey'))
+        NexusNwInc.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
+    }
 }
 break
 case 'ytmp3': case 'ytaudio': case 'yta': {
