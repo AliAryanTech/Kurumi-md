@@ -194,12 +194,12 @@ case '':
 
     const dbut = [
 {buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '=mods', buttonText: {displayText: '💥 Arus Team'}, type: 1}
+{buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 let buttonMessaged = {
         image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
         caption: `*DID YOU MEAN =help ?*`,
-        footer: '©Arus 2022',
+        footer: 'Ari-Ani',
         buttons: dbut,
         headerType: 4
     }
@@ -212,7 +212,7 @@ let buttonMessaged = {
 case 'help':
 
 const hlp=`
- *♡ Hajimemashite ${pushname}san, Watashiwa tokisaki kurumi*
+ *♡ Hajimemashite ${pushname}-san, Watashiwa tokisaki kurumi dis*
 
 🎋 \`\`\`Here are my listed commands, Have fun in using them:-\`\`\`
 
@@ -283,7 +283,7 @@ let hbutto = {
     }
 arus.sendMessage(m.chat,hbutto,{quoted:m})
 
-           //arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m})
+arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m})
 
 break
     case'lead':
@@ -346,7 +346,7 @@ break
 case 'mods':
 const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
 #1
-💥 *Username: Pratyush*
+💥 *Username: Aku*
 🍁 *Contact: https://wa.me/+923087880256*
 
 ━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
