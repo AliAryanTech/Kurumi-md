@@ -10,13 +10,13 @@ global.APIs = {
 
 // Apikey Website Api
 global.APIKeys = {
-	'https://zenzapi.xyz': 'fa4d0aa17e',
+	'https://zenzapi.xyz': 'b9f6d85a54ac',
 }
 
 // Other
 global.owner = ['923087880256']
 global.packname = 'Ari'
-global.prefix= ['=', '#','!','/','&', '#', '']
+global.prefix= ['.', '#', '!', '/', '&', '#', '=']
 global.author = 'Ani'
 global.sessionName = 'Aku'
 global.reac = {

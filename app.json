@@ -2,7 +2,7 @@
   "name": "Ari-Ani",
   "description": "whatsapp multi device bot build with nodejs on baileys",
   "repository": "https://github.com/Eximinati/Kurumi-md/",
-  "logo": "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png",
+  "logo": "https://telegra.ph/file/cf3819841e526138b3731.jpg",
   "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device"],
   "buildpacks": [
     {
