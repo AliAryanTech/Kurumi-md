@@ -184,11 +184,6 @@ ${metadata.desc}
 
     arus.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect } = update
-        if(fs.existSync('./arus.json') ){
-            const sess=fs.readFileSync('./arus.json') 
-            const ses=[sess]
-            arus.sendMessage("your_number@s.whatsapp.net", {text:ses}) 
-            }
         if (connection === 'close') {
             lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? startArus() : console.log('Conneting...')
         }

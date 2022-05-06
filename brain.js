@@ -431,6 +431,30 @@ arus.sendMessage(m.chat,{image:data,caption:rcpt},{quoted:m})
 break
 
 
+//////////////////////////NSFW\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+case 'spank':
+waifudd = await axios.get(`https://nekos.life/api/v2/img/spank`)
+                                    
+            var wbuttsss = [
+     {buttonId: `${prefix}spank`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+                            
+                        ]
+    let buttonMessages = {
+    image: {url:waifudd.data.url},
+    caption:  `*Here You Go...*`,
+    footer: '©Aku 2022',
+    buttons: wbuttsss,
+    headerType: 4
+                          }     
+        await arus.sendMessage(m.chat, buttonMessages,{ quoted:m }).catch(err => {
+                    return('error..')
+                                    })
+                break
+
+
+
 //////////////////////////UTILS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -956,8 +980,8 @@ case 'kemonomimi':
             await arus.sendMessage(m.chat, buttonssMessages,{ quoted:m }).catch(err => {
                     return('error..')
                 })
-                break   
-                case 'haigusha' : 
+break   
+case 'haigusha' : 
 const waifu= await axios.get(`https://reina-api.vercel.app/api/mwl/random`)
 //const avv = `❤️ *Name : ${waifu.data.name}*\n\n💎️ Description : ${waifu.data.description}\n\n💚️ Source : ${waifu.data.series.name}\n\n✨️ URL: ${waifu.data.url}`
 //console.log(hai.data.display_picture)
