@@ -198,7 +198,7 @@ case '':
 ]
 let buttonMessaged = {
         image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
-        caption: `*DID YOU MEAN =help ?*`,
+        caption: `*DID YOU MEAN ${prefix}help ?*`,
         footer: 'Ari-Ani',
         buttons: dbut,
         headerType: 4
@@ -209,7 +209,7 @@ let buttonMessaged = {
  break
       
 
-case 'help':
+case 'help': case 'hlp': case 'h':
 
 const hlp=`
  *♡ Hajimemashite ${pushname}-san, Watashiwa tokisaki kurumi dis*
@@ -219,71 +219,77 @@ const hlp=`
 🎀 *╚━(¯´•._.• ɢᴇɴᴇʀᴀʟ •._.•´¯)━╝* 🎀  
 
 \`\`\`❐ profile
-❐ rank
-❐ exp
-❐ delete
-❐ help
-❐ creator
-❐ mods
-❐ info\`\`\`
+│❐ rank
+│❐ exp
+│❐ delete
+│❐ help
+│❐ creator
+│❐ mods
+│❐ info
+│❐ groupinfo\`\`\`
   
 ⛩️ *╚━(¯´•._.• ᴀɴɪᴍᴇ •._.•´¯)━╝* ⛩️
 
 \`\`\`❐ neko
-❐ waifu
-❐ holo
-❐ fox_girl
-❐ kemonomimi
-❐ anime
-❐ manga
-❐ wallpaper\`\`\`
+│❐ waifu
+│❐ holo
+│❐ fox_girl
+│❐ kemonomimi
+│❐ anime
+│❐ manga
+│❐ wallpaper\`\`\`
 
 ❄️ *╚━(¯´•._.• ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅꜱ •._.•´¯)━╝* ❄️
 
 \`\`\`❐ ping
-❐ add
-❐ kick
-❐ promote
-❐ demote
-❐ group open
-❐ group close
-❐ linkgc
-❐ setgpfp
-❐ enable/disable
-❐ antilink
-❐ events\`\`\`
+│❐ add
+│❐ kick
+│❐ promote
+│❐ demote
+│❐ group open
+│❐ group close
+│❐ linkgc
+│❐ setgpfp
+│❐ enable/disable
+│❐ antilink
+│❐ events\`\`\`
 
 🍁 *╚━(¯´•._.• ᴜᴛɪʟꜱ •._.•´¯)━╝* 🍁
 
-\`\`\`❐ sticker
-❐ toimg
-❐ togif
-❐ tourl\`\`\`
+\`\`\`│❐ sticker
+│❐ toimg
+│❐ togif
+│❐ tourl\`\`\`
 
 🏷️ *╚━(¯´•._.• ᴍᴇᴅɪᴀ •._.•´¯)━╝* 🏷️
 
-\`\`\`❐ yts
-❐ ytv
-❐ yta
-❐ play
-❐ google
-❐ image\`\`\`
+\`\`\`│❐ yts
+│❐ ytv
+│❐ yta
+│❐ play
+│❐ google
+│❐ image\`\`\`
 
+💦 *╚━(¯´•._.• ɴꜱꜰᴡ •._.•´¯)━╝*  💦
+\`\`\`│❐ spank
+\`\`\`
  🍁 *Modified by Aku & Powered by Arus* 🍁`
-  const hhbut = [
-{buttonId: '=info', buttonText: {displayText: '📤 Info'}, type: 1},
-{buttonId: '=profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
-]
-let hbutto = {
-        image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
+
+ const AKU = [
+    {buttonId: '&info', buttonText: {displayText: '📤 Info'}, type: 1},
+    {buttonId: '&profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
+    ]
+    let AKUo = {
+        file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
         caption: hlp,
         footer: 'Ari-Ani',
-        buttons: hhbut,
+        buttons: AKU,
         headerType: 4
-    }
-arus.sendMessage(m.chat,hbutto,{quoted:m})
+       }
+    
 
-arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m})
+
+
 
 break
     case'lead':
@@ -342,6 +348,16 @@ let buttonMessagei = {
 
  await arus.sendMessage(m.chat,buttonMessagei,{quoted:m})
 break
+case 'grupinfo': case 'groupinfo': case 'group info' :
+try{
+ var pic = await arus.getProfilePicture(m.chat)
+  } catch {
+ var pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
+  }
+let ingfo = `*G R O U P  I N F O*\n\n*Name :* ${groupName}\n*ID Group :* ${m.chat}\n*Made :* ${moment(`${groupMetadata.creation}` * 1000).tz('Asia/Kolkata').format('DD/MM/YYYY HH:mm:ss')}\n*Group Owner:* @${groupMetadata.owner.split('@')[0]}\n*Number Of Admins :* ${groupAdmins.length}\n*Number Of Participants :* ${participants.length}\n*Desc :* \n${groupMetadata.desc}`
+ds = await getBuffer(pic)
+arus.sendMessage(m.chat, { image: ds,caption: ingfo, mentions: [groupMetadata.owner] }, { quoted: m})
+break
 
 case 'mods':
 const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
@@ -358,7 +374,7 @@ const mbut = [
 let buttonMessagem = {
         image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
         caption: mod,
-        footer: '©Arus 2022',
+        footer: '©Aku 2022',
         buttons: mbut,
         headerType: 4
     }
@@ -433,28 +449,17 @@ break
 
 //////////////////////////NSFW\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-
 case 'spank':
-waifudd = await axios.get(`https://nekos.life/api/v2/img/spank`)
+spankd = await axios.get(`https://nekos.life/api/v2/img/spank`)
+   case 'spank':
+spankd = await axios.get(`https://nekos.life/api/v2/img/spank`)
                                     
-            var wbuttsss = [
-     {buttonId: `${prefix}spank`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-                            
-                        ]
-    let buttonMessages = {
-    image: {url:waifudd.data.url},
-    caption:  `*Here You Go...*`,
-    footer: '©Aku 2022',
-    buttons: wbuttsss,
-    headerType: 4
-                          }     
-        await arus.sendMessage(m.chat, buttonMessages,{ quoted:m }).catch(err => {
-                    return('error..')
+  var spbuff = await getBuffer(spankd.data.url)
+var spgif = await GIFBufferToVideoBuffer(spbuff)   
+        await arus.sendMessage(m.chat,{video: spgif, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
                                     })
                 break
-
-
-
 //////////////////////////UTILS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -520,7 +525,7 @@ const buttonsd = [
 let buttonMessage = {
         image: { url: pfp },
         caption: profile,
-        footer: '©Arus 2022',
+        footer: '©Aku 2022',
         buttons: buttonsd,
         headerType: 4
     }
@@ -591,7 +596,7 @@ case 'tourl': {
     case 'kick': {
         if (!m.isGroup) m.reply(mess.group)
                 if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isAdmins) return m.reply(mess.admin)
         let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
         await arus.groupParticipantsUpdate(m.chat, [users], 'remove')
  arus.sendMessage(m.chat,{text:`Kicked @${users.split("@")[0]} successfuly `,contextInfo: { mentionedJid: [users] }})
@@ -600,7 +605,7 @@ case 'tourl': {
     case 'add': {
         if (!m.isGroup) m.reply(mess.group)
                 if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isAdmins) return m.reply(mess.admin)
         let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
         await arus.groupParticipantsUpdate(m.chat, [users], 'add')
         arus.sendMessage(m.chat,{text:`Added @${users.split("@")[0]} successfuly `,contextInfo: { mentionedJid: [users] }})
@@ -609,7 +614,7 @@ case 'tourl': {
     case 'promote': {
         if (!m.isGroup) m.reply(mess.group)
                 if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isAdmins) return m.reply(mess.admin)
         let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
         await arus.groupParticipantsUpdate(m.chat, [users], 'promote')
          arus.sendMessage(m.chat,{text:`woh woh!! looks like someone promoted @${users.split("@")[0]}`,contextInfo: { mentionedJid: [users] }})
@@ -618,7 +623,7 @@ case 'tourl': {
     case 'demote': {
         if (!m.isGroup) m.reply(mess.group)
                 if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isAdmins) return m.reply(mess.admin)
         let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
         await arus.groupParticipantsUpdate(m.chat, [users], 'demote')
         arus.sendMessage(m.chat,{text:`OOPs!! looks like someone demoted @${users.split("@")[0]}`,contextInfo: { mentionedJid: [users] }})
@@ -626,8 +631,8 @@ case 'tourl': {
     break
   case 'setdesc': {
                 if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isBotAdmins) return m.reply(mess.botAdmin)
+                if (!isAdmins) return m.reply(mess.admin)
                 if (!text) m.reply('Text ?')
                 await arus.groupUpdateDescription(m.chat, text)
             m.reply('*Group Description Changed successfuly*')
@@ -635,7 +640,7 @@ case 'tourl': {
             break 
 case 'setppgroup': case 'setppgrup': case 'setgpfp': {
                 if (!m.isGroup) m.reply(mess.group)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isAdmins) return m.reply(mess.admin)
                 if (!quoted) m.reply(`*reply to a image/video* ${prefix + command}`)
                 if (!/image/.test(mime)) m.reply(`*reply to a image/video* ${prefix + command}`)
                 if (/webp/.test(mime)) m.reply(`*reply to a image/video* ${prefix + command}`)
@@ -648,7 +653,7 @@ case 'tagall':
 case 'ping':
   if (!m.isGroup) m.reply(mess.group)
                 if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin) 
+                if (!isAdmins) return m.reply(mess.admin) 
 
 if(q) { var Text =`📌 *Message - ${q}*\n*🍁 Group name - ${groupName}*` } else {  var Text = `*${groupName}*`}
 
@@ -664,8 +669,8 @@ break
 
   case 'group': {
                 if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) m.reply(mess.admin)
+                if (!isBotAdmins) return m.reply(mess.botAdmin)
+                if (!isAdmins) return m.reply(mess.admin)
              if (args[0] === 'open'){
                 await arus.groupSettingUpdate(m.chat, 'not_announcement').then((res) => m.reply(`*Group open*`)).catch((err) => m.reply(jsonformat(err)))
              } else if (args[0] === 'close'){
@@ -759,7 +764,7 @@ case  'play': case 'ytplay': {
 📓 Channel : ${anu.author.url}
 🎬 Description : ${anu.description}
 🌐 Url : ${anu.url}`,
-        footer: '©Arus 2022',
+        footer: '©Aku 2022',
         buttons: buttons,
         headerType: 4
     }
@@ -821,6 +826,18 @@ case 'yts': case 'ytsearch': {
     arus.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },jpegThumbnail:fs.readFileSync('./src/yts.jpg'),  caption: teks, }, { quoted: m, })
 }
 break
+case 'instagram': case 'ig': case 'igdl': {
+    if (!q) return m.reply('Enter Query Url!')
+    m.reply(mess.wait)
+    if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(q)[0])) {
+        let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(q)[0] }, 'apikey'))
+        for (let media of anu.data) arus.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(q)[0]}`, m)
+    } else if (/\/stories\/([^\s&]+)/.test(isUrl(q)[0])) {
+        let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(q)[0] }, 'apikey'))
+        arus.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(q)[0]}`, m)
+    }
+}
+break
 case 'join': {
                 if (!isCreator) throw mess.owner
                 if (!text) throw 'Enter the group link!'
@@ -835,20 +852,7 @@ case 'join': {
                 await arus.groupLeave(m.chat).then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
             }
             break
-     case 'instagram': case 'ig': case 'igdl': {
-                if (!q) return m.reply('Enter Query Url!')
-                m.reply(mess.wait)
-                if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(q)[0])) {
-                    let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(q)[0] }, 'apikey'))
-                    for (let media of anu.data) arus.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(q)[0]}`, m)
-                } else if (/\/stories\/([^\s&]+)/.test(isUrl(q)[0])) {
-                    let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(q)[0] }, 'apikey'))
-                    arus.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(q)[0]}`, m)
-                }
-            }
-            break
-
-case 'lyrics':
+            case 'lyrics':
   const Genius =require("genius-lyrics")
 const Client = new Genius.Client();
   const searches = await Client.songs.search(q);
@@ -892,7 +896,7 @@ case 'gimage':case 'image': {
                     caption: `
 💥 *Query* : ${text}
 `,
-                    footer: '©Arus 2022',
+                    footer: '©Aku',
                     buttons: buttons,
                     headerType: 4
                 }
@@ -925,7 +929,7 @@ case 'gimage':case 'image': {
       let buttonsMessage = {
        image: await getBuffer(waifud.data.url),
        caption:  `*Here is your waifu*`,
-      footer: '©Arus 2022',
+      footer: '©Aku 2022',
       buttons: wbutss,
       headerType: 4
       }
@@ -953,7 +957,7 @@ case 'neko':
       let buttonssMessage = {
        image: {url:waifud.data.url},
        caption:  `*Here is your 🐱Neko*`,
-      footer: '©Arus 2022',
+      footer: '©Aku 2022',
       buttons: wbutsss,
       headerType: 4
       }
@@ -973,7 +977,7 @@ case 'kemonomimi':
       let buttonssMessages = {
        image: {url:waifudd.data.url},
        caption:  `*Here You Go...*`,
-      footer: '©Arus 2022',
+      footer: '©Aku 2022',
       buttons: wbuttsss,
       headerType: 4
       }     
@@ -1019,7 +1023,7 @@ const suu =tb.set(`${m.chat}.hp`,waifu.data.display_picture )
  image:{url:waifu.data.display_picture},
  caption:hait,
 buttons:haibu,
-footer:'ARUS 2022',
+footer:'©Aku 2022',
 headerType:4
    }
 arus.sendMessage(m.chat,haib,{quoted:m})
@@ -1176,7 +1180,7 @@ var walb = [
       let wal = {
        image: {url:wallpaper[i].image},
        caption: `*Query :* ${q}`,
-      footer: '©Arus 2022',
+      footer: '©Aku 2022',
       buttons: walb,
       headerType: 4
       }     
@@ -1489,9 +1493,9 @@ const bcbut=[{buttonId:"=info",buttonText:{displayText:"Info"},type:1},
 {buttonId:"=mods",buttonText:{displayText:"Arus Team"},type:1}]
 
 const bcbutt={
-    image: fs.readFileSync('./bc.jpg'),
+    image: fs.readFileSync('./src/info.jpeg'),
     caption:txt,
-    footer:`Aku`,
+    footer:`©Aku 2022`,
     buttons: bcbut,
     headerType:1
 } 
@@ -1502,7 +1506,6 @@ await arus.sendMessage(i,bcbutt)
                 m.reply(`Successfuly Broadcasted in ${anu.length} Groups`)
             }
             break
-
   case 'listgc': {
                  let anu = await store.chats.all().filter(v => v.id.endsWith('@g.us')).map(v => v.id)
                  let teks = `⬣ *GROUP CHAT LIST*\n\nTotal Group : ${anu.length} Group\n\n`
