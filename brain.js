@@ -272,7 +272,35 @@ const hlp=`
 
 💦 *╚━(¯´•._.• ɴꜱꜰᴡ •._.•´¯)━╝*  💦
 \`\`\`│❐ spank
-\`\`\`
+│❐ ass
+│❐ ahegao
+│❐ blowjob
+│❐ bdsm
+│❐ cum
+│❐ cuckold
+│❐ ero
+│❐ femdom
+│❐ foot
+│❐ glasses
+│❐ gangbang
+│❐ hentai
+│❐ hentaigif
+│❐ jahy
+│❐ masturbation
+│❐ manga
+│❐ maid
+│❐ netorare
+│❐ nsfwwallpaper (nsfwwal)
+│❐ neko
+│❐ neko2
+│❐ orgy
+│❐ pussy
+│❐ panties
+│❐ thighs
+│❐ Tentacles
+│❐ yuri
+│❐ Zettai Ryouiki (zr)\`\`\`
+
  🍁 *Modified by Aku & Powered by Arus* 🍁`
 
  const AKU = [
@@ -459,7 +487,232 @@ var spgif = await GIFBufferToVideoBuffer(spbuff)
         await arus.sendMessage(m.chat,{video: spgif, gifPlayback:true},{ quoted:m }).catch(err => {
                     return m.reply('error..')
                                     })
-                break
+break
+
+case 'hentaigif': case 'hgif': 
+
+    var hgof = await getBuffer('https://zenzapis.xyz/api/morensfw/hentaigif?apikey=b9f6d85a54ac')
+        var hhgif = await GIFBufferToVideoBuffer(hgof)
+                await arus.sendMessage(m.chat,{video: hhgif, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                })
+break
+case 'ass':  
+
+    var assf = await getBuffer('https://zenzapis.xyz/api/morensfw/ass?apikey=b9f6d85a54ac')
+        var assg = await GIFBufferToVideoBuffer(assf)
+            await arus.sendMessage(m.chat,{video: assg, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                })
+break
+case 'ahegao':  
+
+    var wwf = await getBuffer('https://zenzapis.xyz/api/morensfw/ahegao?apikey=b9f6d85a54ac')
+        var wwg = await GIFBufferToVideoBuffer(wwf)
+            await arus.sendMessage(m.chat,{video: wwg, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'bdsm':  
+
+    var bsd = await getBuffer('https://zenzapis.xyz/api/morensfw/bdsm?apikey=b9f6d85a54ac')
+            var bdms = await GIFBufferToVideoBuffer(bsd)
+            await arus.sendMessage(m.chat,{video: bdms, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'blowjob': case 'bj' :  
+
+    var bjf = await getBuffer('https://zenzapis.xyz/api/morensfw/blowjob?apikey=b9f6d85a54ac')
+        var bjg = await GIFBufferToVideoBuffer(bjf)
+            await arus.sendMessage(m.chat,{video: bjg, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'cuckold':  
+
+    var old = await getBuffer('https://zenzapis.xyz/api/morensfw/cuckold?apikey=b9f6d85a54ac')
+            var olds = await GIFBufferToVideoBuffer(old)
+            await arus.sendMessage(m.chat,{video: olds, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'cum':  
+
+    var cumd = await getBuffer('https://zenzapis.xyz/api/morensfw/cum?apikey=b9f6d85a54ac')
+            var cums = await GIFBufferToVideoBuffer(cumd)
+            await arus.sendMessage(m.chat,{video: cums, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'ero':  
+
+    var erod = await getBuffer('https://zenzapis.xyz/api/morensfw/ero?apikey=b9f6d85a54ac')
+            var eros = await GIFBufferToVideoBuffer(erod)
+            await arus.sendMessage(m.chat,{video: eros, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'femdom':  
+
+    var femdomd = await getBuffer('https://zenzapis.xyz/api/morensfw/femdom?apikey=b9f6d85a54ac')
+            var femdoms = await GIFBufferToVideoBuffer(femdomd)
+            await arus.sendMessage(m.chat,{video: femdoms, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'foot':  
+
+    var footd = await getBuffer('https://zenzapis.xyz/api/morensfw/foot?apikey=b9f6d85a54ac')
+            var foots = await GIFBufferToVideoBuffer(footd)
+            await arus.sendMessage(m.chat,{video: foots, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'gangbang': case 'gb' :  
+
+    var gbd = await getBuffer('https://zenzapis.xyz/api/morensfw/gangbang?apikey=b9f6d85a54ac')
+            var gbs = await GIFBufferToVideoBuffer(gbd)
+            await arus.sendMessage(m.chat,{video: gbs, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'glasses': 
+
+    var gsd = await getBuffer('https://zenzapis.xyz/api/morensfw/glasses?apikey=b9f6d85a54ac')
+            var gss = await GIFBufferToVideoBuffer(gsd)
+            await arus.sendMessage(m.chat,{video: gss, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'hentai': 
+
+    var hend = await getBuffer('https://zenzapis.xyz/api/morensfw/hentai?apikey=b9f6d85a54ac')
+            var hens = await GIFBufferToVideoBuffer(hend)
+            await arus.sendMessage(m.chat,{video: hens, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'jahy': 
+
+    var jahyd = await getBuffer('https://zenzapis.xyz/api/morensfw/jahy?apikey=b9f6d85a54ac')
+            var jahys = await GIFBufferToVideoBuffer(jahyd)
+            await arus.sendMessage(m.chat,{video: jahys, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'maid': 
+
+    var maidd = await getBuffer('https://zenzapis.xyz/api/morensfw/maid?apikey=b9f6d85a54ac')
+            var maids = await GIFBufferToVideoBuffer(maidd)
+            await arus.sendMessage(m.chat,{video: maids, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'manga': 
+
+    var mangad = await getBuffer('https://zenzapis.xyz/api/morensfw/manga?apikey=b9f6d85a54ac')
+            var mangas = await GIFBufferToVideoBuffer(mangad)
+            await arus.sendMessage(m.chat,{video: mangas, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'masturbation': 
+
+    var md = await getBuffer('https://zenzapis.xyz/api/morensfw/masturbation?apikey=b9f6d85a54ac')
+            var ms = await GIFBufferToVideoBuffer(md)
+            await arus.sendMessage(m.chat,{video: ms, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'nsfwwallpaper': case 'NsfwWallpaper' : case 'nsfwwal' : 
+
+    var nsd = await getBuffer('https://zenzapis.xyz/api/morensfw/mobilewall?apikey=b9f6d85a54ac')
+            var nss = await GIFBufferToVideoBuffer(nsd)
+            await arus.sendMessage(m.chat,{video: nss, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'netorare': 
+
+    var netod = await getBuffer('https://zenzapis.xyz/api/morensfw/netorare?apikey=b9f6d85a54ac')
+            var netos = await GIFBufferToVideoBuffer(netod)
+            await arus.sendMessage(m.chat,{video: netos, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'neko': 
+
+    var nekod = await getBuffer('https://zenzapis.xyz/api/morensfw/nsfwneko?apikey=b9f6d85a54ac')
+            var nekos = await GIFBufferToVideoBuffer(nekod)
+            await arus.sendMessage(m.chat,{video: nekos, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'orgy': 
+
+    var orgyd = await getBuffer('https://zenzapis.xyz/api/morensfw/orgy?apikey=b9f6d85a54ac')
+            var orgys = await GIFBufferToVideoBuffer(orgyd)
+            await arus.sendMessage(m.chat,{video: orgys, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'panties': 
+
+    var pantiesd = await getBuffer('https://zenzapis.xyz/api/morensfw/panties?apikey=b9f6d85a54ac')
+            var pantiess = await GIFBufferToVideoBuffer(pantiesd)
+            await arus.sendMessage(m.chat,{video: pantiess, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'pussy': 
+
+    var pussyd = await getBuffer('https://zenzapis.xyz/api/morensfw/pussy?apikey=b9f6d85a54ac')
+            var pussys = await GIFBufferToVideoBuffer(pussyd)
+            await arus.sendMessage(m.chat,{video: pussys, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'Neko2': case 'sfwneko' :
+
+    var sfwd = await getBuffer('https://zenzapis.xyz/api/morensfw/sfwneko?apikey=b9f6d85a54ac')
+            var sfws = await GIFBufferToVideoBuffer(sfwd)
+            await arus.sendMessage(m.chat,{video: sfws, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'tentacles': 
+
+    var tentaclesd = await getBuffer('https://zenzapis.xyz/api/morensfw/tentacles?apikey=b9f6d85a54ac')
+            var tentacless = await GIFBufferToVideoBuffer(tentaclesd)
+            await arus.sendMessage(m.chat,{video: tentacless, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'thighs': 
+
+    var thighsd = await getBuffer('https://zenzapis.xyz/api/morensfw/thighs?apikey=b9f6d85a54ac')
+            var thighss = await GIFBufferToVideoBuffer(thighsd)
+            await arus.sendMessage(m.chat,{video: thighss, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'yuri': 
+
+    var yurid = await getBuffer('https://zenzapis.xyz/api/morensfw/yuri?apikey=b9f6d85a54ac')
+            var yuris = await GIFBufferToVideoBuffer(yurid)
+            await arus.sendMessage(m.chat,{video: yuris, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
+case 'zettairyouiki': case 'zy' : case 'nass' :
+
+    var zettairyouikid = await getBuffer('https://zenzapis.xyz/api/morensfw/zettairyouiki?apikey=b9f6d85a54ac')
+            var zettairyouikis = await GIFBufferToVideoBuffer(zettairyouikid)
+            await arus.sendMessage(m.chat,{video: zettairyouikis, gifPlayback:true},{ quoted:m }).catch(err => {
+                    return m.reply('error..')
+                                    })
+break
 //////////////////////////UTILS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
