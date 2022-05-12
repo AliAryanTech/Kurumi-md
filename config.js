@@ -16,7 +16,7 @@ global.APIKeys = {
 // Other
 global.owner = ['923087880256']
 global.packname = 'Ari'
-global.prefix= ['.', '#', '!', '/', '&', '#', '=', ',', '-', '%', '$', '^', '*', '(', ')']
+global.prefix= ['.']
 global.author = 'Ani'
 global.sessionName = 'Aku'
 global.reac = {
@@ -44,6 +44,7 @@ global.reac = {
             kick: 'Kicked',
             wink: 'Winked at',
             happy: 'is Happy with',
+            awoo: 'is idk',
             poke: 'Poked',
             dance:'is Dancing with'
         }
@@ -53,7 +54,7 @@ global.mess = {
     botAdmin: '*To use this command make me admin if u trust me...*',
     owner: '*Sorry!! this command is for my darling developers*',
     group: '*Leave me here alone please...*',
-    wait: '*Loading... please wait*',
+    wait: '*Loading... please wait goshujin sama*',
 }
 global.thumb = fs.readFileSync('./src/info.jpeg')
 
