@@ -7,6 +7,7 @@ const { exec, spawn, execSync } = require("child_process")
 const axios = require('axios')
 const path = require('path')
 const os = require('os')
+const {Sticker, createSticker, StickerTypes} = require('wa-sticker-formatter')
 const moment = require('moment-timezone')
 const { JSDOM } = require('jsdom')
 const speed = require('performance-now')
@@ -42,6 +43,16 @@ module.exports = arus = async (arus, m, chatUpdate, store) => {
         const mime = (quoted.msg || quoted).mimetype || ''
         const isMedia = /image|video|sticker|audio/.test(mime)
     
+
+        ////////////target\\\\\\\\\\\\\\\\
+
+    const reply = (teks) => {
+    arus.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.sessionName}`,"body": ` Join Bot's Official GC`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`.//src/info.jpeg`),"sourceUrl": "https://chat.whatsapp.com/"}}}, { quoted: m})
+}
+    const replay = (teks) => {
+        arus.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.sessionName}`,"body": ` Subscribe Bot's Official YT Channel`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./src/info.jpeg`),"sourceUrl": "https://www.youtube.com/channel/UCQsSd94FAl6WhKe4XfTId-Q"}}}, { quoted: m})
+    }
+
         // Group
         const isGroup=  m.chat.endsWith("@g.us");
         const groupMetadata = m.isGroup ? await arus.groupMetadata(m.chat).catch(e => {}) : ''
@@ -64,6 +75,7 @@ module.exports = arus = async (arus, m, chatUpdate, store) => {
    let _casino= gp.get(`${m.chat}.casino`)
    let _haigusha=tb.get(`${m.sender}.haigusha`)
    const suu=tb.get(`${m.chat}.hp`)
+   
 //db validation
 let _anti= (anti)? anti : []
 global._wel= (wel)?wel:[]
@@ -75,6 +87,9 @@ exps = tb.get(`${m.sender}.exp`)
 let casino=(_casino) ? _casino : []
 let haigusha=(_haigusha) ? _haigusha : []
 const _suu= (suu)?suu : []
+const _ban=tb.get("ban")
+let ban =(_ban) ?_ban:[]
+
 //Exp
 let charm = (items.includes('Exp Charm 💫️')) ? 2 : 1
     let rx = charm*Math.floor(Math.random() * 20) + 5
@@ -183,8 +198,13 @@ function lz(val) {
             console.log(chalk.black(chalk.bgWhite('[ Ari-Ani ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> FROM'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> MSG'), chalk.green(m.isGroup ? pushname : 'Private Chat', m.chat))
         }
     
+        if(ban.includes(`${m.sender}`)
+        )return m.reply(' you are banned motherfucker')
+
+        
 
         switch(command) {
+            
 case 'hi':
     m.reply('hello')
        break
@@ -193,12 +213,12 @@ case '':
 
 
     const dbut = [
-{buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
+{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 let buttonMessaged = {
         image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
-        caption: `*DID YOU MEAN ${prefix}help ?*`,
+        caption: `*DID YOU MEAN .help ?*`,
         footer: 'Ari-Ani',
         buttons: dbut,
         headerType: 4
@@ -218,94 +238,71 @@ const hlp=`
 
 🎀 *╚━(¯´•._.• ɢᴇɴᴇʀᴀʟ •._.•´¯)━╝* 🎀  
 
-\`\`\`❐ profile
-│❐ rank
-│❐ exp
-│❐ delete
-│❐ help
-│❐ creator
-│❐ mods
-│❐ info
-│❐ groupinfo\`\`\`
+\`\`\`❐ ${prefix}profile
+│❐ ${prefix}rank
+│❐ ${prefix}exp
+│❐ ${prefix}delete
+│❐ ${prefix}help
+│❐ ${prefix}creator
+│❐ ${prefix}mods
+│❐ ${prefix}info
+│❐ ${prefix}groupinfo\`\`\`
   
 ⛩️ *╚━(¯´•._.• ᴀɴɪᴍᴇ •._.•´¯)━╝* ⛩️
 
-\`\`\`❐ neko
-│❐ waifu
-│❐ holo
-│❐ fox_girl
-│❐ kemonomimi
-│❐ anime
-│❐ manga
-│❐ wallpaper\`\`\`
+\`\`\`❐ ${prefix}neko
+│❐ ${prefix}waifu
+│❐ ${prefix}holo
+│❐ ${prefix}fox_girl
+│❐ ${prefix}kemonomimi
+│❐ ${prefix}anime
+│❐ ${prefix}manga
+│❐ ${prefix}wallpaper\`\`\`
 
 ❄️ *╚━(¯´•._.• ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅꜱ •._.•´¯)━╝* ❄️
 
-\`\`\`❐ ping
-│❐ add
-│❐ kick
-│❐ promote
-│❐ demote
-│❐ group open
-│❐ group close
-│❐ linkgc
-│❐ setgpfp
-│❐ enable/disable
-│❐ antilink
-│❐ events\`\`\`
+\`\`\`❐ ${prefix}ping
+│❐ ${prefix}add
+│❐ ${prefix}kick
+│❐ ${prefix}promote
+│❐ ${prefix}demote
+│❐ ${prefix}group open
+│❐ ${prefix}group close
+│❐ ${prefix}linkgc
+│❐ ${prefix}setgpfp
+│❐ ${prefix}enable/disable
+│❐ ${prefix}antilink
+│❐ ${prefix}events\`\`\`
 
 🍁 *╚━(¯´•._.• ᴜᴛɪʟꜱ •._.•´¯)━╝* 🍁
 
-\`\`\`│❐ sticker
-│❐ toimg
-│❐ togif
-│❐ tourl\`\`\`
+\`\`\`│❐ ${prefix}sticker
+│❐ ${prefix}toimg
+│❐ ${prefix}togif
+│❐ ${prefix}tourl\`\`\`
 
 🏷️ *╚━(¯´•._.• ᴍᴇᴅɪᴀ •._.•´¯)━╝* 🏷️
 
-\`\`\`│❐ yts
-│❐ ytv
-│❐ yta
-│❐ play
-│❐ google
-│❐ image\`\`\`
+\`\`\`│❐ ${prefix}yts
+│❐ ${prefix}ytv
+│❐ ${prefix}yta
+│❐ ${prefix}play
+│❐ ${prefix}google
+│❐ ${prefix}image\`\`\`
 
 💦 *╚━(¯´•._.• ɴꜱꜰᴡ •._.•´¯)━╝*  💦
-\`\`\`│❐ spank
-│❐ ass
-│❐ ahegao
-│❐ blowjob
-│❐ bdsm
-│❐ cum
-│❐ cuckold
-│❐ ero
-│❐ femdom
-│❐ foot
-│❐ glasses
-│❐ gangbang
-│❐ hentai
-│❐ hentaigif
-│❐ jahy
-│❐ masturbation
-│❐ manga
-│❐ maid
-│❐ netorare
-│❐ nsfwwallpaper (nsfwwal)
-│❐ neko
-│❐ neko2
-│❐ orgy
-│❐ pussy
-│❐ panties
-│❐ thighs
-│❐ Tentacles
-│❐ yuri
-│❐ Zettai Ryouiki (zr)\`\`\`
+\`\`\`│❐ ${prefix}spank
+│❐ ${prefix}blowjob
+│❐ ${prefix}nnwaifu (hentai-waifu)
+│❐ ${prefix}trap
+│❐ ${prefix}hneko (hentai-neko)
+\`\`\`
 
  🍁 *Modified by Aku & Powered by Arus* 🍁`
 
  const AKU = [
-    {buttonId: '&info', buttonText: {displayText: '📤 Info'}, type: 1},
-    {buttonId: '&profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
+    {buttonId: '.info', buttonText: {displayText: '📤 Info'}, type: 1},
+    {buttonId: '.profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
     ]
     let AKUo = {
         file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
@@ -320,6 +317,17 @@ const hlp=`
 
 
 break
+case 'ban' : {
+    if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+                     let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+if (!users) return m.reply("❌ Couldn't find any userID in context")	
+let user = arus.getName(users)	
+                                             if(ban.includes(`${users}`)) return m.reply(`${user} is already Banned from Using Commands`)
+                                               
+await tb.push("ban",`${users}`)
+                                     m.reply(`Successfully Banned ${users} from Using Commands`)
+}                          
+
     case'lead':
     case'leaderboard':
   
@@ -351,9 +359,9 @@ break
 case 'info':
 
 const ibut = [
-{buttonId: '=profile', buttonText: {displayText: '🎋 Profile'}, type: 1},
-{buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+{buttonId: '.profile', buttonText: {displayText: '🎋 Profile'}, type: 1},
+{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
+{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
 \`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
@@ -395,9 +403,9 @@ const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
 
 ━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
 const mbut = [
-{buttonId: '=creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
-{buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '=mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+{buttonId: '.creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
+{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
+{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
 ]
 let buttonMessagem = {
         image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
@@ -488,236 +496,97 @@ var spgif = await GIFBufferToVideoBuffer(spbuff)
                     return m.reply('error..')
                                     })
 break
-
-case 'hentaigif': case 'hgif': 
-
-    var hgof = await getBuffer('https://zenzapis.xyz/api/morensfw/hentaigif?apikey=b9f6d85a54ac')
-        var hhgif = await GIFBufferToVideoBuffer(hgof)
-                await arus.sendMessage(m.chat,{video: hhgif, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                })
-break
-case 'ass':  
-
-    var assf = await getBuffer('https://zenzapis.xyz/api/morensfw/ass?apikey=b9f6d85a54ac')
-        var assg = await GIFBufferToVideoBuffer(assf)
-            await arus.sendMessage(m.chat,{video: assg, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                })
-break
-case 'ahegao':  
-
-    var wwf = await getBuffer('https://zenzapis.xyz/api/morensfw/ahegao?apikey=b9f6d85a54ac')
-        var wwg = await GIFBufferToVideoBuffer(wwf)
-            await arus.sendMessage(m.chat,{video: wwg, gifPlayback:true},{ quoted:m }).catch(err => {
+case 'blowjob': case 'bj' :
+bjd = await axios.get(`https://api.waifu.pics/nsfw/blowjob`)
+                
+  var bjf = await getBuffer(bjd.data.url)
+var bjif = await GIFBufferToVideoBuffer(bjf)   
+        await arus.sendMessage(m.chat,{video: bjif, gifPlayback:true},{ quoted:m }).catch(err => {
                     return m.reply('error..')
                                     })
 break
-case 'bdsm':  
+case 'trap' :
 
-    var bsd = await getBuffer('https://zenzapis.xyz/api/morensfw/bdsm?apikey=b9f6d85a54ac')
-            var bdms = await GIFBufferToVideoBuffer(bsd)
-            await arus.sendMessage(m.chat,{video: bdms, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
+ waifudd = await axios.get(`https://waifu.pics/api/nsfw/${command}`)
+            
+ var wbuttsss = [
+    {buttonId: `.neko`, buttonText: {displayText: `🐱hNeko`}, type: 1},
+    {buttonId: `.trap`, buttonText: {displayText: `➡️TRAP`}, type: 1},
+    {buttonId: `.waifu`, buttonText: {displayText: `👯‍♀️Hentai-Waifu`}, type: 1},
+    ]
+  let button2Messages = {
+   image: {url:waifudd.data.url},
+   caption:  `*taskite*`,
+  buttons: wbuttsss,
+  headerType: 1
+  }     
+    
+            await arus.sendMessage(m.chat, button2Messages, { quoted:m }).catch(err => {
+                    return('error..')
+                })
 break
-case 'blowjob': case 'bj' :  
-
-    var bjf = await getBuffer('https://zenzapis.xyz/api/morensfw/blowjob?apikey=b9f6d85a54ac')
-        var bjg = await GIFBufferToVideoBuffer(bjf)
-            await arus.sendMessage(m.chat,{video: bjg, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
+case 'hentai-neko' :
+case 'hneko' :
+    waifudd = await axios.get(`https://waifu.pics/api/nsfw/neko`)
+            
+ var wbuttsss = [
+    {buttonId: `.hneko`, buttonText: {displayText: `🐱hNeko`}, type: 1},
+    {buttonId: `.trap`, buttonText: {displayText: `➡️TRAP`}, type: 1},
+    {buttonId: `.nwaifu`, buttonText: {displayText: `👯‍♀️Hentai-Waifu`}, type: 1},
+    ]
+  let button3Messages = {
+   image: {url:waifudd.data.url},
+   caption:  `*Meow🐱🐱🐱*`,
+  buttons: wbuttsss,
+  headerType: 1
+  }     
+    
+            await arus.sendMessage(m.chat, button3Messages, { quoted:m }).catch(err => {
+                    return('error..')
+                })
 break
-case 'cuckold':  
-
-    var old = await getBuffer('https://zenzapis.xyz/api/morensfw/cuckold?apikey=b9f6d85a54ac')
-            var olds = await GIFBufferToVideoBuffer(old)
-            await arus.sendMessage(m.chat,{video: olds, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'cum':  
-
-    var cumd = await getBuffer('https://zenzapis.xyz/api/morensfw/cum?apikey=b9f6d85a54ac')
-            var cums = await GIFBufferToVideoBuffer(cumd)
-            await arus.sendMessage(m.chat,{video: cums, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'ero':  
-
-    var erod = await getBuffer('https://zenzapis.xyz/api/morensfw/ero?apikey=b9f6d85a54ac')
-            var eros = await GIFBufferToVideoBuffer(erod)
-            await arus.sendMessage(m.chat,{video: eros, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'femdom':  
-
-    var femdomd = await getBuffer('https://zenzapis.xyz/api/morensfw/femdom?apikey=b9f6d85a54ac')
-            var femdoms = await GIFBufferToVideoBuffer(femdomd)
-            await arus.sendMessage(m.chat,{video: femdoms, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'foot':  
-
-    var footd = await getBuffer('https://zenzapis.xyz/api/morensfw/foot?apikey=b9f6d85a54ac')
-            var foots = await GIFBufferToVideoBuffer(footd)
-            await arus.sendMessage(m.chat,{video: foots, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'gangbang': case 'gb' :  
-
-    var gbd = await getBuffer('https://zenzapis.xyz/api/morensfw/gangbang?apikey=b9f6d85a54ac')
-            var gbs = await GIFBufferToVideoBuffer(gbd)
-            await arus.sendMessage(m.chat,{video: gbs, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'glasses': 
-
-    var gsd = await getBuffer('https://zenzapis.xyz/api/morensfw/glasses?apikey=b9f6d85a54ac')
-            var gss = await GIFBufferToVideoBuffer(gsd)
-            await arus.sendMessage(m.chat,{video: gss, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'hentai': 
-
-    var hend = await getBuffer('https://zenzapis.xyz/api/morensfw/hentai?apikey=b9f6d85a54ac')
-            var hens = await GIFBufferToVideoBuffer(hend)
-            await arus.sendMessage(m.chat,{video: hens, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'jahy': 
-
-    var jahyd = await getBuffer('https://zenzapis.xyz/api/morensfw/jahy?apikey=b9f6d85a54ac')
-            var jahys = await GIFBufferToVideoBuffer(jahyd)
-            await arus.sendMessage(m.chat,{video: jahys, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'maid': 
-
-    var maidd = await getBuffer('https://zenzapis.xyz/api/morensfw/maid?apikey=b9f6d85a54ac')
-            var maids = await GIFBufferToVideoBuffer(maidd)
-            await arus.sendMessage(m.chat,{video: maids, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'manga': 
-
-    var mangad = await getBuffer('https://zenzapis.xyz/api/morensfw/manga?apikey=b9f6d85a54ac')
-            var mangas = await GIFBufferToVideoBuffer(mangad)
-            await arus.sendMessage(m.chat,{video: mangas, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'masturbation': 
-
-    var md = await getBuffer('https://zenzapis.xyz/api/morensfw/masturbation?apikey=b9f6d85a54ac')
-            var ms = await GIFBufferToVideoBuffer(md)
-            await arus.sendMessage(m.chat,{video: ms, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'nsfwwallpaper': case 'NsfwWallpaper' : case 'nsfwwal' : 
-
-    var nsd = await getBuffer('https://zenzapis.xyz/api/morensfw/mobilewall?apikey=b9f6d85a54ac')
-            var nss = await GIFBufferToVideoBuffer(nsd)
-            await arus.sendMessage(m.chat,{video: nss, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'netorare': 
-
-    var netod = await getBuffer('https://zenzapis.xyz/api/morensfw/netorare?apikey=b9f6d85a54ac')
-            var netos = await GIFBufferToVideoBuffer(netod)
-            await arus.sendMessage(m.chat,{video: netos, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'neko': 
-
-    var nekod = await getBuffer('https://zenzapis.xyz/api/morensfw/nsfwneko?apikey=b9f6d85a54ac')
-            var nekos = await GIFBufferToVideoBuffer(nekod)
-            await arus.sendMessage(m.chat,{video: nekos, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'orgy': 
-
-    var orgyd = await getBuffer('https://zenzapis.xyz/api/morensfw/orgy?apikey=b9f6d85a54ac')
-            var orgys = await GIFBufferToVideoBuffer(orgyd)
-            await arus.sendMessage(m.chat,{video: orgys, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'panties': 
-
-    var pantiesd = await getBuffer('https://zenzapis.xyz/api/morensfw/panties?apikey=b9f6d85a54ac')
-            var pantiess = await GIFBufferToVideoBuffer(pantiesd)
-            await arus.sendMessage(m.chat,{video: pantiess, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'pussy': 
-
-    var pussyd = await getBuffer('https://zenzapis.xyz/api/morensfw/pussy?apikey=b9f6d85a54ac')
-            var pussys = await GIFBufferToVideoBuffer(pussyd)
-            await arus.sendMessage(m.chat,{video: pussys, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'Neko2': case 'sfwneko' :
-
-    var sfwd = await getBuffer('https://zenzapis.xyz/api/morensfw/sfwneko?apikey=b9f6d85a54ac')
-            var sfws = await GIFBufferToVideoBuffer(sfwd)
-            await arus.sendMessage(m.chat,{video: sfws, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'tentacles': 
-
-    var tentaclesd = await getBuffer('https://zenzapis.xyz/api/morensfw/tentacles?apikey=b9f6d85a54ac')
-            var tentacless = await GIFBufferToVideoBuffer(tentaclesd)
-            await arus.sendMessage(m.chat,{video: tentacless, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'thighs': 
-
-    var thighsd = await getBuffer('https://zenzapis.xyz/api/morensfw/thighs?apikey=b9f6d85a54ac')
-            var thighss = await GIFBufferToVideoBuffer(thighsd)
-            await arus.sendMessage(m.chat,{video: thighss, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'yuri': 
-
-    var yurid = await getBuffer('https://zenzapis.xyz/api/morensfw/yuri?apikey=b9f6d85a54ac')
-            var yuris = await GIFBufferToVideoBuffer(yurid)
-            await arus.sendMessage(m.chat,{video: yuris, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'zettairyouiki': case 'zy' : case 'nass' :
-
-    var zettairyouikid = await getBuffer('https://zenzapis.xyz/api/morensfw/zettairyouiki?apikey=b9f6d85a54ac')
-            var zettairyouikis = await GIFBufferToVideoBuffer(zettairyouikid)
-            await arus.sendMessage(m.chat,{video: zettairyouikis, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
+case 'hentai-waifu' :
+case 'nwaifu' :
+    waifudd = await axios.get(`https://waifu.pics/api/nsfw/waifu`)
+            
+ var wbuttsss = [
+    {buttonId: `.hneko`, buttonText: {displayText: `🐱hNeko`}, type: 1},
+    {buttonId: `.trap`, buttonText: {displayText: `➡️TRAP`}, type: 1},
+    {buttonId: `.nwaifu`, buttonText: {displayText: `👯‍♀️Hentai-Waifu`}, type: 1},
+    ]
+  let button4Messages = {
+   image: {url:waifudd.data.url},
+   caption:  `*My Master!!!!*`,
+  buttons: wbuttsss,
+  headerType: 1
+  }     
+    
+            await arus.sendMessage(m.chat, button4Messages, { quoted:m }).catch(err => {
+                    return('error..')
+                })
 break
 //////////////////////////UTILS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
+
+case 'emojimix': {
+    if (!text) throw `Example : ${prefix + command} 😅+🤔`
+let [emoji1, emoji2] = text.split`+`
+let anu = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
+for (let res of anu.results) {
+    let encmedia = await arus.sendImageAsSticker(m.chat, res.url, m, { packname: global.packname, author: global.author, categories: res.tags })
+    await fs.unlinkSync(encmedia)
+}
+}
+break
  
-    
+case 'listonline': case 'onlinelist': case 'liston': {
+    let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat
+    let online = [...Object.keys(store.presences[id]), botNumber]
+   arus.sendText(m.chat, 'Online List:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, m, { mentions: online })
+}
+break   
+
 case  'sticker': case 's': case 'stickergif': case 'sgif':
  {
     if (!quoted) m.reply(`*Tag/Reply a image/video*`)
@@ -772,8 +641,8 @@ try {
 🎋 _*HAIGUSHA 🎋 :*_ ${SO}
 ` 
 const buttonsd = [
-{buttonId: '=rank', buttonText: {displayText: '🎋 Rank'}, type: 1},
-{buttonId: '=help', buttonText: {displayText: '🍂 Help'}, type: 1}
+{buttonId: '.rank', buttonText: {displayText: '🎋 Rank'}, type: 1},
+{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1}
 ]
 let buttonMessage = {
         image: { url: pfp },
@@ -785,22 +654,33 @@ let buttonMessage = {
 arus.sendMessage(m.chat,buttonMessage,{quoted:m})
 break
 
-case  'take':
- {
-    if (!quoted) m.reply(`*Tag/Reply a image/video*`)
+case 'take': case 'steal':
+if (!quoted) return m.reply(`❌ Could not find any Image/Video in context`)
+		 if (q) {
+	anu = args.join(' ').split('|')
+    pack = anu[0] !== '' ? anu[0] : global.packname
+    author = anu[1] !== '' ? anu[1] : global.author
+    } else {
+    	pack = global.packname
+        author = global.author
+        }
+if(/webp/.test(mime)) {
+let media = await quoted.download()
+    m.reply("Dōzo goshujin sama")
+let sticker = new Sticker(media, {
+    pack: pack, // The pack name
+    author: author, // The author name
+    type: StickerTypes.FULL, // The sticker type
+    categories: ['🤩', '🎉'], // The sticker category
+    id: '12345', // The sticker id
+    quality: 75, // The quality of the output file
+    background: 'transparent' // The sticker background color (only for full stickers)
+})
 
-    m.reply(mess.wait)
- if (/sticker/.test(mime)) {
-    const hamma_sticker = require('wa-sticker-hamma')
-   mediaa = await arus.downloadAndSaveMediaMessage(quoted)
-                anu = args.join(' ').split('|')
-                satu = anu[0] !== '' ? anu[0] : `lol`
-                dua = typeof anu[1] !== 'undefined' ? anu[1] : `${pushname}`  
-                const webpWithMetadata = await hamma_sticker.setMetadata(`${satu}`, `${dua}`,mediaa) 
-arus.sendMessage(m.chat,{sticker:{url: webpWithMetadata}},{quoted:m})
-            }
-  }
-  break    
+const buffer = await sticker.toBuffer()
+arus.sendMessage(m.chat, {sticker: buffer}, {quoted: m})
+}
+break   
   case 'toimage': case 'toimg': {
                 if (!quoted) m.reply('Reply Image')
                 if (!/webp/.test(mime)) m.reply(`Reply to a sticker`)
@@ -815,6 +695,19 @@ arus.sendMessage(m.chat,{sticker:{url: webpWithMetadata}},{quoted:m})
                     fs.unlinkSync(ran)
                 })
             }    
+break
+
+case 'instagram': case 'ig': case 'igdl': {
+    if (!text) throw 'Enter Query Url!'
+    replay(mess.wait)
+    if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(text)[0])) {
+        let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(text)[0] }, 'apikey'))
+        for (let media of anu.data) arus.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
+    } else if (/\/stories\/([^\s&]+)/.test(isUrl(text)[0])) {
+        let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(text)[0] }, 'apikey'))
+        arus.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
+    }
+}
 break
 case 'tourl': {
                 m.reply(mess.wait)
@@ -930,9 +823,9 @@ break
                 await arus.groupSettingUpdate(m.chat, 'announcement').then((res) => m.reply(`*Group closed*`)).catch((err) => m.reply(jsonformat(err)))
              } else {
              let buttons = [
-                        { buttonId: '=group open', buttonText: { displayText: 'Open' }, type: 1 },
-                        { buttonId: '=group close', buttonText: { displayText: 'Close' }, type: 1 },
-                        { buttonId: '=linkgc', buttonText: { displayText: 'Group link' }, type: 1 }
+                        { buttonId: '.group open', buttonText: { displayText: 'Open' }, type: 1 },
+                        { buttonId: '.group close', buttonText: { displayText: 'Close' }, type: 1 },
+                        { buttonId: '.linkgc', buttonText: { displayText: 'Group link' }, type: 1 }
                     ]
                     await arus.sendButtonText(m.chat, buttons, `*Group Open/Close*`, 'Tokisaki Kurumi', m)
 
@@ -1002,8 +895,8 @@ case  'play': case 'ytplay': {
     let search = await yts(q)
     let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
     let buttons = [
-        {buttonId: `=ytmp3 ${anu.url}`, buttonText: {displayText: '♫ Audio'}, type: 1},
-        {buttonId: `=ytmp4 ${anu.url}`, buttonText: {displayText: '► Video'}, type: 1}
+        {buttonId: `.ytmp3 ${anu.url}`, buttonText: {displayText: '♫ Audio'}, type: 1},
+        {buttonId: `.ytmp4 ${anu.url}`, buttonText: {displayText: '► Video'}, type: 1}
     ]
     let buttonMessage = {
         image: { url: anu.thumbnail },
@@ -1142,7 +1035,7 @@ case 'gimage':case 'image': {
         n = result
         images = n[Math.floor(Math.random() * n.length)].url
         let buttons = [
-                    {buttonId: `${prefix}gimage ${text}`, buttonText: {displayText: 'Next Image'}, type: 1}
+                    {buttonId: `.gimage ${text}`, buttonText: {displayText: 'Next Image'}, type: 1}
                 ]
                 let buttonMessage = {
                     image: { url: images },
@@ -1176,8 +1069,8 @@ case 'gimage':case 'image': {
                 waifud = await axios.get('https://waifu.pics/api/sfw/waifu')
               
                 var wbutss = [
-        {buttonId: `${prefix}waifu`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        {buttonId: `${prefix}neko`, buttonText: {displayText: `🐱Neko`}, type: 1},
+        {buttonId: `.waifu`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+        {buttonId: `.neko2`, buttonText: {displayText: `🐱Neko2`}, type: 1},
         ]
       let buttonsMessage = {
        image: await getBuffer(waifud.data.url),
@@ -1204,8 +1097,8 @@ case 'neko':
    waifud = await axios.get('https://waifu.pics/api/sfw/neko')
               
                 var wbutsss = [
-        {buttonId: `${prefix}neko`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        {buttonId :`${prefix}waifu`,buttonText:{displayText:`👯‍♀️Waifu`},type:1}
+        {buttonId: `.neko`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+        {buttonId :`.waifu`,buttonText:{displayText:`👯‍♀️Waifu`},type:1}
         ]
       let buttonssMessage = {
        image: {url:waifud.data.url},
@@ -1217,14 +1110,68 @@ case 'neko':
             await arus.sendMessage(m.chat,buttonssMessage, { quoted:m }).catch(err => {
                     return('error..')
                 })               
-                break                               
- case 'holo':
+                break 
+case 'shinobu':
+                    ud = await axios.get('https://waifu.pics/api/sfw/shinobu')
+                               
+var wbutsss = [
+    {buttonId: `.shinobu`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+    {buttonId :`.neko`,buttonText:{displayText:`👯‍♀️Neko`},type:1}
+         ]
+      let buttonsesMessage = {
+      image: {url:ud.data.url},
+       caption:  `*Here is your Vampire*`,
+      footer: '©Aku 2022',
+          buttons: wbutsss,
+     headerType: 4
+                      }
+await arus.sendMessage(m.chat,buttonsesMessage, { quoted:m }).catch(err => {
+     return('error..')
+    })               
+break
+case 'megumin':
+                    ud = await axios.get('https://waifu.pics/api/sfw/megumin')
+                               
+var wbutsss = [
+    {buttonId: `.megumin`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+    {buttonId :`.waifu`,buttonText:{displayText:`👯‍♀️Waifu`},type:1}
+         ]
+      let buttonzMessage = {
+      image: {url:ud.data.url},
+       caption:  `*Here You Go*`,
+      footer: '©Aku 2022',
+          buttons: wbutsss,
+     headerType: 4
+                      }
+await arus.sendMessage(m.chat,buttonzMessage, { quoted:m }).catch(err => {
+     return('error..')
+    })               
+break     
+case 'awoo':
+ waifudd = await axios.get(`https://waifu.pics/api/sfw/${command}`)
+            
+ var wbuttsss = [
+    {buttonId: `.${command}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+    
+    ]
+  let button1Messages = {
+   image: {url:waifudd.data.url},
+   caption:  `*awoo awoo*`,
+  buttons: wbuttsss,
+  headerType: 2
+  }     
+    
+            await arus.sendMessage(m.chat, button1Messages, { quoted:m }).catch(err => {
+                    return('error..')
+                })
+break                          
+case 'holo':
 case 'fox_girl':
 case 'kemonomimi':
  waifudd = await axios.get(`https://nekos.life/api/v2/img/${command}`)
                 
                            var wbuttsss = [
-        {buttonId: `${prefix}${command}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+        {buttonId: `.${command}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
         
         ]
       let buttonssMessages = {
@@ -1270,8 +1217,8 @@ const suu =tb.set(`${m.chat}.hp`,waifu.data.display_picture )
    //var wan = wname.replace(' (husbu)', '')
    const wanarr = [wname]
    await fs.writeFileSync(`./src/${m.sender}.json`, JSON.stringify(wanarr))
-   const haibu=[{buttonId:'=marry',buttonText:{displayText:'💕 Marry'},type:1},
-   {buttonId:'=divorce',buttonText:{displayText:'💔 Divorce'},type:1}]
+   const haibu=[{buttonId:'.marry',buttonText:{displayText:'💕 Marry'},type:1},
+   {buttonId:'.divorce',buttonText:{displayText:'💔 Divorce'},type:1}]
    const haib={
  image:{url:waifu.data.display_picture},
  caption:hait,
@@ -1427,7 +1374,7 @@ const wall = new AnimeWallpaper();
             .catch(() => null);
 const i = Math.floor(Math.random() * wallpaper.length);
 var walb = [
-        {buttonId: `${prefix}${command} ${q}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
+        {buttonId: `.${command} ${q}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
         
         ]
       let wal = {
@@ -1445,9 +1392,7 @@ break
 
 case 'cry':
 case 'kiss':
-case 'bully':
 case 'hug':
-case 'lick':
 case 'cuddle':
 case 'smug':
 case 'pat':
@@ -1525,15 +1470,6 @@ if(!q){
 }else{
 const rcpp=`@${rtag.split("@"[0])}` 
  recp=`@${m.sender.split("@")[0]}  ${reac.hug}  @${rtag.split("@")[0]}`
-}
-console.log(recp)
-}if(command=='lick'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.lick} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.lick}  @${rtag.split("@")[0]}  `
 }
 console.log(recp)
 }if(command=='cuddle'){
@@ -1741,9 +1677,9 @@ break
                     await sleep(1500)
                     
                       let txt = `「 Kurumi BROADCAST 」\n\n${text}\n\nRegards~${pushname}`
-const bcbut=[{buttonId:"=info",buttonText:{displayText:"Info"},type:1},
-{buttonId:"=creator",buttonText:{displayText:"Creator"},type:1},
-{buttonId:"=mods",buttonText:{displayText:"Arus Team"},type:1}]
+const bcbut=[{buttonId:".info",buttonText:{displayText:"Info"},type:1},
+{buttonId:".creator",buttonText:{displayText:"Creator"},type:1},
+{buttonId:".mods",buttonText:{displayText:"Arus Team"},type:1}]
 
 const bcbutt={
     image: fs.readFileSync('./src/info.jpeg'),
@@ -1758,6 +1694,12 @@ await arus.sendMessage(i,bcbutt)
                     }
                 m.reply(`Successfuly Broadcasted in ${anu.length} Groups`)
             }
+    break
+case 'tqtt':
+case 'special-thanks' :
+     reply(`Thanks to
+    Aku and pratyush
+    And all friends who helped assemble this sexy script !!!`)
             break
   case 'listgc': {
                  let anu = await store.chats.all().filter(v => v.id.endsWith('@g.us')).map(v => v.id)
@@ -1772,6 +1714,8 @@ await arus.sendMessage(i,bcbutt)
             default:
 arus.sendMessage(m.chat,{text:`Baka!! Try using the commands from help list`},{quoted:m})
         }
+        
+       
         
 
     } catch (err) {
