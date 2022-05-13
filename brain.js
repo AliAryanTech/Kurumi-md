@@ -257,7 +257,10 @@ const hlp=`
 │❐ ${prefix}kemonomimi
 │❐ ${prefix}anime
 │❐ ${prefix}manga
-│❐ ${prefix}wallpaper\`\`\`
+│❐ ${prefix}wallpaper
+│❐ ${prefix}shinobu
+│❐ ${prefix}megumin
+│❐ ${prefix}awoo\`\`\`
 
 ❄️ *╚━(¯´•._.• ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅꜱ •._.•´¯)━╝* ❄️
 
@@ -279,7 +282,13 @@ const hlp=`
 \`\`\`│❐ ${prefix}sticker
 │❐ ${prefix}toimg
 │❐ ${prefix}togif
-│❐ ${prefix}tourl\`\`\`
+│❐ ${prefix}tourl
+│❐ ${prefix}ppcouple
+│❐ ${prefix}couple
+│❐ ${prefix}mysoulmate
+│❐ ${prefix}coffee
+│❐ ${prefix}emojimix
+│❐ ${prefix}steal\`\`\`
 
 🏷️ *╚━(¯´•._.• ᴍᴇᴅɪᴀ •._.•´¯)━╝* 🏷️
 
@@ -298,6 +307,21 @@ const hlp=`
 │❐ ${prefix}hneko (hentai-neko)
 \`\`\`
 
+🐚 *╚━(¯´•._.• ᴄʀᴇᴀᴛɪᴏɴ •._.•´¯)━╝* 🐚
+\`\`\` (*those commands are experimental*)
+│❐ ${prefix}3dchristmas, transformer, berry, magma
+│❐ ${prefix}3ddeepsea, thunder, 3dcrackedstone
+│❐ ${prefix}3dscifi, 3dneonlight, impressiveglitch
+│❐ ${prefix}3drainbow, naturalleaves, matrix
+│❐ ${prefix}3dwaterpipe, fireworksparkle, dropwater
+│❐ ${prefix}halloweenskeleton, fiction, greenhorror
+│❐ ${prefix}sketch, bluecircuit, space, metallicfiction
+│❐ ${prefix}harrypotter, foggywindow, neondevils 
+│❐ ${prefix}christmasholiday, 3dgradient, blackpink, gluetext
+│❐ ${prefix}shadow, romatic, burnpaper, naruto, lovemsg
+│❐ ${prefix}grassmsg, lovetext, coffecup,  retrolol
+│❐ ${prefix}ffcover, crossfire, galaxy, glasss, neon, beach
+\`\`\`
  🍁 *Modified by Aku & Powered by Arus* 🍁`
 
  const AKU = [
@@ -351,6 +375,77 @@ await tb.push("ban",`${users}`)
     m.reply(lb)
 
 break
+case 'mysoulmate': case 'msm' : {
+    if (!m.isGroup) throw mess.group
+    let member = participants.map(u => u.id)
+    let me = m.sender
+    let jodoh = member[Math.floor(Math.random() * member.length)]
+    let jawab = `👫Your match is
+
+@${me.split('@')[0]} ❤️ @${jodoh.split('@')[0]}`
+    let ments = [me, jodoh]
+    let buttons = [
+                { buttonId: '❤️', buttonText: { displayText: '❤️' }, type: 1 }
+            ]
+            await arus.sendButtonText(m.chat, buttons, jawab, arus.user.name, m, {mentions: ments})
+    }
+    break
+    case 'couple': {
+        if (!m.isGroup) throw mess.group
+        let member = participants.map(u => u.id)
+        let orang = member[Math.floor(Math.random() * member.length)]
+        let jodoh = member[Math.floor(Math.random() * member.length)]
+        let jawab = `@${orang.split('@')[0]} ❤️ @${jodoh.split('@')[0]}
+Oi Oi Oi Whats Going On💖👀`
+        let menst = [orang, jodoh]
+        let buttons = [
+                    { buttonId: '❤️congrats', buttonText: { displayText: '❤️congrats' }, type: 1 }
+                ]
+                await arus.sendButtonText(m.chat, buttons, jawab, arus.user.name, m, {mentions: menst})
+        }
+        break
+case 'listonline': case 'onlinelist': case 'liston': {
+            let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat
+            let online = [...Object.keys(store.presences[id]), botNumber]
+            arus.sendText(m.chat, 'Online List:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, m, { mentions: online })
+     }
+break
+case 'coffee': case 'kopi': {
+    let buttons = [
+            {buttonId: `.coffee`, buttonText: {displayText: '➡️Next Image➡️'}, type: 1}
+        ]
+        let buttonMessage = {
+            image: { url: 'https://coffee.alexflipnote.dev/random' },
+            caption: `☕Random Coffee☕`,
+            footer: arus.user.name,
+            buttons: buttons,
+            headerType: 4
+        }
+       arus.sendMessage(m.chat, buttonMessage, { quoted: m })
+    }
+    break
+
+
+    case '3dchristmas': case '3ddeepsea': case '3dscifi': case '3drainbow': case '3dwaterpipe': case 'halloweenskeleton': case 'sketch': case 'bluecircuit': case 'space': case 'metallic': case 'fiction': case 'greenhorror': case 'transformer': case 'berry': case 'thunder': case 'magma': case '3dcrackedstone': case '3dneonlight': case 'impressiveglitch': case 'naturalleaves': case 'fireworksparkle': case 'matrix': case 'dropwater':  case 'harrypotter': case 'foggywindow': case 'neondevils': case 'christmasholiday': case '3dgradient': case 'blackpink': case 'gluetext': {
+        if (!text) throw `Example : ${prefix + command} text`
+        replay(mess.wait)
+        arus.sendMessage(m.chat, { image: { url: api('zenz', '/textpro/' + command, { text: text }, 'apikey') }, caption: `Text Pro ${command}` }, { quoted: m})
+}
+    break
+case 'shadow': case 'romantic': case 'smoke': case 'burnpapper': case 'naruto': case 'lovemsg': case 'grassmsg': case 'lovetext': case 'coffecup': case 'butterfly': case 'harrypotter': case 'retrolol': {
+        if (!text) throw 'where is the text?'
+        replay(mess.wait)
+        arus.sendMessage(m.chat, { image: { url: api('zenz', '/photooxy/' + command, { text: text }, 'apikey') }, caption: `Photo Oxy ${command}` }, { quoted: m })
+    }
+    break
+    case 'ffcover': case 'crossfire': case 'galaxy': case 'glass': case 'neon': case 'beach': case 'blackpink': case 'igcertificate': case 'ytcertificate': {
+        if (!text) throw 'No Query Text'
+        replay(mess.wait)
+        arus.sendMessage(m.chat, { image: { url: api('zenz', '/ephoto/' + command, { text: text }, 'apikey') }, caption: `Ephoto ${command}` }, { quoted: m })
+    }
+    break
+    
+    
 case 'te':
  const au = tb.all()
  const counu=au.ID.length
@@ -421,6 +516,18 @@ let buttonMessagem = {
                 arus.sendContact(m.chat, global.owner, m)
             }
             break
+
+            //[reset limit every 12hrs]\\
+        let cron = require('node-cron')
+        cron.schedule('00 12 * * *', () => {
+            let user = Object.keys(global.db.users)
+            let limitUser = isPremium ? global.limitawal.premium : global.limitawal.free
+            for (let jid of user) global.db.users[jid].limit = limitUser
+            console.log('Reseted Limit')
+        }, {
+            scheduled: true,
+            timezone: "Asia/Kolkata"
+        })
 //////////////////////////GENERAL\\\\\\\\\\\\\\\\\\\\\\\\\\
 case 'exp':
   const oo = tb.get(`${m.sender}.exp`)
@@ -1287,6 +1394,108 @@ const ds=fs.readFileSync(`./src/${m.sender}.json`)
 }
 
 break
+case 'tes': case 'test': case 'alive': case 'bot': case 'robot': case 'cheems': case 'Kurumi':{
+    anu = `Hi ${pushname}
+Kurumi With You Forever!! 👻🤚`
+const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+        templateMessage: {
+            hydratedTemplate: {
+                hydratedContentText: anu,
+                locationMessage: {
+                jpegThumbnail: fs.readFileSync('./src/info.jpeg')},
+                hydratedFooterText: `Kurumi`,
+                hydratedButtons: [{
+                    urlButton: {
+                        displayText: 'Profile 📍',
+                        url: 'https://github.com/Eximinati'
+                    }
+                }, {
+                    urlButton: {
+                    displayText: 'Script🔖',
+                        url: 'https://github.com/Eximinati/Kurumi-md'
+                    }
+                }, {
+                    quickReplyButton: {
+                        displayText: '🍒Help Menu🍒',
+                        id: `${prefix}help`
+                    }
+                    }, {
+                    quickReplyButton: {
+                        displayText: '👤Owner👤',
+                        id: `${prefix}owner`
+                    }
+                }]
+            }
+        }
+    }), { userJid: m.chat })
+arus.relayMessage(m.chat, template.message, { messageId: template.key.id })
+    }
+    var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var __generator = (this && this.__generator) || function (thisArg, body) {
+        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+        function verb(n) { return function (v) { return step([n, v]); }; }
+        function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+                if (y = 0, t) op = [op[0] & 2, t.value];
+                switch (op[0]) {
+                    case 0: case 1: t = op; break;
+                    case 4: _.label++; return { value: op[1], done: false };
+                    case 5: _.label++; y = op[1]; op = [0]; continue;
+                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                    default:
+                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                        if (t[2]) _.ops.pop();
+                        _.trys.pop(); continue;
+                }
+                op = body.call(thisArg, _);
+            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+        }
+    };
+    var _this = this;
+    run = function (M, _a) {
+        var joined = _a.joined;
+        return __awaiter(_this, void 0, void 0, function () {
+            var term, images;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!!joined) return [3 /*break*/, 2];
+                        return [4 /*yield*/, M.reply("Please provide the Broadcast Message.")];
+                    case 1: return [2 /*return*/, void (_b.sent())];
+                    case 2:
+                        term = joined.trim();
+                        images = [
+                            "https://c.tenor.com/IhiRfFF2eO8AAAPo/anime-kurumi.mp4",
+                            "https://c.tenor.com/xtUvNrfMOScAAAPo/kurumi-tokisaki-anime.mp4",
+                            "https://c.tenor.com/4Z5XJh3m3S0AAAPo/100.mp4",
+                            "https://c.tenor.com/Yoitobm0iaQAAAPo/date-a-live-kurumi.mp4",
+                            "https://c.tenor.com/v3WTdkIo1kkAAAPo/kurumi.mp4",
+                            "https://c.tenor.com/aflCuh8Hk_EAAAPo/kurumi-wedding-dress.mp4",
+                            "https://c.tenor.com/npZTSqG9iwMAAAPo/kurumi.mp4",
+                        ];
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    
+break
+
 case 'anime':
 const { Anime } =require("@shineiichijo/marika")
     const client = new Anime();
