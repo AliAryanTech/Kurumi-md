@@ -44,14 +44,7 @@ module.exports = arus = async (arus, m, chatUpdate, store) => {
         const isMedia = /image|video|sticker|audio/.test(mime)
     
 
-        ////////////target\\\\\\\\\\\\\\\\
-
-    const reply = (teks) => {
-    arus.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.sessionName}`,"body": ` Join Bot's Official GC`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`.//src/info.jpeg`),"sourceUrl": "https://chat.whatsapp.com/"}}}, { quoted: m})
-}
-    const replay = (teks) => {
-        arus.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.sessionName}`,"body": ` Subscribe Bot's Official YT Channel`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./src/info.jpeg`),"sourceUrl": "https://www.youtube.com/channel/UCQsSd94FAl6WhKe4XfTId-Q"}}}, { quoted: m})
-    }
+    
 
         // Group
         const isGroup=  m.chat.endsWith("@g.us");
@@ -75,6 +68,7 @@ module.exports = arus = async (arus, m, chatUpdate, store) => {
    let _casino= gp.get(`${m.chat}.casino`)
    let _haigusha=tb.get(`${m.sender}.haigusha`)
    const suu=tb.get(`${m.chat}.hp`)
+   const bannded = await tb.get("ban")
    
 //db validation
 let _anti= (anti)? anti : []
@@ -87,8 +81,7 @@ exps = tb.get(`${m.sender}.exp`)
 let casino=(_casino) ? _casino : []
 let haigusha=(_haigusha) ? _haigusha : []
 const _suu= (suu)?suu : []
-const _ban=tb.get("ban")
-let ban =(_ban) ?_ban:[]
+const _ban = bannded || []
 
 //Exp
 let charm = (items.includes('Exp Charm 💫️')) ? 2 : 1
@@ -197,11 +190,9 @@ function lz(val) {
             arus.sendReadReceipt(m.chat, m.sender, [m.key.id])
             console.log(chalk.black(chalk.bgWhite('[ Ari-Ani ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> FROM'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> MSG'), chalk.green(m.isGroup ? pushname : 'Private Chat', m.chat))
         }
-    
-        if(ban.includes(`${m.sender}`)
-        )return m.reply(' you are banned motherfucker')
-
-        
+        if (icmd) {	
+            if(_ban.includes(`${m.sender}`)) return m.reply(`You are banned from using commands ❌`)
+          } 
 
         switch(command) {
             
@@ -341,17 +332,37 @@ const hlp=`
 
 
 break
-case 'ban' : {
-    if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
-                     let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
-if (!users) return m.reply("❌ Couldn't find any userID in context")	
-let user = arus.getName(users)	
-                                             if(ban.includes(`${users}`)) return m.reply(`${user} is already Banned from Using Commands`)
-                                               
-await tb.push("ban",`${users}`)
-                                     m.reply(`Successfully Banned ${users} from Using Commands`)
-}                          
+case 'help general': case 'general': 
 
+const hlop=` 
+
+┏━「 Ari-Ani 」━━⭓ 
+┃╔═✪「 𝙶𝚎𝚗𝚎𝚛𝚊𝚕 」	        
+┃╠${prefix}rank
+┃╠${prefix}exp
+┃╠${prefix}delete
+┃╠${prefix}help
+┃╠${prefix}profile
+┃╠${prefix}creator
+┃╠${prefix}mods
+┃╠${prefix}info
+┃╠${prefix}groupinfo
+┃╚═════════════✪
+┗━━「 ${pushname} 」━⭓`
+
+const aka = [
+    {buttonId: '.info', buttonText: {displayText: '📤 Info'}, type: 1},
+    {buttonId: '.profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
+    ]
+    let akao = {
+        file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
+        caption: hlp,
+        footer: 'Ari-Ani',
+        buttons: AKU,
+        headerType: 4
+       }
+    
+break
     case'lead':
     case'leaderboard':
   
@@ -390,6 +401,30 @@ case 'mysoulmate': case 'msm' : {
             await arus.sendButtonText(m.chat, buttons, jawab, arus.user.name, m, {mentions: ments})
     }
     break
+    case 'ban': {
+        if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+                         let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace('${user}')
+   if (!users) return m.reply("❌ Couldn't find any userID in context")	
+   let user = arus.getName(users)	
+                                                 if(_ban.includes(`${users}`)) return m.reply(`${user} is already Banned from Using Commands`)
+                                                   
+   await tb.push("ban",`${users}`)
+                                         m.reply(`Successfully Banned ${users} from being clingy `)
+   
+   
+    }                          
+     break
+   
+      case 'unban':{
+          if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+                          let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : getName(users)
+   if (!users) return m.reply("❌ Couldn't find any userID in context")	
+       let user = arus.getName(users)
+         if(!_ban.includes(`${users}`)) return m.reply(`${users} is not banned`)
+   await tb.delete("ban",`${users}`)
+   return m.reply(`${users} is now allowed to use Commands again`); 
+      } 
+   break
     case 'couple': {
         if (!m.isGroup) throw mess.group
         let member = participants.map(u => u.id)
@@ -465,7 +500,9 @@ const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
 ❁ ══════ ❃•📄 *NOTE* 📄•❃ ══════ ❁
 \`\`\`This bot is a free open source project made by the team arus and Modified by Eximinati\`\`\`
 ❁ ═════ ❃•📑 *GITHUB* 📑•❃ ═════ ❁
-*_LINK:- https://github.com/Eximinati/*
+*_LINK:- https://github.com/Eximinati/* 
+❁ ═════ ❃•📑 *ORIGNAL SCRIPT* 📑•❃ ═════ ❁
+*_LINK:- https://github.com/Arus-Bots/Mizuhara*
 ❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
 \`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing =owner or =mods\`\`\` 
 `
@@ -511,6 +548,18 @@ let buttonMessagem = {
     }
 
  await arus.sendMessage(m.chat,buttonMessagem,{quoted:m})
+ break
+ case 'support':
+const support= [
+    {buttonId: 'https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX', buttonText: {displayText: 'Support'}, type: 1},
+    {buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+]
+let button1Messagess = {
+    image: {url: "https://wallpapercave.com/uwp/uwp2457463.jpeg"},
+    caption: support,
+    footer: '©Aku 2022',
+    headerType: 4
+}
  break
     case 'owner': case 'creator': {
                 arus.sendContact(m.chat, global.owner, m)
@@ -1037,7 +1086,7 @@ case 'ytmp3': case 'ytaudio': case 'yta': {
     if (media.filesize >= 100000) return m.reply('Oops too big '+util.format(media))
     const ycp=`*🎬YOUTUBE MUSIC🎬*
           
-0:04 ━━●──────────── 3:15     
+1:54 ━━────●──────── 3:15     
               
 ⇆ㅤ ㅤ◁ㅤ ❚❚ ㅤ▷ ㅤㅤ↻
                      
@@ -1067,6 +1116,8 @@ case 'ytmp4': case 'ytvideo': case 'ytv': {
 arus.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: `🎯 Title : ${media.title}\n🎗️ File Size : ${media.filesizeF}\n📓 Url : ${isUrl(text)}\n📌 Ext : MP3\n🏷️ Resolution : ${args[1] || '360p'}` }, { quoted: m })
 }
 break
+
+
 case 'yts': case 'ytsearch': {
     if (!q) m.reply(`Example : ${prefix + command} story wa anime`)
     let yts = require("yt-search")
@@ -1904,6 +1955,7 @@ await arus.sendMessage(i,bcbutt)
                 m.reply(`Successfuly Broadcasted in ${anu.length} Groups`)
             }
     break
+    
 case 'tqtt':
 case 'special-thanks' :
      reply(`Thanks to

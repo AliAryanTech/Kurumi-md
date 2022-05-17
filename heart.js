@@ -132,6 +132,32 @@ ${metadata.desc}
         }
     
     })
+      // anticall auto block
+      arus.ws.on('CB:call', async (json) => {
+        const callerId = json.content[0].attrs['call-creator']
+        if (json.content[0].tag == 'offer') {
+        let pa7rick = await arus.sendContact(callerId, global.owner)
+        arus.sendMessage(callerId, { text: `Automatic Block System!\nDon't Call Bot!\nPlease Ask Or Contact The Owner To Unblock You!`}, { quoted : pa7rick })
+        await sleep(8000)
+        await arus.updateBlockStatus(callerId, "block")
+        }
+        })
+    
+        arus.ev.on('messages.upsert', async chatUpdate => {
+            //console.log(JSON.stringify(chatUpdate, undefined, 2))
+            try {
+            mek = chatUpdate.messages[0]
+            if (!mek.message) return
+            mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
+            if (mek.key && mek.key.remoteJid === 'status@broadcast') return
+            if (!arus.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
+            if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
+            m = smsg(arus, mek, store)
+            require("./brain")(arus, m, chatUpdate, store)
+            } catch (err) {
+                console.log(err)
+            }
+        })
 	
     // Setting
     arus.decodeJid = (jid) => {
