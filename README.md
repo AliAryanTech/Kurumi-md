@@ -32,7 +32,7 @@
 </div>
 
 
----
+----
 
 ## 📚 Information 📚
 > A simple and easy-to-use WhatsApp bot project with anime features based on Multi-Device Baileys and written in JavaScript
