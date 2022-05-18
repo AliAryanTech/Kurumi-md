@@ -26,6 +26,7 @@ const { Doujin } = require("@shineiichijo/nhentai-pdf")
 const { tmpdir } =require("os");
 const { readFile } =require ("fs/promises")
 const nHentai =require("shentai")
+const xa = require("xfarr-api")
 module.exports = arus = async (arus, m, chatUpdate, store) => {
     try {
         var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : ''
@@ -83,6 +84,7 @@ let haigusha=(_haigusha) ? _haigusha : []
 const _suu= (suu)?suu : []
 const _ban = bannded || []
 const _nsfw = nsfw || []
+
 //Exp
 let charm = (items.includes('Exp Charm 💫️')) ? 2 : 1
     let rx = charm*Math.floor(Math.random() * 20) + 5
@@ -547,6 +549,23 @@ const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
 💥 *Username: Aku*
 🍁 *Contact: https://wa.me/+923087880256*
 
+    ---{script owner and helper}---
+#2
+💥 *Username: Pratyush*
+🍁 *Contact: https://wa.me/+923087880256*
+
+💥 *Username: Arin*
+🍁 *Contact: https://wa.me/+919330880626*
+
+💥 *Username: Das*
+🍁 *Contact: https://wa.me/+917003213983*
+
+💥 *Username: Death*
+🍁 *Contact: https://wa.me/+917604016334*
+
+💥 *Username: ray*
+🍁 *Contact: https://wa.me/+919861494774*
+
 ━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
 const mbut = [
 {buttonId: '.creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
@@ -874,7 +893,7 @@ break
             }    
 break
 
-case 'instagram': case 'ig': case 'igdl': {
+case 'instagram': case 'igdl': {
     if (!text) throw 'Enter Query Url!'
     replay(mess.wait)
     if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(text)[0])) {
@@ -915,6 +934,17 @@ case 'tourl': {
         case 'chatid':
         m.reply(`${m.chat}`)
         break
+        case 'ig':
+        
+            if(!q) return m.reply("gay where is link?")
+            xa.Instagram(q)
+            .then(data => {console.log(data)
+            });
+
+              await (m.chat) 
+     break
+
+            k
 //////////////////////////GROUP\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     case 'kick': {
         if (!m.isGroup) m.reply(mess.group)
@@ -1046,7 +1076,7 @@ case 'linkgroup': case 'linkgc': {
                                         m.reply("No such options")
                                       }
                                       if (_nsfw[0] == "nssfw") {
-                                        await tb.pull("nssfw", m.chat)
+                                        await tb.push("nssfw", m.chat)
                                         m.reply("successfully activated nsfw")
                                       }
                                     
@@ -1058,7 +1088,7 @@ case 'linkgroup': case 'linkgc': {
 if (!isAdmins && !m.key.fromMe) return m.reply("Only group admins");
 
   if (_nsfw[0] == "nssfw") {
-    await tb.push("nssfw", m.chat)
+    await tb.pull("nssfw", m.chat)
     m.reply("successfully deactivated nsfw");
   }
   if (args[0] == "antilink") {
@@ -1161,7 +1191,7 @@ case 'yts': case 'ytsearch': {
     arus.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },jpegThumbnail:fs.readFileSync('./src/yts.jpg'),  caption: teks, }, { quoted: m, })
 }
 break
-case 'instagram': case 'ig': case 'igdl': {
+case 'instagram': case 'igdl': {
     if (!q) return m.reply('Enter Query Url!')
     m.reply(mess.wait)
     if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(q)[0])) {
