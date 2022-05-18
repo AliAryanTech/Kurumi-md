@@ -69,7 +69,7 @@ module.exports = arus = async (arus, m, chatUpdate, store) => {
    let _haigusha=tb.get(`${m.sender}.haigusha`)
    const suu=tb.get(`${m.chat}.hp`)
    const bannded = await tb.get("ban")
-   
+   const  nsfw = await tb.get("nsfw")
 //db validation
 let _anti= (anti)? anti : []
 global._wel= (wel)?wel:[]
@@ -82,7 +82,7 @@ let casino=(_casino) ? _casino : []
 let haigusha=(_haigusha) ? _haigusha : []
 const _suu= (suu)?suu : []
 const _ban = bannded || []
-
+const _nsfw = nsfw || []
 //Exp
 let charm = (items.includes('Exp Charm 💫️')) ? 2 : 1
     let rx = charm*Math.floor(Math.random() * 20) + 5
@@ -195,6 +195,11 @@ function lz(val) {
           } 
 
         switch(command) {
+    
+case 'hello':
+   m.reply('hey! use .help to see my help list')
+ 
+    break
             
 case 'hi':
     m.reply('hello')
@@ -332,9 +337,9 @@ const hlp=`
 
 
 break
-case 'help general': case 'general': 
+case 'generalmenu': case 'general': case 'gmenu': 
 
-const hlop=` 
+m.reply(` 
 
 ┏━「 Ari-Ani 」━━⭓ 
 ┃╔═✪「 𝙶𝚎𝚗𝚎𝚛𝚊𝚕 」	        
@@ -347,23 +352,28 @@ const hlop=`
 ┃╠${prefix}mods
 ┃╠${prefix}info
 ┃╠${prefix}groupinfo
-┃╚═════════════✪
-┗━━「 ${pushname} 」━⭓`
-
-const aka = [
-    {buttonId: '.info', buttonText: {displayText: '📤 Info'}, type: 1},
-    {buttonId: '.profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
-    ]
-    let akao = {
-        file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
-        caption: hlp,
-        footer: 'Ari-Ani',
-        buttons: AKU,
-        headerType: 4
-       }
+┃╚════════✪
+┗━「 ${pushname} 」━⭓`
+)
     
 break
-    case'lead':
+case 'help general': case 'general': 
+
+m.reply(` 
+
+┏━「 Ari-Ani 」━━⭓ 
+┃╔═✪「 ɴꜱꜰᴡ 」	        
+┃╠${prefix}spank
+┃╠${prefix}blowjob
+┃╠${prefix}trap
+┃╠${prefix}nwaifu
+┃╠${prefix}hneko
+┃╚════════✪
+┗━「 ${pushname} 」━⭓`
+)
+    
+break
+ case'lead':
     case'leaderboard':
   
     const a = tb.all()
@@ -425,6 +435,10 @@ case 'mysoulmate': case 'msm' : {
    return m.reply(`${users} is now allowed to use Commands again`); 
       } 
    break
+   
+
+                  
+     break
     case 'couple': {
         if (!m.isGroup) throw mess.group
         let member = participants.map(u => u.id)
@@ -657,6 +671,9 @@ var spgif = await GIFBufferToVideoBuffer(spbuff)
                                     })
 break
 case 'blowjob': case 'bj' :
+
+     if(_nsfw.includes(m.chat)) return m.reply(`*NSFW* is not registered in this group!`)
+
 bjd = await axios.get(`https://api.waifu.pics/nsfw/blowjob`)
                 
   var bjf = await getBuffer(bjd.data.url)
@@ -1027,13 +1044,23 @@ case 'linkgroup': case 'linkgc': {
                                       }
                                    else{
                                         m.reply("No such options")
-                                      } 
+                                      }
+                                      if (_nsfw[0] == "nssfw") {
+                                        await tb.pull("nssfw", m.chat)
+                                        m.reply("successfully activated nsfw")
+                                      }
+                                    
 
                                 
   break
  case 'disable':
  if (!m.isGroup) return m.reply("Only groups");
 if (!isAdmins && !m.key.fromMe) return m.reply("Only group admins");
+
+  if (_nsfw[0] == "nssfw") {
+    await tb.push("nssfw", m.chat)
+    m.reply("successfully deactivated nsfw");
+  }
   if (args[0] == "antilink") {
 gp.delete(`${m.chat}.link`,`${m.chat}`)
 m.reply("Successfully deactivated antilink!");  
@@ -1232,7 +1259,7 @@ case 'gimage':case 'image': {
               
                 var wbutss = [
         {buttonId: `.waifu`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        {buttonId: `.neko2`, buttonText: {displayText: `🐱Neko2`}, type: 1},
+        {buttonId: `.neko`, buttonText: {displayText: `🐱Neko`}, type: 1},
         ]
       let buttonsMessage = {
        image: await getBuffer(waifud.data.url),
