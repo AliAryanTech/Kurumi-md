@@ -563,8 +563,11 @@ const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
 💥 *Username: Death*
 🍁 *Contact: https://wa.me/+917604016334*
 
-💥 *Username: ray*
+💥 *Username: Ray*
 🍁 *Contact: https://wa.me/+919861494774*
+
+💥 *Username: Josh*
+🍁 *Contact: https://wa.me/+919774330611*
 
 ━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
 const mbut = [
@@ -583,20 +586,9 @@ let buttonMessagem = {
  await arus.sendMessage(m.chat,buttonMessagem,{quoted:m})
  break
  case 'support':
-const supsport= [
-    {buttonId: 'https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX', buttonText: {displayText: 'Support'}, type: 1},
-    {buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
-]
-let button1Messagess = {
-    image: {url: "https://wallpapercave.com/uwp/uwp2457463.jpeg"},
-    caption: support,
-    footer: '©Aku 2022',
-    buttons: supsport,
-    headerType: 4
 
-}
+ m.reply('HERE IS MY MASTER SUPPORT GROUP LINK:- https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX ')
 
-await arus.sendMessage(m.chat,button1Messagess,m)
  break
     case 'owner': case 'creator': {
                 arus.sendContact(m.chat, global.owner, m)
