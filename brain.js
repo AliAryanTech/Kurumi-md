@@ -375,6 +375,47 @@ m.reply(`
 )
     
 break
+			case 'mods':
+const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
+#1
+💥 *Username: Aku*
+🍁 *Contact: https://wa.me/+923087880256*
+    ---{Script owner and helper}---
+#2
+💥 *Username: Pratyush*
+🍁 *Contact: https://wa.me/+923087880256*
+💥 *Username: Arin*
+🍁 *Contact: https://wa.me/+919330880626*
+💥 *Username: Das*
+🍁 *Contact: https://wa.me/+917003213983*
+💥 *Username: Death*
+🍁 *Contact: https://wa.me/+917604016334*
+💥 *Username: Ray*
+🍁 *Contact: https://wa.me/+919861494774*
+💥 *Username: Josh*
+🍁 *Contact: https://wa.me/+919774330611*
+━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
+const mbut = [
+{buttonId: '.creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
+{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
+{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+]
+let buttonMessagem = {
+        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
+        caption: mod,
+        footer: '©Aku 2022',
+        buttons: mbut,
+        headerType: 4
+    }
+
+ await arus.sendMessage(m.chat,buttonMessagem,{quoted:m})
+ break
+ case 'support':
+    m.reply(`*Group Link has been sent in your personal message*`)
+    await arus.sendMessage(`${m.sender}`,{image:fs.readFileSync('./src/info.jpeg'),caption:`#1
+    🔰 *Title: Anime Nerds:*
+    💠 *Link:* https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX`})
+    break
  case'lead':
     case'leaderboard':
   
