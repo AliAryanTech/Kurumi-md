@@ -327,7 +327,7 @@ const hlp=`
     {buttonId: '.profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
     ]
     let AKUo = {
-        file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
+        file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/assests/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
         caption: hlp,
         footer: 'Ari-Ani',
         buttons: AKU,
@@ -412,7 +412,7 @@ let buttonMessagem = {
  break
  case 'support':
     m.reply(`*Group Link has been sent in your personal message*`)
-    await arus.sendMessage(`${m.sender}`,{image:fs.readFileSync('./src/info.jpeg'),caption:`#1
+    await arus.sendMessage(`${m.sender}`,{image:fs.readFileSync('./src/assests/info.jpeg'),caption:`#1
     🔰 *Title: Anime Nerds:*
     💠 *Link:* https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX`})
     break
@@ -543,36 +543,6 @@ case 'te':
  const counu=au.ID.length
  console.log(au)
 break
-case 'info':
-
-const ibut = [
-{buttonId: '.profile', buttonText: {displayText: '🎋 Profile'}, type: 1},
-{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
-]
-const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
-\`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
-❁ ═══ ❃•📕 *INFORMATION*📕•❃ ═══ ❁
-\`\`\`A simple and easy-to-use WhatsApp bot project based on Multi-Device Baileys and written in JavaScript\`\`\`
-❁ ══════ ❃•📄 *NOTE* 📄•❃ ══════ ❁
-\`\`\`This bot is a free open source project made by the team arus and Modified by Eximinati\`\`\`
-❁ ═════ ❃•📑 *GITHUB* 📑•❃ ═════ ❁
-*_LINK:- https://github.com/Eximinati/* 
-❁ ═════ ❃•📑 *ORIGNAL SCRIPT* 📑•❃ ═════ ❁
-*_LINK:- https://github.com/Arus-Bots/Mizuhara*
-❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
-\`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing =owner or =mods\`\`\` 
-`
-let buttonMessagei = {
-        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
-        caption: inf,
-        footer: 'Aku',
-        buttons: ibut,
-        headerType: 4
-    }
-
- await arus.sendMessage(m.chat,buttonMessagei,{quoted:m})
-break
 case 'grupinfo': case 'groupinfo': case 'group info' :
 try{
  var pic = await arus.getProfilePicture(m.chat)
@@ -584,48 +554,7 @@ ds = await getBuffer(pic)
 arus.sendMessage(m.chat, { image: ds,caption: ingfo, mentions: [groupMetadata.owner] }, { quoted: m})
 break
 
-case 'mods':
-const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
-#1
-💥 *Username: Aku*
-🍁 *Contact: https://wa.me/+923087880256*
 
-    ---{script owner and helper}---
-#2
-💥 *Username: Pratyush*
-🍁 *Contact: https://wa.me/+923087880256*
-
-💥 *Username: Arin*
-🍁 *Contact: https://wa.me/+919330880626*
-
-💥 *Username: Das*
-🍁 *Contact: https://wa.me/+917003213983*
-
-💥 *Username: Death*
-🍁 *Contact: https://wa.me/+917604016334*
-
-💥 *Username: Ray*
-🍁 *Contact: https://wa.me/+919861494774*
-
-💥 *Username: Josh*
-🍁 *Contact: https://wa.me/+919774330611*
-
-━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
-const mbut = [
-{buttonId: '.creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
-{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
-]
-let buttonMessagem = {
-        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
-        caption: mod,
-        footer: '©Aku 2022',
-        buttons: mbut,
-        headerType: 4
-    }
-
- await arus.sendMessage(m.chat,buttonMessagem,{quoted:m})
- break
  case 'support':
 
  m.reply('HERE IS MY MASTER SUPPORT GROUP LINK:- https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX ')
@@ -1221,7 +1150,7 @@ case 'yts': case 'ytsearch': {
     for (let i of search.all) {
         teks += `📓 No : ${no++}\n🎬 Type : ${i.type}\n📌 Video ID : ${i.videoId}\n🎯 Title : ${i.title}\n🌸 Views : ${i.views}\n🎗️ Duration : ${i.timestamp}\n🍁 Upload At : ${i.ago}\n🏷️ Author : ${i.author.name}\n🌐 Url : ${i.url}\n\n────────────────────────────\n\n`
     }
-    arus.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },jpegThumbnail:fs.readFileSync('./src/yts.jpg'),  caption: teks, }, { quoted: m, })
+    arus.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },jpegThumbnail:fs.readFileSync('./src/assests/yts.jpg'),  caption: teks, }, { quoted: m, })
 }
 break
 case 'instagram': case 'igdl': {
@@ -1547,7 +1476,7 @@ const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
             hydratedTemplate: {
                 hydratedContentText: anu,
                 locationMessage: {
-                jpegThumbnail: fs.readFileSync('./src/info.jpeg')},
+                jpegThumbnail: fs.readFileSync('./src/assests/info.jpeg')},
                 hydratedFooterText: `Kurumi`,
                 hydratedButtons: [{
                     urlButton: {
@@ -2036,7 +1965,7 @@ const bcbut=[{buttonId:".info",buttonText:{displayText:"Info"},type:1},
 {buttonId:".mods",buttonText:{displayText:"Arus Team"},type:1}]
 
 const bcbutt={
-    image: fs.readFileSync('./src/info.jpeg'),
+    image: fs.readFileSync('./src/assests/info.jpeg'),
     caption:txt,
     footer:`©Aku 2022`,
     buttons: bcbut,

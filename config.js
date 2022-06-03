@@ -56,7 +56,7 @@ global.mess = {
     group: '*Leave me here alone please...*',
     wait: '*Loading... please wait goshujin sama*',
 }
-global.thumb = fs.readFileSync('./src/info.jpeg')
+global.thumb = fs.readFileSync('./src/assests/info.jpeg')
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {
