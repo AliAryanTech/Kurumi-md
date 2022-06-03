@@ -204,7 +204,21 @@ case 'hello':
     break
             
 case 'hi':
-    m.reply('hello')
+    const hemlo= `Hey! How Are You`
+   const hello =[
+       {buttonId: '.help', buttonText: {displayText: 'Commands'}, types: 2},
+
+
+   ]
+   let buttonMessageds = {
+    image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
+    caption: hemlo ,
+    footer: 'Ari-Ani',
+    buttons: hello,
+    headerType: 4
+}
+await arus.sendMessage(m.chat,buttonMessageds,{quoted:m})
+
        break
 case '':
     if(icmd){
@@ -236,7 +250,7 @@ const hlp=`
 
 🎀 *╚━(¯´•._.• ɢᴇɴᴇʀᴀʟ •._.•´¯)━╝* 🎀  
 
-\`\`\`❐ ${prefix}profile
+\`\`\`│❐ ${prefix}profile
 │❐ ${prefix}rank
 │❐ ${prefix}exp
 │❐ ${prefix}delete
@@ -248,7 +262,7 @@ const hlp=`
   
 ⛩️ *╚━(¯´•._.• ᴀɴɪᴍᴇ •._.•´¯)━╝* ⛩️
 
-\`\`\`❐ ${prefix}neko
+\`\`\`│❐ ${prefix}neko
 │❐ ${prefix}waifu
 │❐ ${prefix}holo
 │❐ ${prefix}fox_girl
@@ -262,9 +276,10 @@ const hlp=`
 
 ❄️ *╚━(¯´•._.• ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅꜱ •._.•´¯)━╝* ❄️
 
-\`\`\`❐ ${prefix}ping
+\`\`\`│❐ ${prefix}ping
 │❐ ${prefix}add
 │❐ ${prefix}kick
+│❐ ${prefix}support
 │❐ ${prefix}promote
 │❐ ${prefix}demote
 │❐ ${prefix}group open
@@ -291,6 +306,7 @@ const hlp=`
 🏷️ *╚━(¯´•._.• ᴍᴇᴅɪᴀ •._.•´¯)━╝* 🏷️
 
 \`\`\`│❐ ${prefix}yts
+│❐ ${command}react
 │❐ ${prefix}ytv
 │❐ ${prefix}yta
 │❐ ${prefix}play
@@ -305,21 +321,7 @@ const hlp=`
 │❐ ${prefix}hneko (hentai-neko)
 \`\`\`
 
-🐚 *╚━(¯´•._.• ᴄʀᴇᴀᴛɪᴏɴ •._.•´¯)━╝* 🐚
-\`\`\` (*those commands are experimental*)
-│❐ ${prefix}3dchristmas, transformer, berry, magma
-│❐ ${prefix}3ddeepsea, thunder, 3dcrackedstone
-│❐ ${prefix}3dscifi, 3dneonlight, impressiveglitch
-│❐ ${prefix}3drainbow, naturalleaves, matrix
-│❐ ${prefix}3dwaterpipe, fireworksparkle, dropwater
-│❐ ${prefix}halloweenskeleton, fiction, greenhorror
-│❐ ${prefix}sketch, bluecircuit, space, metallicfiction
-│❐ ${prefix}harrypotter, foggywindow, neondevils 
-│❐ ${prefix}christmasholiday, 3dgradient, blackpink, gluetext
-│❐ ${prefix}shadow, romatic, burnpaper, naruto, lovemsg
-│❐ ${prefix}grassmsg, lovetext, coffecup,  retrolol
-│❐ ${prefix}ffcover, crossfire, galaxy, glasss, neon, beach
-\`\`\`
+
  🍁 *Modified by Aku & Powered by Arus* 🍁`
 
  const AKU = [
@@ -536,11 +538,18 @@ arus.sendMessage(m.chat, { image: ds,caption: ingfo, mentions: [groupMetadata.ow
 break
 
 
- case 'support':
 
- m.reply('HERE IS MY MASTER SUPPORT GROUP LINK:- https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX ')
-
- break
+ case 'react': {
+    if (!isCreator) throw mess.owner
+    reactionMessage = {
+        react: {
+            text: args[0],
+            key: { remoteJid: m.chat, fromMe: true, id: quoted.id }
+        }
+    }
+    arus.sendMessage(m.chat, reactionMessage)
+}
+break
     case 'owner': case 'creator': {
                 arus.sendContact(m.chat, global.owner, m)
             }
@@ -623,8 +632,7 @@ break
 
 case 'spank':
 spankd = await axios.get(`https://nekos.life/api/v2/img/spank`)
-   case 'spank':
-spankd = await axios.get(`https://nekos.life/api/v2/img/spank`)
+  
                                     
   var spbuff = await getBuffer(spankd.data.url)
 var spgif = await GIFBufferToVideoBuffer(spbuff)   
