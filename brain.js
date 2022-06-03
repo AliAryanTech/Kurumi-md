@@ -526,6 +526,36 @@ case 'te':
  const counu=au.ID.length
  console.log(au)
 break
+case 'info':
+
+const ibut = [
+{buttonId: '.profile', buttonText: {displayText: '🎋 Profile'}, type: 1},
+{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
+{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+]
+const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
+\`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
+❁ ═══ ❃•📕 *INFORMATION*📕•❃ ═══ ❁
+\`\`\`A simple and easy-to-use WhatsApp bot project based on Multi-Device Baileys and written in JavaScript\`\`\`
+❁ ══════ ❃•📄 *NOTE* 📄•❃ ══════ ❁
+\`\`\`This bot is a free open source project made by the team arus and Modified by Eximinati\`\`\`
+❁ ═════ ❃•📑 *GITHUB* 📑•❃ ═════ ❁
+*_LINK:- https://github.com/Eximinati/* 
+❁ ═════ ❃•📑 *ORIGNAL SCRIPT* 📑•❃ ═════ ❁
+*_LINK:- https://github.com/Arus-Bots/Mizuhara* *(if you dont give credit to mods and owner we will sue you for sure)*
+❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
+\`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing =owner or =mods\`\`\` 
+`
+let buttonMessagei = {
+        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
+        caption: inf,
+        footer: 'Aku',
+        buttons: ibut,
+        headerType: 4
+    }
+
+ await arus.sendMessage(m.chat,buttonMessagei,{quoted:m})
+break
 case 'grupinfo': case 'groupinfo': case 'group info' :
 try{
  var pic = await arus.getProfilePicture(m.chat)
