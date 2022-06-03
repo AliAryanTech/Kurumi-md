@@ -28,7 +28,7 @@ const getVersionWaweb = () => {
 }
 
 async function startArus() {
-    CFonts.say('Kurumi\nBY\nEximinati', {
+    CFonts.say('Kurumi\nBy\nAku', {
         font: 'block',
         align: 'center',
         gradient: ['blue', 'magenta']
@@ -132,32 +132,6 @@ ${metadata.desc}
         }
     
     })
-      // anticall auto block
-      arus.ws.on('CB:call', async (json) => {
-        const callerId = json.content[0].attrs['call-creator']
-        if (json.content[0].tag == 'offer') {
-        let pa7rick = await arus.sendContact(callerId, global.owner)
-        arus.sendMessage(callerId, { text: `Automatic Block System!\nDon't Call Bot!\nPlease Ask Or Contact The Owner To Unblock You!`}, { quoted : pa7rick })
-        await sleep(8000)
-        await arus.updateBlockStatus(callerId, "block")
-        }
-        })
-    
-        arus.ev.on('messages.upsert', async chatUpdate => {
-            //console.log(JSON.stringify(chatUpdate, undefined, 2))
-            try {
-            mek = chatUpdate.messages[0]
-            if (!mek.message) return
-            mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
-            if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-            if (!arus.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
-            if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
-            m = smsg(arus, mek, store)
-            require("./brain")(arus, m, chatUpdate, store)
-            } catch (err) {
-                console.log(err)
-            }
-        })
 	
     // Setting
     arus.decodeJid = (jid) => {
@@ -198,7 +172,7 @@ ${metadata.desc}
 	for (let i of kon) {
 	    list.push({
 	    	displayName: await arus.getName(i + '@s.whatsapp.net'),
-	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await arus.getName(i + '@s.whatsapp.net')}\nFN:${await arus.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Phone\nitem2.EMAIL;type=INTERNET:arusbots@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/riki_4932\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;India;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
+	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await arus.getName(i + '@s.whatsapp.net')}\nFN:${await arus.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Phone:Phone\nitem2.EMAIL;type=INTERNET:arusbots@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/ari_wadood\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Pakistan;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
 	    })
 	}
 	arus.sendMessage(jid, { contacts: { displayName: `${list.length} contact`, contacts: list }, ...opts }, { quoted })
