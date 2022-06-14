@@ -1,1 +1,1 @@
-web: pm2 start heart.js --deep-monitoring --attach
+worker: npm i @adiwajshing/baileys@latest && npm i -g forever && forever heart.js
