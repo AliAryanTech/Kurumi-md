@@ -3,60 +3,21 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
-// Website Api
-global.APIs = {
-	zenz: 'https://zenzapi.xyz',
-}
-
-// Apikey Website Api
-global.APIKeys = {
-	'https://zenzapi.xyz': 'd6295ca53e',
-}
-
 // Other
-global.owner = ['923087880256']
-global.packname = 'Ari'
-global.prefix= ['.']
-global.author = 'Ani'
-global.sessionName = 'Aku'
-global.reac = {
-            cry:'Cried with',
-            kiss: 'Kissed',
-            bully:'Bullied',
-            hug:'Hugged',
-            lick:'Licked',
-            cuddle:'Cuddled with',
-            pat: 'Patted',
-            smug: 'Smugged at',
-            highfive: 'High-fived',
-            bonk:'Bonked',
-            yeet: 'Yeeted',
-            blush: 'Blushed at',
-            wave: 'Waved at',
-            smile: 'Smiled at',
-            handhold: 'is Holding Hands with',
-            nom: 'is Eating with',
-            bite:'Bit',
-            glomp:'Glomped',
-            kill: 'Killed',
-            slap: 'Slapped',
-            cringe: 'Cringed at',
-            kick: 'Kicked',
-            wink: 'Winked at',
-            happy: 'is Happy with',
-            awoo: 'is idk',
-            poke: 'Poked',
-            dance:'is Dancing with'
-        }
-global.mess = {
-    success: '*Here you go...*',
-    admin: '*Oops!! sorry dude this is only for admins*',
-    botAdmin: '*To use this command make me admin if u trust me...*',
-    owner: '*Sorry!! this command is for my darling developers*',
-    group: '*Leave me here alone please...*',
-    wait: '*Loading... please wait goshujin sama*',
+let gg = process.env.MODS
+if (!gg) {
+	gg = "923087880256", "919774330611"
 }
-global.thumb = fs.readFileSync('./src/assests/info.jpeg')
+global.owner = gg.split(",");
+global.mongodb = process.env.MONGODB || "none"
+global.port = process.env.PORT || 8080
+global.packname = process.env.PACKNAME || "Ari",
+global.prefix= process.env.PREFIX || "-",
+global.author = process.env.AUTHOR || "Ani",
+global.sessionName = 'Aku',
+global.name = process.env.NAME || "Kurumi",
+global.menu = "🎫 Kurumi\'s Command Liste* 🎫\n\n💻 *Dev*\n❐ ```update, broadcast, ban, unban, chatid, session, join```\n\n🔮 *General*\n❐ ```help, delete, info, rank, profile```\n\n💠 *Fun*\n❐ ```ship, advice, quote, leaderboard, react, fact, bot```\n\n🔈 *Media*\n❐ ```yta, ytv, play, gify, yts, lyrics```\n\n👑 *Moderation*\n❐ ```demote, remove, ping, promote, deact, act, invite, group, seticon, setdesc```\n\n💮 *Weeb*\n❐ ```anime, manga, charecter, haigusha, neko, waifu, pokemon```\n\n🖇 *Utils*\n❐ ```google, image, meme, subreddit, tourl, img, iguser, gif, sticker, take, pinterest, carbon```\n\n🗃️ *Note: *Calls and Dm will lead you to ban*",
+global.thumb = fs.readFileSync('./src/assest/info.jpeg')
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {

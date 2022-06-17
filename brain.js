@@ -7,231 +7,200 @@ const { exec, spawn, execSync } = require("child_process")
 const axios = require('axios')
 const path = require('path')
 const os = require('os')
-const {Sticker, createSticker, StickerTypes} = require('wa-sticker-formatter')
+const { Character } = require('mailist')
 const moment = require('moment-timezone')
+const usere = JSON.parse(fs.readFileSync('./lib/user.json'))
 const { JSDOM } = require('jsdom')
+const { createWorker } = require('tesseract.js');
 const speed = require('performance-now')
 const { performance } = require('perf_hooks')
+const cron = require('node-cron')
 const { Primbon } = require('scrape-primbon')
+const Carbon = require("unofficial-carbon-now")
 const primbon = new Primbon()
+const { Simp, Pokemon, Ship, IShipOptions } = require('@shineiichijo/canvas-chan')
 const { smsg, formatp,  formatDate, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention,GIFBufferToVideoBuffer, getRandom } = require('./lib/myfunc')
-const yts= require("yt-search")
-global.db = require('quick.db')
-global.tb = new db.table('exp')
-global.gp= new db.table('grp')
+const Levels = require('discord-xp')
+const mongoose = require('mongoose');
+const user = require("./models/user")
+const bot = require("./models/bot")
+const group = require("./models/group")
+const { Sticker, createSticker, StickerTypes } = require('wa-sticker-formatter')
+Levels.setURL(mongodb)
+console.log("Connected to the database1")
 const canvacord=require('canvacord')
+const xfar = require("xfarr-api")
+const akaneko = require('akaneko')
+const gen = require("images-generator")
+const { soyultro } = require("soyultro")
+const hxz = require("hxz-api")
+const cheerio = require('cheerio')
 const msgFilter= require('./lib/msgFilter.js')
-    const { Chalk } = require("cfonts/lib/Chalk")
+const { Chalk } = require("cfonts/lib/Chalk")
 const { Doujin } = require("@shineiichijo/nhentai-pdf")
-const { tmpdir } =require("os");
-const { readFile } =require ("fs/promises")
-const nHentai =require("shentai")
-const xa = require("xfarr-api")
+const { tmpdir } = require("os");
+const { readFile } = require ("fs/promises")
+const nHentai = require("shentai")                              
+const db = require('quick.db')
 module.exports = arus = async (arus, m, chatUpdate, store) => {
     try {
         var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : ''
         var budy = (typeof m.text == 'string' ? m.text : '')
-      const icmd=body.startsWith(prefix)
-     const isCmd = prefix.includes(body != '' && body.slice(0, 1)) && body.slice(1) != ''
-     const command = isCmd ? body.slice(1).trim().split(' ')[0].toLowerCase() : ''
+        const icmd = body.startsWith(prefix)
+        const isCmd = prefix.includes(body != '' && body.slice(0, 1)) && body.slice(1) != ''
+        const command = isCmd ? body.slice(1).trim().split(' ')[0].toLowerCase() : ''
         const args = body.trim().split(/ +/).slice(1)
         const pushname = m.pushName || "No Name"
         const botNumber = await arus.decodeJid(arus.user.id)
         const isCreator = [botNumber, ...global.owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
         const itsMe = m.sender == botNumber ? true : false
-        const text = q = args.join(" ")
+		 const botName = process.env.NAME || "Mizuhara"
+		const ter = args.join(' ') 
+        const contant = q = args.join(" ")
         const quoted = m.quoted ? m.quoted : m
         const mime = (quoted.msg || quoted).mimetype || ''
         const isMedia = /image|video|sticker|audio/.test(mime)
     
-
-    
-
         // Group
         const isGroup=  m.chat.endsWith("@g.us");
         const groupMetadata = m.isGroup ? await arus.groupMetadata(m.chat).catch(e => {}) : ''
-
         const groupName = m.isGroup ? groupMetadata.subject : ''
         const participants = m.isGroup ? await groupMetadata.participants : ''
         const groupAdmins = m.isGroup ? await participants.filter(v => v.admin !== null).map(v => v.id) : ''
         const groupOwner = m.isGroup ? groupMetadata.owner : ''
         const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
         const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
-    const time = moment.tz('Asia/Kolkata').format('DD/MM HH:mm:ss')
-    const mentionByTag = m.mtype == "extendedTextMessage" && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : []
+        const time = moment.tz('Asia/Kolkata').format('DD/MM HH:mm:ss')
+        const mentionByTag = m.mtype == "extendedTextMessage" && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : []
        const mentionByReply = m.mtype == "extendedTextMessage" && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.participant || "" : ""
         //db fetch
-    let _exp = tb.get(`${m.sender}.exp`)
-    let _items = tb.get(`${m.sender}.items`)
-    let anti=gp.get(`${m.chat}.link`)
-   global.wel=gp.get(`${m.chat}.welc`)
-   let _bank=tb.get(`${m.sender}.bank`)
-   let _casino= gp.get(`${m.chat}.casino`)
-   let _haigusha=tb.get(`${m.sender}.haigusha`)
-   const suu=tb.get(`${m.chat}.hp`)
-   const bannded = await tb.get("ban")
-   const  nsfw = await tb.get("nsfw")
-//db validation
-let _anti= (anti)? anti : []
-global._wel= (wel)?wel:[]
-let expa = (_exp) ? _exp : 0
-  let items = (_items) ? _items : []
-_exp = tb.get(`${m.sender}.exp`)
- expa = (_exp) ? _exp : 0
-exps = tb.get(`${m.sender}.exp`)
-let casino=(_casino) ? _casino : []
-let haigusha=(_haigusha) ? _haigusha : []
-const _suu= (suu)?suu : []
-const _ban = bannded || []
-const _nsfw = nsfw || []
+if(icmd&&!isGroup) return m.reply("You cannot use any command in dm")
 
-//Exp
-let charm = (items.includes('Exp Charm 💫️')) ? 2 : 1
-    let rx = charm*Math.floor(Math.random() * 20) + 5
-    const addxp = (expa) ? expa+rx : rx
-    tb.set(`${m.sender}.exp`, addxp)
+if (icmd) {	
 
- 
-  
-
-     function expc(exps) {
-
-    
-        if (exps < 500) {
-                    var role = '⭐️ Citizen'
-            var maxExp = 500
-                } else if (exps < 1500) {
-                    var role = '🔍️ Cleric'
-            var maxExp = 1500
-                } else if (exps < 4000) { 
-                    var role = '🔮️Wizard'
-            var maxExp = 4000
-                } else if (exps < 7500) {
-                    var role = '♦️ Mage'
-            var maxExp = 7500
-                } else if (exps < 10000) {
-                    var role = '🎯️ Noble'
-            var maxExp = 10000
-                } else if (exps < 35000) {
-                    var role = '✨️ Elite'
-            var maxExp = 35000
-                } else if (exps < 50000) {
-                    var role = '🔶️ Ace'
-            var maxExp = 50000
-                } else if (exps < 100000) {
-                    var role = '💎️ Supreme' 
-            var maxExp = 100000
-        } else if (exps < 250000) {
-                    var role = '🛡️ Legendary' 
-            var maxExp = 250000
-        } else if (exps < 375000) {
-                    var role = '🛡️ Legendary II' 
-            var maxExp = 375000
-            } else if (exps < 500000) {
-                    var role = '🛡️ Legendary III' 
-            var maxExp = 500000
-        } else if (exps < 750000) {
-                    var role = '❄️ Mystic' 
-            var maxExp = 750000
-        } else if (exps < 875000) {
-                    var role = '❄️ Mystic II' 
-            var maxExp = 875000
-        } else if (exps < 1000000) {
-                    var role = '❄️ Mystic III' 
-            var maxExp = 1000000
-        } else if (exps < 1250000) {
-                    var role = '🔺️ Areo' 
-            var maxExp = 125000
-         } else if (exps < 1500000) {
-                    var role = '🔺️ Areo II' 
-            var maxExp = 150000
-                } else if (exps < 1750000) {
-                    var role = '🔺️ Areo III' 
-            var maxExp = 1750000
-        } else if (exps < 2000000) {
-                    var role = '⚔️ Master' 
-            var maxExp = 2000000
-        } else if (exps < 225000) {
-                    var role = '⚔️ Master' 
-            var maxExp = 2250000
-        } else if (exps < 250000) {
-                    var role = '⚔️ Master II' 
-            var maxExp = 2500000
-        } else if (exps < 2750000) {
-                    var role = '⚔️ Master III' 
-            var maxExp = 2750000
-        } else { 
-                    var role = 'God👽'
-            var maxExp = 10000000
-                }
-        return { role: role, maxE : maxExp }
+			 const randomXp = Math.floor(Math.random() * 3) + 1;//Random amont of XP until the number you want + 1
+    const hasLeveledUp = await Levels.appendXp(m.sender, "bot", randomXp); 
+    if (hasLeveledUp) {
+        const user = await Levels.fetch(m.sender, "bot");
+        // ROLE (Change to what you want, or add) and you can change the role sort based on XP.
+        const levelRole = user.level
+        var role = '1st Dan'
+        if (levelRole <= 2) {
+            var role = '2nd Dan'
+        } else if (levelRole <= 4) {
+            var role = '3rd Dan'
+        } else if (levelRole <= 6) {
+            var role = 'Mentor'
+        } else if (levelRole <= 8) {
+            var role = 'Expert'
+        } else if (levelRole <= 10) {
+            var role = 'Master'
+        } else if (levelRole <= 12) {
+            var role = 'Grand Master'
+        } else if (levelRole <= 14) {
+            var role = 'Brawler'
+        } else if (levelRole <= 16) {
+            var role = 'Marauder'
+        } else if (levelRole <= 18) {
+            var role = 'Fighter'
+        } else if (levelRole <= 20) {
+            var role = 'Berserker'
+        } else if (levelRole <= 22) {
+            var role = 'Warrior'
+        } else if (levelRole <= 24) {
+            var role = 'Avenger'
+        } else if (levelRole <= 26) {
+            var role = 'Vindicator'
+        } else if (levelRole <= 28) {
+            var role = 'Juggernaut'
+        } else if (levelRole <= 30) {
+            var role = 'Usurper'
+        } else if (levelRole <= 32) {
+            var role = 'Vanquisher'
+        } else if (levelRole <= 34) {
+            var role = 'Destroyer'
+        } else if (levelRole <= 36) {
+            var role = 'Savior'
+        } else if (levelRole <= 38) {
+            var role = 'Overlord'
+        } else if (levelRole <= 40) {
+            var role = 'Genbu'
+        } else if (levelRole <= 42) {
+            var role = 'Byakko'
+        } else if (levelRole <= 44) {
+            var role = 'Seiryu'
+        } else if (levelRole <= 46) {
+            var role = 'Suzaku'
+        } else if (levelRole <= 50) {
+            var role = 'Mighty Ruler'
+        } else if (levelRole <= 52) {
+            var role = 'Revered Ruler'
+        } else if (levelRole <= 53) {
+            var role = 'Divine Ruler'
+        } else if (levelRole <= 54) {
+            var role = 'Enternal Ruler'
+        } else if (levelRole <= 56) {
+            var role = 'Fujin'
+        } else if (levelRole <= 58) {
+            var role = 'Raijin'
+        } else if (levelRole <= 60) {
+            var role = 'Yaksa'
+        } else if (levelRole <= 62) {
+            var role = 'Ryujin'
+        } else if (levelRole <= 64) {
+            var role = 'Emperor'
+        } else if (levelRole <= 66) {
+            var role = 'Anime God'
+        } else if (levelRole <= 68) {
+            var role = 'True God'
+        } else if (levelRole <= 70) {
+            var role = 'The Prime'
+        }
+        await arus.sendMessage(m.chat, { image: { url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR5kFSuoFniw90CNXW8z1FkDma4WF6fJyL3Q&usqp=CAU" }, caption: `* LEVEL UP! *\n\n*📃️Name*: ${pushname}\n*🍀Exp*: ${user.xp} / ${Levels.xpFor(user.level + 1)}\n*🎐Level*: ${user.level} 🆙 \n*🔮️Role*: *${role}*\n\nCongrats!! 🎉🎉`}, { quoted: m });
+    }
 }
-function lz(val) {
-  try {
-    let expa = (val.data.us['exp']) ? val.data.us['exp'] : 0
-    return true
-  } catch(err) {
-    //console.log('[ERR]', val)
-    return false
-    //console.log(val.data, val.id)
-}
-
-}    
-    if (isGroup && _anti.includes(`${m.chat}`)) {
+		try {
+		let Igroup = await group.findOne({ id: m.chat})
+		if (Igroup) {
+			let hh = Igroup.mod || "false"
+    if (isGroup && hh == 'true') {
       if (budy.includes("://chat.whatsapp.com/")) {
-        if (isAdmins) return m.reply("*You are admin I wont remove you,cool*");
-        m.reply("*Group Link Detected!!!*");
+        if (isAdmins) return 
+        if (isBotAdmins) return 
+let response = await arus.groupInviteCode(m.chat)
+if (budy.includes(`//chat.whatsapp.com/${response}`)) return
+        m.reply("Group Link Detected!!");
         await arus.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
     }
     }
-     
+		}
+		} catch (err) {
+			console.log(err)
+		}
+     ///////////////pokemon-game////////////
+	 /////////////////////////////////////
    
 
         // Push Message To Console && Auto Read
         if (m.message) {
             arus.sendReadReceipt(m.chat, m.sender, [m.key.id])
-            console.log(chalk.black(chalk.bgWhite('[ Ari-Ani ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> FROM'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> MSG'), chalk.green(m.isGroup ? pushname : 'Private Chat', m.chat))
+            console.log(chalk.black(chalk.bgWhite('[ ICHIKA ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> FROM'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> MSG'), chalk.green(m.isGroup ? pushname : 'Private Chat', m.chat))
         }
-        if (icmd) {	
-            if(_ban.includes(`${m.sender}`)) return m.reply(`You are banned from using commands ❌`)
-          } 
-
-        switch(command) {
-    
-case 'hello':
-   m.reply('hey! use .help to see my help list')
- 
-    break
-            
-case 'hi':
-    const hemlo= `Hey! How Are You`
-   const hello =[
-       {buttonId: '.help', buttonText: {displayText: 'Commands'}, types: 2},
-
-
-   ]
-   let buttonMessageds = {
-    image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
-    caption: hemlo ,
-    footer: 'Ari-Ani',
-    buttons: hello,
-    headerType: 4
-}
-await arus.sendMessage(m.chat,buttonMessageds,{quoted:m})
-
-       break
+    let Iban = await user.findOne({ id: m.sender})
+		if(icmd && Iban.ban == 'true') return m.reply(`You are banned from using commands ❌`)
+	 
+       switch(command) {
 case '':
     if(icmd){
 
 
     const dbut = [
-{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+{buttonId: `${prefix}help`, buttonText: {displayText: 'Commands'}, type: 1},
+{buttonId: `${prefix}info`, buttonText: {displayText: 'Bot status'}, type: 1}
 ]
 let buttonMessaged = {
-        image: {url:"https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png"},
-        caption: `*DID YOU MEAN .help ?*`,
-        footer: 'Ari-Ani',
+        text: `Hey *${pushname}* I am ${name}. Do you mean: ${prefix}help`,
+        footer: '@AKU',
         buttons: dbut,
         headerType: 4
     }
@@ -239,600 +208,366 @@ let buttonMessaged = {
  await arus.sendMessage(m.chat,buttonMessaged,{quoted:m})
 }
  break
-      
+ 
 
-case 'help': case 'hlp': case 'h':
-
-const hlp=`
- *♡ Hajimemashite ${pushname}-san, Watashiwa tokisaki kurumi dis*
-
-🎋 \`\`\`Here are my listed commands, Have fun in using them:-\`\`\`
-
-🎀 *╚━(¯´•._.• ɢᴇɴᴇʀᴀʟ •._.•´¯)━╝* 🎀  
-
-\`\`\`│❐ ${prefix}profile
-│❐ ${prefix}rank
-│❐ ${prefix}exp
-│❐ ${prefix}delete
-│❐ ${prefix}help
-│❐ ${prefix}creator
-│❐ ${prefix}mods
-│❐ ${prefix}info
-│❐ ${prefix}groupinfo\`\`\`
-  
-⛩️ *╚━(¯´•._.• ᴀɴɪᴍᴇ •._.•´¯)━╝* ⛩️
-
-\`\`\`│❐ ${prefix}neko
-│❐ ${prefix}waifu
-│❐ ${prefix}holo
-│❐ ${prefix}fox_girl
-│❐ ${prefix}kemonomimi
-│❐ ${prefix}anime
-│❐ ${prefix}manga
-│❐ ${prefix}wallpaper
-│❐ ${prefix}shinobu
-│❐ ${prefix}megumin
-│❐ ${prefix}awoo\`\`\`
-
-❄️ *╚━(¯´•._.• ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅꜱ •._.•´¯)━╝* ❄️
-
-\`\`\`│❐ ${prefix}ping
-│❐ ${prefix}add
-│❐ ${prefix}kick
-│❐ ${prefix}support
-│❐ ${prefix}promote
-│❐ ${prefix}demote
-│❐ ${prefix}group open
-│❐ ${prefix}group close
-│❐ ${prefix}linkgc
-│❐ ${prefix}setgpfp
-│❐ ${prefix}enable/disable
-│❐ ${prefix}antilink
-│❐ ${prefix}events\`\`\`
-
-🍁 *╚━(¯´•._.• ᴜᴛɪʟꜱ •._.•´¯)━╝* 🍁
-
-\`\`\`│❐ ${prefix}sticker
-│❐ ${prefix}toimg
-│❐ ${prefix}togif
-│❐ ${prefix}tourl
-│❐ ${prefix}ppcouple
-│❐ ${prefix}couple
-│❐ ${prefix}mysoulmate
-│❐ ${prefix}coffee
-│❐ ${prefix}emojimix
-│❐ ${prefix}steal\`\`\`
-
-🏷️ *╚━(¯´•._.• ᴍᴇᴅɪᴀ •._.•´¯)━╝* 🏷️
-
-\`\`\`│❐ ${prefix}yts
-│❐ ${command}react
-│❐ ${prefix}ytv
-│❐ ${prefix}yta
-│❐ ${prefix}play
-│❐ ${prefix}google
-│❐ ${prefix}image\`\`\`
-
-💦 *╚━(¯´•._.• ɴꜱꜰᴡ •._.•´¯)━╝*  💦
-\`\`\`│❐ ${prefix}spank
-│❐ ${prefix}blowjob
-│❐ ${prefix}nnwaifu (hentai-waifu)
-│❐ ${prefix}trap
-│❐ ${prefix}hneko (hentai-neko)
-\`\`\`
-
-
- 🍁 *Modified by Aku & Powered by Arus* 🍁`
-
- const AKU = [
-    {buttonId: '.info', buttonText: {displayText: '📤 Info'}, type: 1},
-    {buttonId: '.profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
-    ]
-    let AKUo = {
-        file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/assests/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
-        caption: hlp,
-        footer: 'Ari-Ani',
-        buttons: AKU,
-        headerType: 4
-       }
-    
-
-
-
-
+case "react":
+case "r": {
+let react = "🍀 *Reaction*\n *pat, hug, kick, slap, kiss, cuddle*"
+m.reply(react)
+}
 break
-case 'generalmenu': case 'general': case 'gmenu': 
 
-m.reply(` 
-
-┏━「 Ari-Ani 」━━⭓ 
-┃╔═✪「 𝙶𝚎𝚗𝚎𝚛𝚊𝚕 」	        
-┃╠${prefix}rank
-┃╠${prefix}exp
-┃╠${prefix}delete
-┃╠${prefix}help
-┃╠${prefix}profile
-┃╠${prefix}creator
-┃╠${prefix}mods
-┃╠${prefix}info
-┃╠${prefix}groupinfo
-┃╚════════✪
-┗━「 ${pushname} 」━⭓`
-)
-    
-break
-case 'help general': case 'general': 
-
-m.reply(` 
-
-┏━「 Ari-Ani 」━━⭓ 
-┃╔═✪「 ɴꜱꜰᴡ 」	        
-┃╠${prefix}spank
-┃╠${prefix}blowjob
-┃╠${prefix}trap
-┃╠${prefix}nwaifu
-┃╠${prefix}hneko
-┃╚════════✪
-┗━「 ${pushname} 」━⭓`
-)
-    
-break
-			case 'mods':
-const mod=`❁ ════ ❃• *MODERATORS* •❃ ════ ❁
-#1
-💥 *Username: Aku*
-🍁 *Contact: https://wa.me/+923087880256*
-    ---{Script owner and helper}---
-#2
-💥 *Username: Pratyush*
-🍁 *Contact: https://wa.me/+923087880256*
-💥 *Username: Arin*
-🍁 *Contact: https://wa.me/+919330880626*
-💥 *Username: Das*
-🍁 *Contact: https://wa.me/+917003213983*
-💥 *Username: Death*
-🍁 *Contact: https://wa.me/+917604016334*
-💥 *Username: Ray*
-🍁 *Contact: https://wa.me/+919861494774*
-💥 *Username: Josh*
-🍁 *Contact: https://wa.me/+919774330611*
-━━━━°❀•°:🤍 *Tokisaki Kurumi* 🤍:°•❀°━━━━`
-const mbut = [
-{buttonId: '.creator', buttonText: {displayText: '🎋 Creator'}, type: 1},
-{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
+ case 'info':{
+	     const formater = (seconds) => {
+        const pad = (s) => {
+            return (s < 10 ? '0' : '') + s
+        }
+        const hrs = Math.floor(seconds / (60 * 60))
+        const mins = Math.floor(seconds % (60 * 60) / 60)
+        const secs = Math.floor(seconds % 60)
+        return ' ' + pad(hrs) + ':' + pad(mins) + ':' + pad(secs)
+    }
+	    const dbut = [
+{buttonId: `${prefix}help`, buttonText: {displayText: 'Commands'}, type: 1}
 ]
-let buttonMessagem = {
-        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
-        caption: mod,
-        footer: '©Aku 2022',
-        buttons: mbut,
+    const uptime = process.uptime()
+	let tr = await user.countDocuments()
+	                let getGroups = await arus.groupFetchAllParticipating()
+                let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
+                let anu = groups.map(v => v.id)
+	let ur = anu.length
+	let b = await user.countDocuments({ ban : "true" })
+let ter = `🧧 *Commands*: 55\n🔧 *Users*: ${tr}\n💚 *Groups*: ${ur}\n🚫 *Ban_Users*: ${b}\n⛩ *Moderators*: ${owner.length}`
+console.log(ter)
+   let buttonMessaged = {
+        text: ter,
+        footer: '@AKU',
+        buttons: dbut,
         headerType: 4
     }
-
- await arus.sendMessage(m.chat,buttonMessagem,{quoted:m})
+await arus.sendMessage(m.chat,buttonMessaged,{quoted:m})
+}
  break
- case 'support':
-    m.reply(`*Group Link has been sent in your personal message*`)
-    await arus.sendMessage(`${m.sender}`,{image:fs.readFileSync('./src/assests/info.jpeg'),caption:`#1
-    🔰 *Title: Anime Nerds:*
-    💠 *Link:* https://chat.whatsapp.com/FXDZOyXwdsK4vuOLPGZKpX`})
-    break
- case'lead':
-    case'leaderboard':
-  
-    const a = tb.all()
-  const all = a.filter(o => lz(o))
-//  console.log(all)
-  const srt = all.sort((x, y) => y.data.us['exp'] - x.data.us['exp'])
-  //console.log(srt)
-  const noa = (srt.length < 10) ? srt.length : 10
+       
+case 'pokemon': {
+if (!ter) return m.reply("❌ No query provided!")
+		try {
+		let { data: data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${ter}`)
+	 if (!data.name) return m.reply(`❌ No such pokemon`)
+	 let yu =`💫 *Name: ${data.name}*\n〽️ *Pokedex ID: ${data.id}*\n⚖ *Weight: ${data.weight}*\n🔆 *Height: ${data.height}*\n🌟 *Base Experience: ${data.base_experience}*\n📛 *Abilities: ${data.abilities[0].ability.name}, ${data.abilities[1].ability.name}*\n🎀 *Type: ${data.types[0].type.name}*\n✳ *HP: ${data.stats[0].base_stat}*\n⚔ *Attack: ${data.stats[1].base_stat}*\n🔰 *Defense: ${data.stats[2].base_stat}*\n☄ *Special Attack: ${data.stats[3].base_stat}*\n🛡 *Special Defense:${data.stats[4].base_stat}*\n🎐 *Speed: ${data.stats[5].base_stat}*\n`
+arus.sendMessage(m.chat, { image: { url: data.sprites.front_default }, caption: yu }, { quoted: m })
+		} catch (err) {
+m.reply("An Error Occurred")
+console.log(err)
+}
+}
+break
+case 'help': case 'allmenu': case 'h':
+
+    const hlp=`
+     *♡ Hajimemashite ${pushname}-san, Watashiwa tokisaki kurumi dis*
     
-  let lb = '♕ *GLOBAL LEADERBOARD* ♕\n\n'
-  for (let i = 0; i < noa; i++) {
-   // let dt = await client.getContactById(`${srt[i].ID}.us`)
-    //console.log(dt)
-        
-    //let pm = (srt[i].data.us.pokedex) ? srt[i].data.us.pokedex.length : 0
-    let un = (srt[i].ID.pushname) ? srt[i].ID.pushname : 'User'
-    lb += `*#${i+1}*\n🎖️ *Rank:* ${expc(srt[i].data.us['exp']).role}\n📠 *Exp:* ${srt[i].data.us['exp']}\n🪙 *Gold:* ${srt[i].data.us.gold}\n🎯️ *Tag:* ${srt[i].ID.substring(7, 11)}\n\n`
-
-    }
-    m.reply(lb)
-
-break
-case 'mysoulmate': case 'msm' : {
-    if (!m.isGroup) throw mess.group
-    let member = participants.map(u => u.id)
-    let me = m.sender
-    let jodoh = member[Math.floor(Math.random() * member.length)]
-    let jawab = `👫Your match is
-
-@${me.split('@')[0]} ❤️ @${jodoh.split('@')[0]}`
-    let ments = [me, jodoh]
-    let buttons = [
-                { buttonId: '❤️', buttonText: { displayText: '❤️' }, type: 1 }
-            ]
-            await arus.sendButtonText(m.chat, buttons, jawab, arus.user.name, m, {mentions: ments})
-    }
-    break
-    case 'ban': {
-        if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
-                         let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace('${user}')
-   if (!users) return m.reply("❌ Couldn't find any userID in context")	
-   let user = arus.getName(users)	
-                                                 if(_ban.includes(`${users}`)) return m.reply(`${user} is already Banned from Using Commands`)
-                                                   
-   await tb.push("ban",`${users}`)
-                                         m.reply(`Successfully Banned ${users} from being clingy `)
-   
-   
-    }                          
-     break
-   
-      case 'unban':{
-          if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
-                          let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : getName(users)
-   if (!users) return m.reply("❌ Couldn't find any userID in context")	
-       let user = arus.getName(users)
-         if(!_ban.includes(`${users}`)) return m.reply(`${users} is not banned`)
-   await tb.delete("ban",`${users}`)
-   return m.reply(`${users} is now allowed to use Commands again`); 
-      } 
-   break
-   
-
-                  
-     break
-    case 'couple': {
-        if (!m.isGroup) throw mess.group
-        let member = participants.map(u => u.id)
-        let orang = member[Math.floor(Math.random() * member.length)]
-        let jodoh = member[Math.floor(Math.random() * member.length)]
-        let jawab = `@${orang.split('@')[0]} ❤️ @${jodoh.split('@')[0]}
-Oi Oi Oi Whats Going On💖👀`
-        let menst = [orang, jodoh]
-        let buttons = [
-                    { buttonId: '❤️congrats', buttonText: { displayText: '❤️congrats' }, type: 1 }
-                ]
-                await arus.sendButtonText(m.chat, buttons, jawab, arus.user.name, m, {mentions: menst})
-        }
-        break
-case 'listonline': case 'onlinelist': case 'liston': {
-            let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat
-            let online = [...Object.keys(store.presences[id]), botNumber]
-            arus.sendText(m.chat, 'Online List:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, m, { mentions: online })
-     }
-break
-case 'coffee': case 'kopi': {
-    let buttons = [
-            {buttonId: `.coffee`, buttonText: {displayText: '➡️Next Image➡️'}, type: 1}
+     ♥ perfix ♥ :- ${prefix}
+    🎋🆁🆄🅻🅴🆂 :-
+    ●︎ Don't call the bot
+    ●︎ Don't message the mods for fun
+    ●︎ If bot is not working then wait for bot to come online
+    ●︎ Respect bot bcoz you ain't pay for it 
+    
+    ------{If you break any rule yo will be ban}------
+    
+    *Let the date begin!!!*
+    ━━━『🔰General🔰』━━━
+    profile, rank, exp, delete, help, creator, mods, info, groupinfo
+    
+    ━━━『🏮Weeb🏮』━━━
+    neko, waifu, holo, fox_girl, baka, kemonomimi, manga, wallpaper, shinobu, megumin, awoo, marry, divorce, couple, coffee, ppcouple, mysoulmate
+    
+    ━━『❄️Group Commands❄️』━━
+    ping, add, kick, promote, demote, group open/close, invite, enable/act disable/deact, antilink, events
+    
+    ━━━『💻Economy💻』━━━
+    bank, daily, wallet, deposit, withdraw, deck, buy, rob, gamble, shop, leaderboard
+    
+    ━━━『💻Utils💻』━━━
+    sticker, toimg, togif, tourl, steal, emojimix, google, image
+    
+    ━━━『🎵Media🎵』━━━
+    yts, ytv, yta, lyrics, pinterest
+    
+    ━━━『💦NSFW💦』━━━
+    spank, blowjob,lick, lesbian, pussy, cum, boobs, hentai-waifu, trap, hneko, ero, ass, hentai, milf, oral, paizuri, ecchi, uniform, maid, marin-kitagawa, oppai, mori-calliope, feet, succubus, school
+    
+     🍁 *Modified by Aku & Powered by Arus* 🍁`
+    
+     const AKU = [
+        {buttonId: '.info', buttonText: {displayText: '📤 Info'}, type: 1},
+        {buttonId: '.profile', buttonText: {displayText: '🧧 Profile'}, type: 1}
         ]
-        let buttonMessage = {
-            image: { url: 'https://coffee.alexflipnote.dev/random' },
-            caption: `☕Random Coffee☕`,
-            footer: arus.user.name,
-            buttons: buttons,
+        let AKUo = {
+            file: arus.sendMessage(m.chat,{video:fs.readFileSync('./src/assest/help.mp4'),gifPlayback:true,caption:hlp},{quoted:m}),
+            caption: hlp,
+            footer: 'Ari-Ani',
+            buttons: AKU,
             headerType: 4
-        }
-       arus.sendMessage(m.chat, buttonMessage, { quoted: m })
-    }
+           }
     break
-
-
-    
-case 'te':
- const au = tb.all()
- const counu=au.ID.length
- console.log(au)
-break
-case 'info':
-
-const ibut = [
-{buttonId: '.profile', buttonText: {displayText: '🎋 Profile'}, type: 1},
-{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1},
-{buttonId: '.mods', buttonText: {displayText: '💥 Aku'}, type: 1}
-]
-const inf=`❁ ════ ❃•💙 *Kurumi* 💙•❃ ════ ❁
-\`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
-❁ ═══ ❃•📕 *INFORMATION*📕•❃ ═══ ❁
-\`\`\`A simple and easy-to-use WhatsApp bot project based on Multi-Device Baileys and written in JavaScript\`\`\`
-❁ ══════ ❃•📄 *NOTE* 📄•❃ ══════ ❁
-\`\`\`This bot is a free open source project made by the team arus and Modified by Eximinati\`\`\`
-❁ ═════ ❃•📑 *GITHUB* 📑•❃ ═════ ❁
-*_LINK:- https://github.com/Eximinati/* 
-❁ ═════ ❃•📑 *ORIGNAL SCRIPT* 📑•❃ ═════ ❁
-*_LINK:- https://github.com/Arus-Bots/Mizuhara* *(if you dont give credit to mods and owner we will sue you for sure)*
-❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
-\`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing =owner or =mods\`\`\` 
-`
-let buttonMessagei = {
-        image: { url: "https://telegra.ph/file/75368c6fe4abb9d0f2bb9.png" },
-        caption: inf,
-        footer: 'Aku',
-        buttons: ibut,
-        headerType: 4
-    }
-
- await arus.sendMessage(m.chat,buttonMessagei,{quoted:m})
-break
-case 'grupinfo': case 'groupinfo': case 'group info' :
-try{
- var pic = await arus.getProfilePicture(m.chat)
-  } catch {
- var pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
-  }
-let ingfo = `*G R O U P  I N F O*\n\n*Name :* ${groupName}\n*ID Group :* ${m.chat}\n*Made :* ${moment(`${groupMetadata.creation}` * 1000).tz('Asia/Kolkata').format('DD/MM/YYYY HH:mm:ss')}\n*Group Owner:* @${groupMetadata.owner.split('@')[0]}\n*Number Of Admins :* ${groupAdmins.length}\n*Number Of Participants :* ${participants.length}\n*Desc :* \n${groupMetadata.desc}`
-ds = await getBuffer(pic)
-arus.sendMessage(m.chat, { image: ds,caption: ingfo, mentions: [groupMetadata.owner] }, { quoted: m})
-break
-
-
-
- case 'react': {
-    if (!isCreator) throw mess.owner
-    reactionMessage = {
-        react: {
-            text: args[0],
-            key: { remoteJid: m.chat, fromMe: true, id: quoted.id }
-        }
-    }
-    arus.sendMessage(m.chat, reactionMessage)
+		   case 'session': {
+			   if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+			   const session = require(`./${sessionName}.json`)
+			   //console.log(session)
+			   let sess = JSON.stringify(session);
+			   m.reply(sess)
+			   
+	   }
+			   break
+		   case 'report': {
+			   const time = 100000;
+    const cd = await db.get(`${m.sender}report`)
+    if (time - (Date.now() - cd) > 0) {
+      return m.reply(
+        `You have recently reported your problem.`
+      );
+		if (!ter) return m.reply("❌ No query provided!")
+		   }
+		   }
+			   break
+			   
+    case'lead':
+    case'leaderboard':
+  const mems_id = new Array()
+      const lb = await Levels.fetchLeaderboard("bot", 10);
+					 let lbtext = "*━━━━『💫LeaderBoard💫』━━━━*\n\n"
+	  for (let i = 0; i < lb.length; i++) {
+		          const levelRole = lb[i].level
+            var role = '1st Dan'
+            if (levelRole <= 2) {
+        var role = '2nd Dan'
+    } else if (levelRole <= 4) {
+        var role = '3rd Dan'
+                  } else if (levelRole <= 6) {
+                      var role = 'Mentor'
+                  } else if (levelRole <= 8) {
+                      var role = 'Expert'
+                  } else if (levelRole <= 10) {
+                      var role = 'Master'
+                  } else if (levelRole <= 12) {
+                      var role = 'Grand Master'
+                  } else if (levelRole <= 14) {
+                      var role = 'Brawler'
+                  } else if (levelRole <= 16) {
+                      var role = 'Marauder'
+                  } else if (levelRole <= 18) {
+                      var role = 'Fighter'
+                  } else if (levelRole <= 20) {
+                      var role = 'Berserker'
+                  } else if (levelRole <= 22) {
+                      var role = 'Warrior'
+                  } else if (levelRole <= 24) {
+                      var role = 'Avenger'
+                  } else if (levelRole <= 26) {
+                      var role = 'Vindicator'
+                  } else if (levelRole <= 28) {
+                      var role = 'Juggernaut'
+                  } else if (levelRole <= 30) {
+                      var role = 'Usurper'
+                  } else if (levelRole <= 32) {
+                      var role = 'Vanquisher'
+                  } else if (levelRole <= 34) {
+                      var role = 'Destroyer'
+                  } else if (levelRole <= 36) {
+                      var role = 'Savior'
+                  } else if (levelRole <= 38) {
+                      var role = 'Overlord'
+                  } else if (levelRole <= 40) {
+                      var role = 'Genbu'
+                  } else if (levelRole <= 42) {
+                      var role = 'Byakko'
+                  } else if (levelRole <= 44) {
+                      var role = 'Seiryu'
+                  } else if (levelRole <= 46) {
+                      var role = 'Suzaku'
+                  } else if (levelRole <= 50) {
+                      var role = 'Mighty Ruler'
+                  } else if (levelRole <= 52) {
+                      var role = 'Revered Ruler'
+                  } else if (levelRole <= 53) {
+                      var role = 'Divine Ruler'
+                  } else if (levelRole <= 54) {
+                      var role = 'Enternal Ruler'
+                  } else if (levelRole <= 56) {
+                      var role = 'Fujin'
+                  } else if (levelRole <= 58) {
+                      var role = 'Raijin'
+                  } else if (levelRole <= 60) {
+                      var role = 'Yaksa'
+                  } else if (levelRole <= 62) {
+                      var role = 'Ryujin'
+                  } else if (levelRole <= 64) {
+                      var role = 'Emperor'
+                  } else if (levelRole <= 66) {
+                      var role = 'Anime God'
+                  } else if (levelRole <= 68) {
+                      var role = 'True God'
+                  } else if (levelRole <= 70) {
+                      var role = 'The Prime'
+                  }
+		let name = await user.findOne({ id: lb[i].userID })
+    lbtext += `${i + 1}#\n*🔰Name*: ${name.name }\n*🎐Level*: ${lb[i].level}\n*🍀Exp*: ${lb[i].xp}\n*〽️Role*: ${role}\n\n`;
+	mems_id.push(lb[i].userID)
 }
+    m.reply(lbtext)
+
 break
-    case 'owner': case 'creator': {
-                arus.sendContact(m.chat, global.owner, m)
-            }
-            break
-
-            //[reset limit every 12hrs]\\
-        let cron = require('node-cron')
-        cron.schedule('00 12 * * *', () => {
-            let user = Object.keys(global.db.users)
-            let limitUser = isPremium ? global.limitawal.premium : global.limitawal.free
-            for (let jid of user) global.db.users[jid].limit = limitUser
-            console.log('Reseted Limit')
-        }, {
-            scheduled: true,
-            timezone: "Asia/Kolkata"
-        })
-//////////////////////////GENERAL\\\\\\\\\\\\\\\\\\\\\\\\\\
-case 'exp':
-  const oo = tb.get(`${m.sender}.exp`)
-  var exps = (oo) ? oo : 0
-  const rdataa = expc(exps)
-  var maxExp = rdataa.maxE
-  m.reply(`🏷️ _*USERNAME 🏷️ :*_ ${pushname}
-🧮 _*EXP 🧮 :*_ ${exps}/${maxExp}`)
-break
-
-case'rank':
-                                
-
-        if(m.isGroup){
-          const canvacord = require('canvacord')
-          const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
-  const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
-  const randomHexz = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
- //  const contact = await msg.getContact()
-  //  foto1= await contact.getProfilePicUrl([sender]);
+case "carbon":
+case "code":
+if (!ter) return m.reply("❌ No query provided!")
 try {
-        
-    pfp=await arus.profilePictureUrl(m.sender, 'image')
 
-      } catch (e) {
-  //let [pfp ] = await Promise.all([ contacts.getProfilePicUrl(contacts)])
-  pfp ='https://steamuserimages-a.akamaihd.net/ugc/954087817129084207/5B7E46EE484181A676C02DFCAD48ECB1C74BC423/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
-// 
+
+
+        const carbon = new Carbon.createCarbon()
+           .setCode(ter).setBackgroundColor('#1b3648')
+       
+     const bufferr =  await Carbon.generateCarbon(carbon) 
+       arus.sendMessage(m.chat, {image: bufferr}, {quoted: m})
+     
+
+} catch (err) {
+m.reply("An Error Occurred")   
+console.log(err)
+ 
+    
 }
-bgp=await getBuffer('https://www.wallpapermaiden.com/image/2018/04/05/tokisaki-kurumi-bicolored-eyes-date-a-live-lolita-creepy-smile-dress-anime-20735-resized.jpg')
-  const o = tb.get(`${m.sender}.exp`)
-  var exps = (o) ? o : 0
-  const rdata = expc(exps)
-  var maxExp = rdata.maxE
-  var status = 'online' 
-  const rank = new canvacord.Rank()
-        .setBackground("IMAGE",bgp)
-        .renderEmojis(true)
-        .setAvatar(pfp)
-        .setCurrentXP(Number(exps))
-        .setRequiredXP(Number(maxExp))
-        .setStatus(status)
-        .setRankColor('#2c2f33', '#2c2f33')
-        .setProgressBar([randomHexs, randomHex], 'GRADIENT',true)
-        .setUsername(pushname )
-       .setDiscriminator("0007")
-        .setLevel(0, '1', false)
-        .setRank(2, '1', false)
+break
+case 'getgif':
+case 'gify': 
+	if (!ter) return m.reply("❌ No query provided!")  
+		try {
+		               let { data: gi } = await axios.get(`https://g.tenor.com/v1/search?q=${ter}&key=LIVDSRZULELA&limit=8`)
+				  
+ arus.sendMessage(m.chat, { video: { url: gi.results?.[Math.floor(Math.random() * gi.results.length)]?.media[0]?.mp4?.url }, caption: "Here you go",gifPlayback: true }, { quoted: m })
+		} catch (err) {
+			m.reply("No gif found")
+		}
+break
 
-  rank.build().then(async(data)=>{
-   // const rjpg=await getBuffer(data)
-const rcpt=`*🍁 ${pushname}\'s rank 🍁*
-*🔖 Rank: ${exps}/${maxExp}*
-*🧮 Role: ${rdata.role}*
-`
-arus.sendMessage(m.chat,{image:data,caption:rcpt},{quoted:m})
+case 'rank':
+          
+const userq = await Levels.fetch(m.sender, "bot");
+				        const levelRoleq = userq.level
+    var role = '1st Dan'
+                        if (levelRole <= 2) {
+                            var role = '2nd Dan'
+                        } else if (levelRole <= 4) {
+                            var role = '3rd Dan'
+                        } else if (levelRole <= 6) {
+                            var role = 'Mentor'
+                        } else if (levelRole <= 8) {
+                            var role = 'Expert'
+                        } else if (levelRole <= 10) {
+                            var role = 'Master'
+                        } else if (levelRole <= 12) {
+                            var role = 'Grand Master'
+                        } else if (levelRole <= 14) {
+                            var role = 'Brawler'
+                        } else if (levelRole <= 16) {
+                            var role = 'Marauder'
+                        } else if (levelRole <= 18) {
+                            var role = 'Fighter'
+                        } else if (levelRole <= 20) {
+                            var role = 'Berserker'
+                        } else if (levelRole <= 22) {
+                            var role = 'Warrior'
+                        } else if (levelRole <= 24) {
+                            var role = 'Avenger'
+                        } else if (levelRole <= 26) {
+                            var role = 'Vindicator'
+                        } else if (levelRole <= 28) {
+                            var role = 'Juggernaut'
+                        } else if (levelRole <= 30) {
+                            var role = 'Usurper'
+                        } else if (levelRole <= 32) {
+                            var role = 'Vanquisher'
+                        } else if (levelRole <= 34) {
+                            var role = 'Destroyer'
+                        } else if (levelRole <= 36) {
+                            var role = 'Savior'
+                        } else if (levelRole <= 38) {
+                            var role = 'Overlord'
+                        } else if (levelRole <= 40) {
+                            var role = 'Genbu'
+                        } else if (levelRole <= 42) {
+                            var role = 'Byakko'
+                        } else if (levelRole <= 44) {
+                            var role = 'Seiryu'
+                        } else if (levelRole <= 46) {
+                            var role = 'Suzaku'
+                        } else if (levelRole <= 50) {
+                            var role = 'Mighty Ruler'
+                        } else if (levelRole <= 52) {
+                            var role = 'Revered Ruler'
+                        } else if (levelRole <= 53) {
+                            var role = 'Divine Ruler'
+                        } else if (levelRole <= 54) {
+                            var role = 'Enternal Ruler'
+                        } else if (levelRole <= 56) {
+                            var role = 'Fujin'
+                        } else if (levelRole <= 58) {
+                            var role = 'Raijin'
+                        } else if (levelRole <= 60) {
+                            var role = 'Yaksa'
+                        } else if (levelRole <= 62) {
+                            var role = 'Ryujin'
+                        } else if (levelRole <= 64) {
+                            var role = 'Emperor'
+                        } else if (levelRole <= 66) {
+                            var role = 'Anime God'
+                        } else if (levelRole <= 68) {
+                            var role = 'True God'
+                        } else if (levelRole <= 70) {
+                            var role = 'The Prime'
+                        }
+		let disc = m.sender.substring(3, 7)
+			let textr = "";
+            if (pushname) {
+             textr += `*${pushname}#${disc}'s* Exp\n\n`
+			} else {
+				textr += `*${m.sender}#${disc}'s* Exp\n\n`
+			}
+			textr += `*🍀Exp*: ${userq.xp} / ${Levels.xpFor(userq.level + 1)}\n*🎐Level*: ${userq.level}\n*🔮️Role*: ${role}`
+			
+			try {
+                    ppuser = await arus.profilePictureUrl(m.sender, 'image')
+                } catch {
+                    ppuser = 'https://www.linkpicture.com/q/IMG-20220118-WA0387.png'
+                }
+				
+
+			                const rank = new canvacord.Rank()
+                    .setAvatar(ppuser)
+                    .setLevel(userq.level)
+                    .setLevelColor('#ffa200', '#ffa200')
+                    .setCurrentXP(userq.xp)
+                    .setOverlay('#000000', 100, false)
+                    .setRequiredXP(Levels.xpFor(userq.level + 1))
+                    .setProgressBar('#ffa200', 'COLOR')
+				    .setRank(0, role, false)
+                    .setBackground('COLOR', '#000000')
+                    .setUsername(pushname)
+                    .setDiscriminator(disc)
+                rank.build().then(async(data)=>{
+					arus.sendMessage(m.chat,{image:data,caption:textr},{quoted:m})
   })
 
-}
 break
 
 
-//////////////////////////NSFW\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-case 'spank':
-spankd = await axios.get(`https://nekos.life/api/v2/img/spank`)
-  
-                                    
-  var spbuff = await getBuffer(spankd.data.url)
-var spgif = await GIFBufferToVideoBuffer(spbuff)   
-        await arus.sendMessage(m.chat,{video: spgif, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'blowjob': case 'bj' :
-
-     if(_nsfw.includes(m.chat)) return m.reply(`*NSFW* is not registered in this group!`)
-
-bjd = await axios.get(`https://api.waifu.pics/nsfw/blowjob`)
-                
-  var bjf = await getBuffer(bjd.data.url)
-var bjif = await GIFBufferToVideoBuffer(bjf)   
-        await arus.sendMessage(m.chat,{video: bjif, gifPlayback:true},{ quoted:m }).catch(err => {
-                    return m.reply('error..')
-                                    })
-break
-case 'trap' :
-
- waifudd = await axios.get(`https://waifu.pics/api/nsfw/${command}`)
-            
- var wbuttsss = [
-    {buttonId: `.neko`, buttonText: {displayText: `🐱hNeko`}, type: 1},
-    {buttonId: `.trap`, buttonText: {displayText: `➡️TRAP`}, type: 1},
-    {buttonId: `.waifu`, buttonText: {displayText: `👯‍♀️Hentai-Waifu`}, type: 1},
-    ]
-  let button2Messages = {
-   image: {url:waifudd.data.url},
-   caption:  `*taskite*`,
-  buttons: wbuttsss,
-  headerType: 1
-  }     
-    
-            await arus.sendMessage(m.chat, button2Messages, { quoted:m }).catch(err => {
-                    return('error..')
-                })
-break
-case 'hentai-neko' :
-case 'hneko' :
-    waifudd = await axios.get(`https://waifu.pics/api/nsfw/neko`)
-            
- var wbuttsss = [
-    {buttonId: `.hneko`, buttonText: {displayText: `🐱hNeko`}, type: 1},
-    {buttonId: `.trap`, buttonText: {displayText: `➡️TRAP`}, type: 1},
-    {buttonId: `.nwaifu`, buttonText: {displayText: `👯‍♀️Hentai-Waifu`}, type: 1},
-    ]
-  let button3Messages = {
-   image: {url:waifudd.data.url},
-   caption:  `*Meow🐱🐱🐱*`,
-  buttons: wbuttsss,
-  headerType: 1
-  }     
-    
-            await arus.sendMessage(m.chat, button3Messages, { quoted:m }).catch(err => {
-                    return('error..')
-                })
-break
-case 'hentai-waifu' :
-case 'nwaifu' :
-    waifudd = await axios.get(`https://waifu.pics/api/nsfw/waifu`)
-            
- var wbuttsss = [
-    {buttonId: `.hneko`, buttonText: {displayText: `🐱hNeko`}, type: 1},
-    {buttonId: `.trap`, buttonText: {displayText: `➡️TRAP`}, type: 1},
-    {buttonId: `.nwaifu`, buttonText: {displayText: `👯‍♀️Hentai-Waifu`}, type: 1},
-    ]
-  let button4Messages = {
-   image: {url:waifudd.data.url},
-   caption:  `*My Master!!!!*`,
-  buttons: wbuttsss,
-  headerType: 1
-  }     
-    
-            await arus.sendMessage(m.chat, button4Messages, { quoted:m }).catch(err => {
-                    return('error..')
-                })
-break
 //////////////////////////UTILS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-
-
-case 'emojimix': {
-    if (!text) throw `Example : ${prefix + command} 😅+🤔`
-let [emoji1, emoji2] = text.split`+`
-let anu = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
-for (let res of anu.results) {
-    let encmedia = await arus.sendImageAsSticker(m.chat, res.url, m, { packname: global.packname, author: global.author, categories: res.tags })
-    await fs.unlinkSync(encmedia)
-}
-}
-break
- 
-case 'listonline': case 'onlinelist': case 'liston': {
-    let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat
-    let online = [...Object.keys(store.presences[id]), botNumber]
-   arus.sendText(m.chat, 'Online List:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, m, { mentions: online })
-}
-break   
-
+    
 case  'sticker': case 's': case 'stickergif': case 'sgif':
- {
-    if (!quoted) m.reply(`*Tag/Reply a image/video*`)
-
-    m.reply(mess.wait)
-            if (/image/.test(mime)) {
-        let media = await quoted.download()
-        let encmedia = await arus.sendImageAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
-        await fs.unlinkSync(encmedia)
-    } else if (/video/.test(mime)) {
-        if ((quoted.msg || quoted).seconds > 11) return m.reply('*OOps I cant\'s make sticker of videos more than 10sec !*')
-        let media = await quoted.download()
-        let encmedia = await arus.sendVideoAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
-        await fs.unlinkSync(encmedia)
-    } else {
-        m.reply(`*Please caption or tag a video/image*`)
-        }
-    }
-    break
-    case 'profile':
- const o = tb.get(`${m.sender}.exp`)
-var exps = (o) ? o : 0
-const rdata = expc(exps)
-var maxExp = rdata.maxE
-var bio= await arus.fetchStatus(m.sender)
-var bioo = bio.status
-const s = tb.get(`${m.sender}.haigusha`)
-  var SO = (s) ? s : 'None'
-//console.log(bio)
-const adn= isAdmins? "True":"False"
-try {
-        
-    pfp=await arus.profilePictureUrl(m.sender, 'image')
-
-      } catch (e) {
- 
-  pfp ='https://steamuserimages-a.akamaihd.net/ugc/954087817129084207/5B7E46EE484181A676C02DFCAD48ECB1C74BC423/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
-}
- const   profile = `
-🏷️ _*USERNAME 🏷️ :*_ ${pushname}
-
-💥 _*BIO 💥 :*_ ${bioo}
-
-🧧 _*GROUP 🧧 :*_ ${groupName}
-
-♠️ _*ADMIN ♠️ :*_ ${adn}
-
-🧮 _*EXP 🧮 :*_ ${exps}/${maxExp}
-
-🎗️ _*ROLE 🎗️ :*_ ${rdata.role}
-
-🎋 _*HAIGUSHA 🎋 :*_ ${SO}
-` 
-const buttonsd = [
-{buttonId: '.rank', buttonText: {displayText: '🎋 Rank'}, type: 1},
-{buttonId: '.help', buttonText: {displayText: '🍂 Help'}, type: 1}
-]
-let buttonMessage = {
-        image: { url: pfp },
-        caption: profile,
-        footer: '©Aku 2022',
-        buttons: buttonsd,
-        headerType: 4
-    }
-arus.sendMessage(m.chat,buttonMessage,{quoted:m})
-break
-
-case 'take': case 'steal':
-if (!quoted) return m.reply(`❌ Could not find any Image/Video in context`)
+   {
+	 if (!quoted) return m.reply(`❌ Could not find any Image/Video in context`)
 		 if (q) {
 	anu = args.join(' ').split('|')
     pack = anu[0] !== '' ? anu[0] : global.packname
@@ -841,9 +576,10 @@ if (!quoted) return m.reply(`❌ Could not find any Image/Video in context`)
     	pack = global.packname
         author = global.author
         }
-if(/webp/.test(mime)) {
-let media = await quoted.download()
-    m.reply("Dōzo goshujin sama")
+    if (/image/.test(mime)) {
+
+		let media = await quoted.download()
+    m.reply("wait your request is under process")
 let sticker = new Sticker(media, {
     pack: pack, // The pack name
     author: author, // The author name
@@ -856,38 +592,183 @@ let sticker = new Sticker(media, {
 
 const buffer = await sticker.toBuffer()
 arus.sendMessage(m.chat, {sticker: buffer}, {quoted: m})
+    } else if (/video/.test(mime)) {
+        if ((quoted.msg || quoted).seconds > 20) return m.reply('🕐 Cannot fetch videos longer than *21 Seconds*')
+        let media = await quoted.download()
+    let sticker = new Sticker(media, {
+        pack: pack, // The pack name
+        author: author, // The author name
+        type: StickerTypes.FULL, // The sticker type
+        categories: ['🤩', '🎉'], // The sticker category
+        id: '12345', // The sticker id
+        quality: 75, // The quality of the output file
+        background: 'transparent' // The sticker background color (only for full stickers)
+    })
+   
+    const stikk = await sticker.toBuffer() 
+   
+    
+    arus.sendMessage(m.chat, {sticker: stikk}, {quoted: m})
+    } else {
+        m.reply("❌ Could not find any Image/Video in context")
+        }
+
+ }
+ break
+    case 'profile':
+const userw = await Levels.fetch(m.sender, "bot");
+				        const levelRole = userw.level
+                        var role = '1st Dan'
+                        if (levelRole <= 2) {
+                            var role = '2nd Dan'
+                        } else if (levelRole <= 4) {
+                            var role = '3rd Dan'
+                        } else if (levelRole <= 6) {
+                            var role = 'Mentor'
+                        } else if (levelRole <= 8) {
+                            var role = 'Expert'
+                        } else if (levelRole <= 10) {
+                            var role = 'Master'
+                        } else if (levelRole <= 12) {
+                            var role = 'Grand Master'
+                        } else if (levelRole <= 14) {
+                            var role = 'Brawler'
+                        } else if (levelRole <= 16) {
+                            var role = 'Marauder'
+                        } else if (levelRole <= 18) {
+                            var role = 'Fighter'
+                        } else if (levelRole <= 20) {
+                            var role = 'Berserker'
+                        } else if (levelRole <= 22) {
+                            var role = 'Warrior'
+                        } else if (levelRole <= 24) {
+                            var role = 'Avenger'
+                        } else if (levelRole <= 26) {
+                            var role = 'Vindicator'
+                        } else if (levelRole <= 28) {
+                            var role = 'Juggernaut'
+                        } else if (levelRole <= 30) {
+                            var role = 'Usurper'
+                        } else if (levelRole <= 32) {
+                            var role = 'Vanquisher'
+                        } else if (levelRole <= 34) {
+                            var role = 'Destroyer'
+                        } else if (levelRole <= 36) {
+                            var role = 'Savior'
+                        } else if (levelRole <= 38) {
+                            var role = 'Overlord'
+                        } else if (levelRole <= 40) {
+                            var role = 'Genbu'
+                        } else if (levelRole <= 42) {
+                            var role = 'Byakko'
+                        } else if (levelRole <= 44) {
+                            var role = 'Seiryu'
+                        } else if (levelRole <= 46) {
+                            var role = 'Suzaku'
+                        } else if (levelRole <= 50) {
+                            var role = 'Mighty Ruler'
+                        } else if (levelRole <= 52) {
+                            var role = 'Revered Ruler'
+                        } else if (levelRole <= 53) {
+                            var role = 'Divine Ruler'
+                        } else if (levelRole <= 54) {
+                            var role = 'Enternal Ruler'
+                        } else if (levelRole <= 56) {
+                            var role = 'Fujin'
+                        } else if (levelRole <= 58) {
+                            var role = 'Raijin'
+                        } else if (levelRole <= 60) {
+                            var role = 'Yaksa'
+                        } else if (levelRole <= 62) {
+                            var role = 'Ryujin'
+                        } else if (levelRole <= 64) {
+                            var role = 'Emperor'
+                        } else if (levelRole <= 66) {
+                            var role = 'Anime God'
+                        } else if (levelRole <= 68) {
+                            var role = 'True God'
+                        } else if (levelRole <= 70) {
+                            var role = 'The Prime'
+                        }
+		let bio = ''
+try {
+bio = (await arus.fetchStatus(m.sender)).status
+} catch (error) {
+	console.log(error)
+bio = 'None'
 }
-break   
-  case 'toimage': case 'toimg': {
-                if (!quoted) m.reply('Reply Image')
-                if (!/webp/.test(mime)) m.reply(`Reply to a sticker`)
-                m.reply(mess.wait)
+let disec = m.sender.substring(3, 7)
+			let tex = "";
+            if (pushname) {
+             tex += `*🍃Name*: ${pushname}#${disec}\n\n`
+			 tex += `*🔰Number*: ${m.sender}\n\n`
+			}
+			if (bio.status) {
+				tex += `*🏳 Bio*: ${bio}\n\n`
+			}
+			
+			tex += `*🕹XP*: ${userw.xp} / ${Levels.xpFor(userw.level + 1)}\n\n*❤Level*: ${userw.level}\n\n*🏮 Role*: ${role}\n`
+			
+			try {
+                    ppuser = await arus.profilePictureUrl(m.sender, 'image')
+                } catch {
+                    ppuser = 'https://www.linkpicture.com/q/IMG-20220118-WA0387.png'
+                }
+				if (isCreator){
+					tex += `\n*🔱Owner*: True\n\n`
+				}
+				if (groupName) {
+					tex += `\n*🚥Group*: ${groupName}\n\n`
+				}
+				if (isAdmins) {
+					tex += `*♨️Admim*: true\n`
+				}
+				arus.sendMessage(m.chat, { image: { url: ppuser }, caption: tex }, { quoted: m })
+break
+
+  case 'img': case 'togif': case 'toimg': case 'gif': {
+	  if(m.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
+		                  if (!quoted) return m.reply(`❌ Could not find any sticker in context`)
+                if (!/webp/.test(mime)) return m.reply(`❌ Couldn't find any sticker in context`)
+                m.reply("wait your request is under process")
                 let media = await arus.downloadAndSaveMediaMessage(quoted)
                 let ran = await getRandom('.png')
                 exec(`ffmpeg -i ${media} ${ran}`, (err) => {
                     fs.unlinkSync(media)
                     if (err) m.reply(err)
                     let buffer = fs.readFileSync(ran)
-                    arus.sendMessage(m.chat, { image: buffer,caption:'Tokisaki Kurumi' }, { quoted: m })
+                    arus.sendMessage(m.chat, { image: buffer,caption:'©MIZUHARA-2022' }, { quoted: m })
                     fs.unlinkSync(ran)
                 })
+	  } else if (m.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated == true){
+		            if (!quoted) return m.reply(`❌ Could not find any sticker in context`)
+                if (!/webp/.test(mime)) return m.reply(`❌ Couldn't find any sticker in context`)
+                m.reply("wait your request is under process")
+        let { webp2mp4File } = require('./lib/uploader')
+                let media = await arus.downloadAndSaveMediaMessage(quoted)
+                let webpToMp4 = await webp2mp4File(media)
+                await arus.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: '©MIZUHARA-2022' }, gifPlayback: true }, { quoted: m })
+                await fs.unlinkSync(media)
+	  }
+
             }    
 break
-
-case 'instagram': case 'igdl': {
-    if (!text) throw 'Enter Query Url!'
-    replay(mess.wait)
-    if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(text)[0])) {
-        let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(text)[0] }, 'apikey'))
-        for (let media of anu.data) arus.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
-    } else if (/\/stories\/([^\s&]+)/.test(isUrl(text)[0])) {
-        let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(text)[0] }, 'apikey'))
-        arus.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(text)[0]}`, m)
-    }
+case 'pin':
+case 'pinterest':{
+	if (!ter) return m.reply("❌ No query provided!")  
+	try {
+		let result = await hxz.pinterest(ter)
+				let rando =  result[Math.floor(Math.random() * result.length)]			
+    arus.sendMessage(m.chat,{image:{url: rando},caption:"here you go"},{quoted:m,})
+	} catch {
+		m.reply('')
+	}
 }
 break
 case 'tourl': {
-                m.reply(mess.wait)
+	if (!quoted) return m.reply(`❌ Could not find any Image/Video in context`)
+                m.reply("wait your request is under process")
+				try {
         let { UploadFileUgu, webp2mp4File, TelegraPh } = require('./lib/uploader')
                 let media = await arus.downloadAndSaveMediaMessage(quoted)
                 if (/image/.test(mime)) {
@@ -898,97 +779,95 @@ case 'tourl': {
                     m.reply(util.format(anu))
                 }
                 await fs.unlinkSync(media)
-            }
-            break
- case 'togif': {
-                if (!quoted) m.reply('Reply to a sticker')
-                if (!/webp/.test(mime)) m.reply(`Reply to a sticker`)
-                m.reply(mess.wait)
-        let { webp2mp4File } = require('./lib/uploader')
-                let media = await arus.downloadAndSaveMediaMessage(quoted)
-                let webpToMp4 = await webp2mp4File(media)
-                await arus.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Tokisaki Kurumi' }, gifPlayback: true }, { quoted: m })
-                await fs.unlinkSync(media)
+				} catch {
+m.reply("An Error Occurred")
+				}
             }
             break
           
         case 'chatid':
         m.reply(`${m.chat}`)
         break
-        case 'ig':
-        
-            if(!q) return m.reply("gay where is link?")
-            xa.Instagram(q)
-            .then(data => {console.log(data)
-            });
-
-              await (m.chat) 
-     break
-
-            k
+	
+		//case 'gn':
+		 // let user = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+		//let namT =  await db.get(`${user}-con`) || 'no name'
+		//console.log(namT)
+		//break
+		
 //////////////////////////GROUP\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     case 'kick': {
-        if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin)
-        let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+					if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
+	try {
+                            let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+	  if (!users) return m.reply("❌ Couldn't find any userID in context")
         await arus.groupParticipantsUpdate(m.chat, [users], 'remove')
  arus.sendMessage(m.chat,{text:`Kicked @${users.split("@")[0]} successfuly `,contextInfo: { mentionedJid: [users] }})
-    }
-    break
-    case 'add': {
-        if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin)
-        let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
-        await arus.groupParticipantsUpdate(m.chat, [users], 'add')
-        arus.sendMessage(m.chat,{text:`Added @${users.split("@")[0]} successfuly `,contextInfo: { mentionedJid: [users] }})
+ 	} catch {
+	return m.reply("❌ Please tag the user you want to kick")
+	}
     }
     break
     case 'promote': {
-        if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin)
-        let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+		if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
+	try {
+                            let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+	  if (!users) return m.reply("❌ Couldn't find any userID in context")
         await arus.groupParticipantsUpdate(m.chat, [users], 'promote')
          arus.sendMessage(m.chat,{text:`woh woh!! looks like someone promoted @${users.split("@")[0]}`,contextInfo: { mentionedJid: [users] }})
+		 			} catch {
+		return m.reply("❌ Please tag the user you want to make admin")
+	}
     }
     break
     case 'demote': {
-        if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin)
-        let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+		if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
+	try {
+                            let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+	  if (!users) return m.reply("❌ Couldn't find any userID in context")
         await arus.groupParticipantsUpdate(m.chat, [users], 'demote')
         arus.sendMessage(m.chat,{text:`OOPs!! looks like someone demoted @${users.split("@")[0]}`,contextInfo: { mentionedJid: [users] }})
+					} catch {
+return m.reply("❌ Please tag the user you want to demote")
+	}
    }
     break
   case 'setdesc': {
-                if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) return m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin)
-                if (!text) m.reply('Text ?')
+        		if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
+                 if (!q) m.reply(`❌ No query provided!`)
                 await arus.groupUpdateDescription(m.chat, text)
             m.reply('*Group Description Changed successfuly*')
             }
             break 
-case 'setppgroup': case 'setppgrup': case 'setgpfp': {
-                if (!m.isGroup) m.reply(mess.group)
-                if (!isAdmins) return m.reply(mess.admin)
-                if (!quoted) m.reply(`*reply to a image/video* ${prefix + command}`)
-                if (!/image/.test(mime)) m.reply(`*reply to a image/video* ${prefix + command}`)
-                if (/webp/.test(mime)) m.reply(`*reply to a image/video* ${prefix + command}`)
+case 'seticon': case 'setppgrup': case 'setgpfp': {
+     		if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
+                if (!/image/.test(mime)) m.reply("❌ Could not find any Image in context")
+                if (/webp/.test(mime)) m.reply("❌ Could not find any Image in context")
                 let media = await arus.downloadAndSaveMediaMessage(quoted)
                 await arus.updateProfilePicture(m.chat, { url: media }).catch((err) => fs.unlinkSync(media))
-                m.reply('Group pfp has been changed...')
+                m.reply('💡 Group icone has been changed.')
                 }
                 break 
 case 'tagall':
 case 'ping':
-  if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin) 
-
+  
+if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
 if(q) { var Text =`📌 *Message - ${q}*\n*🍁 Group name - ${groupName}*` } else {  var Text = `*${groupName}*`}
 
 let menText = `${Text}\n*💫 ping by - ${pushname}*\n*🕛 time - ${time}*\n\n`
@@ -1001,141 +880,266 @@ for (let memNum of participants) {
 arus.sendMessage(m.chat,{text:menText,mentions: participants.map(a => a.id)},{quoted:m})
 break
 
+ 
   case 'group': {
-                if (!m.isGroup) m.reply(mess.group)
-                if (!isBotAdmins) return m.reply(mess.botAdmin)
-                if (!isAdmins) return m.reply(mess.admin)
+        		if (!m.isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin")
              if (args[0] === 'open'){
                 await arus.groupSettingUpdate(m.chat, 'not_announcement').then((res) => m.reply(`*Group open*`)).catch((err) => m.reply(jsonformat(err)))
              } else if (args[0] === 'close'){
                 await arus.groupSettingUpdate(m.chat, 'announcement').then((res) => m.reply(`*Group closed*`)).catch((err) => m.reply(jsonformat(err)))
              } else {
-             let buttons = [
-                        { buttonId: '.group open', buttonText: { displayText: 'Open' }, type: 1 },
-                        { buttonId: '.group close', buttonText: { displayText: 'Close' }, type: 1 },
-                        { buttonId: '.linkgc', buttonText: { displayText: 'Group link' }, type: 1 }
-                    ]
-                    await arus.sendButtonText(m.chat, buttons, `*Group Open/Close*`, 'Tokisaki Kurumi', m)
+					const sections = [
+    {
+	title: "GROUP settings",
+	rows: [
+	    {title: "close", rowId: `${prefix}group close`, description: "This will close the group"},
+	    {title: "open", rowId: `${prefix}group open`, description: "This will open the group"}
+	]
+    }
+]
+const listMessage = {
+  text: "Choose the required setting",
+  footer: "@AKU",
+  title: "",
+  buttonText: "settings",
+  sections
+}
+                    await arus.sendMessage(m.chat, listMessage)
 
             }
 }
-         
+
              break
-case 'linkgroup': case 'linkgc': {
-                if (!m.isGroup) m.reply(mess.group)
+case 'linkgroup': case 'invitelink': {
+                if (!m.isGroup) return m.reply(mess.group)
+					let Igroup = await group.findOne({ id: m.chat})
+				let hh = Igroup.invite || "false"
+				if (hh == 'false') return m.reply("❌ *Invite* is not active in this group")
                 let response = await arus.groupInviteCode(m.chat)
          //   m.reply('Has been sent to you in peronal message')
-         await       arus.sendText(m.chat, `https://chat.whatsapp.com/${response}\n\nLink Group : ${groupMetadata.subject}`, m, { detectLink: true })
+         await arus.sendText(m.chat, `https://chat.whatsapp.com/${response}\n\nLink Group : ${groupMetadata.subject}`, m, { detectLink: true })
             }
  break
   case 'delete': case 'del': {
-                if (!m.quoted) m.reply("Shall I Delete you?")
+                if (!m.quoted) m.reply("📎 Tag the massage you want to delete")
                 let { chat, fromMe, id, isBaileys } = m.quoted
-                if (!isBaileys) m.reply('only my messages can be deleted')
+                if (!isBaileys) m.reply('❌ I can not delete massage from another userID except mine.')
                 arus.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
             }
             break
   case 'enable':
+  case 'register':
+ case 'act':
+ if (!ter) return m.reply(`❌ No option provided!`)
                                   
-                                      if (!isGroup) return m.reply("Only groups");
-                                      if (!isAdmins && !m.key.fromMe) return m.reply("Only group admins");
-                                      if (args[0] == "antilink") {
-                                        if (_anti.includes(`${m.chat}`)) return m.reply("Activated!!");
-                                      gp.set(`${m.chat}.link`,anti+`${m.chat}`)
-                                      m.reply('Activated,feeling sorry for those link senders.')
+                                      if (!isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin");
+                                      if (args[0] == "mod") {
+									  group.findOne({ id : m.chat }).then(async(gc) => {
+         if (!gc) {
+			 await new group({ id: m.chat, mod: "true" }).save()	
+return m.reply('💮 Successfully Enabled *Mod*')
+		 } else {
+		 if(gc.mod == "true") return m.reply("🛡 *Mod* is already enabled")
+									await group.updateOne({ id: m.chat }, {mod: "true"})
+							return m.reply('💮 Successfully Enabled *Mod*')
+//m.reply(gc.mod)						
+						}							
+				})
                                       } else if(args[0] == "events"){
-                                       if (_wel.includes(`${m.chat}`)) return m.reply("Activated!!");
-                                      gp.set(`${m.chat}.welc`,wel+`${m.chat}`)
-                                      m.reply("Yeah I am ready to welcome new members...")
+									    group.findOne({ id : m.chat }).then(async(gc) => {
+         if (!gc) {
+			 await new group({ id: m.chat, events: "true" }).save()	
+return m.reply("💮 Successfully Enabled *Events*")
+		 } else {
+		 if(gc.events == "true") return m.reply("🗞 *Events* is already enabled")
+									await group.updateOne({ id: m.chat }, {events: "true"})
+							return m.reply("💮 Successfully Enabled *Events*")
+//m.reply(gc.events)							
+						}							
+				})
+                                  } else if(args[0] == "invite"){
+									    group.findOne({ id : m.chat }).then(async(gc) => {
+         if (!gc) {
+			 await new group({ id: m.chat, invite: "true" }).save()	
+return m.reply("🎏 Successfully Enabled *Invite*")
+		 } else {
+		 if(gc.invite == "true") return m.reply("🖌️ *Invite* is already enabled")
+									await group.updateOne({ id: m.chat }, {invite: "true"})
+								console.log(gc.invite)
+							return m.reply("🌐 Successfully Enabled *Invite*")
+							
+//m.reply(gc.events)							
+						}							
+				})
+                                   } else if(args[0] == "nsfw"){
+									    group.findOne({ id : m.chat }).then(async(gc) => {
+         if (!gc) {
+			 await new group({ id: m.chat, nsfw: "true" }).save()	
+return m.reply("💫 Successfully Enabled *NSFW*")
+		 } else {
+		 if(gc.nsfw == "true") return m.reply("💫 *NSFW* is already enabled")
+									await group.updateOne({ id: m.chat }, {nsfw: "true"})
+								console.log(gc.invite)
+							return m.reply("💫 Successfully Enabled *NSFW*")
+							
+//m.reply(gc.events)							
+						}							
+				})
                                   }
-                                      else if(args[0] == 'casino'){
-                                        if(casino.includes(`${m.chat}`)) return m.reply("Already activated!!")
-                                         gp.set(`${m.chat}.casino`,_casino+`${m.chat}`)  
-                                         m.reply("Casino has been activated.") 
-                                      }
-                                   else{
+								  else {
                                         m.reply("No such options")
-                                      }
-                                      if (_nsfw[0] == "nssfw") {
-                                        await tb.push("nssfw", m.chat)
-                                        m.reply("successfully activated nsfw")
-                                      }
-                                    
+                                      } 
 
                                 
   break
  case 'disable':
- if (!m.isGroup) return m.reply("Only groups");
-if (!isAdmins && !m.key.fromMe) return m.reply("Only group admins");
-
-  if (_nsfw[0] == "nssfw") {
-    await tb.pull("nssfw", m.chat)
-    m.reply("successfully deactivated nsfw");
-  }
-  if (args[0] == "antilink") {
-gp.delete(`${m.chat}.link`,`${m.chat}`)
-m.reply("Successfully deactivated antilink!");  
- }if (args[0] == "events") {
-gp.delete(`${m.chat}.welc`,`${m.chat}`)
-m.reply("Successfully deactivated events!");  
+  case 'unregister':
+   case 'deact':
+    if (!ter) return m.reply(`❌ No option provided!`)
+                                      if (!isGroup) return m.reply("Sorry its a group command.Couldn't process the request!")
+if (!isAdmins) return m.reply("❌ This is an Admin only Command")
+if (!isBotAdmins) return m.reply("❌ Cannot execute without being admin");
+  if (args[0] == "mod") {
+group.findOne({ id : m.chat }).then(async(usr) => {
+         if (!usr) {
+return m.reply("🛡 *Mod* is already disabled")
+		 } else {
+		 if(usr.mod !== "true") return m.reply("🛡 *Mod* is already disabled")
+									await group.updateOne({ id: m.chat }, {mod: "false"})
+return m.reply("🧩 Successfully Disabled *Mod*");
+						}							
+				})
+ }else if (args[0] == "events") { 
+group.findOne({ id : m.chat }).then(async(usr) => {
+         if (!usr) {
+ return m.reply("🗞 *Events* is already disabled")
+		 } else {
+		 if(usr.events !== "true") return m.reply("🗞 *Events* is already disabled")
+									await group.updateOne({ id: m.chat }, {events: "false"})
+return m.reply("🧩 Successfully Disabled *Events*"); 
+						}							
+				})
+ } else if (args[0] == "invite") { 
+group.findOne({ id : m.chat }).then(async(usr) => {
+         if (!usr) {
+ return m.reply("🎏 *Invite* is already disabled")
+		 } else {
+		 if(usr.invite !== "true") return m.reply("🎏 *Invite* is already disabled")
+									await group.updateOne({ id: m.chat }, {invite: "false"})
+return m.reply("🧩 Successfully Disabled *Invite*"); 
+						}							
+				})
+ } else if (args[0] == "nsfw") { 
+group.findOne({ id : m.chat }).then(async(usr) => {
+         if (!usr) {
+ return m.reply("🧧 *NSFW* is already disabled")
+		 } else {
+		 if(usr.nsfw !== "true") return m.reply("🧧 *NSFW* is already disabled")
+									await group.updateOne({ id: m.chat }, {nsfw: "false"})
+return m.reply("🧩 Successfully Disabled *NSFW*"); 
+						}							
+				})
  }
- if (args[0] == "casino") {
-gp.delete(`${m.chat}.casino`,`${m.chat}`)
-m.reply("Successfully deactivated casino!");  
- }else{
+ else {
     m.reply("No such options")
  }
 break
+///////////////////////////owner//////////////////////
+
+ case 'ban': {
+	 if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+		 try {
+                            let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+	  if (!users) return m.reply("❌ Couldn't find any userID in context")
+	 user.findOne({ id : users }).then(async(usr) => {
+         if (!usr) {
+			 //console.log(usr.ban)
+			 await new user({ id: users, ban: "true" }).save()	
+							console.log("user banned")	
+return m.reply(`Successfully Banned ${users} from Using Commands`)
+		 } else {
+			 console.log(usr.ban)
+		 if(usr.ban == "true") return m.reply(`${users} is already Banned from Using Commands`)
+									await user.updateOne({ id: users }, {ban: "true"})
+						console.log("user banned")
+							return m.reply(`Successfully Banned ${users} from Using Commands`)	
+						}							
+				})
+						 } catch {
+return m.reply("❌ Couldn't find any userID in context")
+		 }
+
+	}
+  break
+
+   case 'unban':{
+	   if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+		   try {
+                            let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+	  if (!users) return m.reply("❌ Couldn't find any userID in context")
+
+	 user.findOne({ id : users }).then(async(usr) => {
+         if (!usr) {
+			 console.log(usr.ban)
+return m.reply(`${users} is not banned`)
+		 } else {
+			 console.log(usr.ban)
+		 if(usr.ban !== "true") return m.reply(`${users} is not banned`)
+									await user.updateOne({ id: users }, {ban: "false"})
+						console.log("user banned")
+							return m.reply(`${users} is now allowed to use Commands again`)	
+						}							
+				})
+						 } catch {
+return m.reply("❌ Couldn't find any userID in context")
+		 }
+
+	} 
+  break
 //////////////////////////YOUTUBE\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 case  'play': case 'ytplay': {
-    if (!q) m.reply(`Example : ${prefix + command} story wa anime`)
+    if (!ter) return m.reply(`❌ No query provided!`)
     let yts = require("yt-search")
-    let search = await yts(q)
-    let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
-    let buttons = [
-        {buttonId: `.ytmp3 ${anu.url}`, buttonText: {displayText: '♫ Audio'}, type: 1},
-        {buttonId: `.ytmp4 ${anu.url}`, buttonText: {displayText: '► Video'}, type: 1}
-    ]
-    let buttonMessage = {
-        image: { url: anu.thumbnail },
-        caption: `
-🎯 Title : ${anu.title}
-🎗️ ID : ${anu.videoId}
-⏱️ Duration : ${anu.timestamp}
-🌸 Viewers : ${anu.views}
-🍁 Upload At : ${anu.ago}
-📌 Author : ${anu.author.name}
-📓 Channel : ${anu.author.url}
-🎬 Description : ${anu.description}
-🌐 Url : ${anu.url}`,
-        footer: '©Aku 2022',
-        buttons: buttons,
-        headerType: 4
-    }
-    arus.sendMessage(m.chat, buttonMessage, { quoted: m })
+let { yta  } = require('./lib/y2mate')
+m.reply(`🕣 Downloading ${ter}`)
+    let search = await yts(ter)
+    let quality = args[1] ? args[1] : '128kbps'
+    let media = await yta(search.all[0].url, quality)
+	arus.sendMessage(m.chat, { audio: { url: media.dl_link }, contextInfo: {
+                    externalAdReply: {
+                        title: search.all[0].title.substr(0, 30),
+                        body: `author : ${search.all[0].author.name.substr(0, 20)}`,
+                        mediaType: 2,
+                        thumbnail: await getBuffer(`https://i.ytimg.com/vi/${search.all[0].videoId}/hqdefault.jpg`),
+                        mediaUrl: media.url
+                    }
+                }, mimetype: 'audio/mpeg', fileName: `${search.all[0].title}.mp3` }, { quoted: m})
+	
 }
 break
 case 'ytmp3': case 'ytaudio': case 'yta': {
     let { yta  } = require('./lib/y2mate')
-    if (!q) m.reply(`*Where is the yt-link dude?*`)
-   
-    var search = await yts(q)
+    if (!ter) return m.reply(`❌ No query provided!`)
+		if (!isUrl(ter) && !ter.includes('https://youtube.com.com')) return m.reply("🔍 Please provide the youtube link")
+   m.reply(`🕣 Downloading ${ter}`)
+    var search = await yts(ter)
     //console.log(search)
     // anu = search.videos[Math.floor(Math.random() * search.videos.length)]
     search=search.all
     let quality = args[1] ? args[1] : '128kbps'
-    let media = await yta(q, quality)
-    if (media.filesize >= 100000) return m.reply('Oops too big '+util.format(media))
-    const ycp=`*🎬YOUTUBE MUSIC🎬*
-          
-1:54 ━━────●──────── 3:15     
-              
-⇆ㅤ ㅤ◁ㅤ ❚❚ ㅤ▷ ㅤㅤ↻
-                     
-*📓Title* : ${search[0].title}
+    let media = await yta(ter, quality)
+    if (media.filesize >= 100000) return m.reply("🕐 Can not fetch audio longer than *10 Minutes*")
+    const ycp=`*📓Title* : ${search[0].title}
 *🎤Type* : MP3
 *🎬Description* : ${search[0].description}
-*🌐Link* : ${q}`
+*🌐Link* : ${ter}`
 arus.sendMessage(m.chat,{image:{url:search[0].thumbnail},caption:ycp},{quoted:m,})
 arus.sendMessage(m.chat, { audio: { url: media.dl_link }, contextInfo: {
                     externalAdReply: {
@@ -1150,58 +1154,69 @@ arus.sendMessage(m.chat, { audio: { url: media.dl_link }, contextInfo: {
 break
 case 'ytmp4': case 'ytvideo': case 'ytv': {
     let { ytv } = require('./lib/y2mate')
-    if (!q) m.reply(`*Where is the yt-link dude?*`)
-    let quality = args[1] ? args[1] : '360p'
-    let media = await ytv(q, quality)
-    if (media.filesize >= 100000) return m.reply('Oops!!'+util.format(media))
+    if (!ter) return m.reply(`❌ No query provided!`)
+				if (!isUrl(ter) && !ter.includes('https://youtube.com.com')) return m.reply("🔍 Please provide the youtube link")
+					m.reply(`🕣 Downloading ${ter}`)
+    let quality = '360p'
+    let media = await ytv(ter, quality)
+    if (media.filesize >= 100000) return m.reply("🕐 Can not fetch audio longer than *10 Minutes*")
 
-arus.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: `🎯 Title : ${media.title}\n🎗️ File Size : ${media.filesizeF}\n📓 Url : ${isUrl(text)}\n📌 Ext : MP3\n🏷️ Resolution : ${args[1] || '360p'}` }, { quoted: m })
+arus.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: `🌸 *Title* : ${media.title}\n🎗️ *File Size* : ${media.filesizeF}\n📓 *Url* : ${ter}\n📌 *Ext* : MP3\n` }, { quoted: m })
 }
 break
-
-
 case 'yts': case 'ytsearch': {
-    if (!q) m.reply(`Example : ${prefix + command} story wa anime`)
+    if (!ter) return m.reply(`❌No query provided!`)
     let yts = require("yt-search")
-    let search = await yts(q)
-    let teks = 'YouTube Search\n\n Result From '+text+'\n\n'
+    let search = await yts(ter)
+    let teks = 'YouTube Search\n\n Result From '+ ter +'\n\n'
     let no = 1
     for (let i of search.all) {
-        teks += `📓 No : ${no++}\n🎬 Type : ${i.type}\n📌 Video ID : ${i.videoId}\n🎯 Title : ${i.title}\n🌸 Views : ${i.views}\n🎗️ Duration : ${i.timestamp}\n🍁 Upload At : ${i.ago}\n🏷️ Author : ${i.author.name}\n🌐 Url : ${i.url}\n\n────────────────────────────\n\n`
+        teks += `*#${no++}*\n🏜️ *Title*: ${i.title}\n🌸 *Duration*: ${i.timestamp}\n🌐 *Url*: ${i.url}\n`
     }
-    arus.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },jpegThumbnail:fs.readFileSync('./src/assests/yts.jpg'),  caption: teks, }, { quoted: m, })
+    arus.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },jpegThumbnail:fs.readFileSync('./src/assest/yts.jpg'),  caption: teks, }, { quoted: m, })
 }
 break
-case 'instagram': case 'igdl': {
-    if (!q) return m.reply('Enter Query Url!')
-    m.reply(mess.wait)
-    if (/(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/.test(isUrl(q)[0])) {
-        let anu = await fetchJson(api('zenz', '/downloader/instagram2', { url: isUrl(q)[0] }, 'apikey'))
-        for (let media of anu.data) arus.sendMedia(m.chat, media, '', `Download Url Instagram From ${isUrl(q)[0]}`, m)
-    } else if (/\/stories\/([^\s&]+)/.test(isUrl(q)[0])) {
-        let anu = await fetchJson(api('zenz', '/downloader/instastory', { url: isUrl(q)[0] }, 'apikey'))
-        arus.sendMedia(m.chat, anu.media[0].url, '', `Download Url Instagram From ${isUrl(q)[0]}`, m)
-    }
+case 'sr':
+case 'subraddit': {
+	if (!ter) return m.reply(`❌ No query provided!`)
+
+							let Igroup = await group.findOne({ id: m.chat})
+				let hh = Igroup.nsfw || "false"
+				const res = await axios.get('https://meme-api.herokuapp.com/gimme/' + q + '/');
+	if (res.data.nsfw&& hh == 'false') return m.reply("❌ *nsfw* is not active in this group")
+		if (!res.data.url) return m.reply("Subraddit dosen't exsist") 
+				arus.sendMessage(m.chat,{image:{url: res.data.url},caption:`🖌️ *Title:* ${res.data.title}\n*👨‍🎨 Author:* ${res.data.author}\n*🎏 Subreddit:* ${res.data.subreddit}\n🌐 *Post:* ${res.data.postLink}`},{quoted:m,})
+
+
+				
+}
+break
+case 'meme':{
+	const response = await axios.get('https://meme-api.herokuapp.com/gimme/wholesomeanimemes');
+	const { title, url } = response.data
+	arus.sendMessage(m.chat,{image:{url:url},caption:`*${title}*`},{quoted:m,})
 }
 break
 case 'join': {
-                if (!isCreator) throw mess.owner
-                if (!text) throw 'Enter the group link!'
-                if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) throw 'Link Invalid!'
-                m.reply(mess.wait)
+                if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+                if (!ter) return m.reply("🔍 Please provide the group link")
+                if (!isUrl(ter) && !ter.includes('whatsapp.com')) return m.reply("🔍 Please provide the group link")
+                m.reply("wait your request is under process")
                 let result = args[0].split('https://chat.whatsapp.com/')[1]
-                await arus.groupAcceptInvite(result).then((res) => m.reply(jsonformat(res))).catch((err) =>m.reply(jsonformat(err)))
+                await arus.groupAcceptInvite(result).then((res) => m.reply(jsonformat(res))).catch((err) =>m.reply(`Invalid 📘 *URL: ${q}*`))
             }
             break
             case 'leave': {
-                if (!isCreator) throw mess.owner
-                await arus.groupLeave(m.chat).then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
+                if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+                await arus.groupLeave(m.chat).then((res) => m.reply(jsonformat(res))).catch((err) => m.reply("Error"))
             }
             break
-            case 'lyrics':
+
+case 'lyrics':
   const Genius =require("genius-lyrics")
 const Client = new Genius.Client();
-  const searches = await Client.songs.search(q);
+if (!ter) return m.reply(`❌ No query provided!`)
+  const searches = await Client.songs.search(ter);
 
   // Pick first one
   const firstSong = searches[0];
@@ -1229,433 +1244,577 @@ const Client = new Genius.Client();
 
 break
 case 'gimage':case 'image': {
-        if (!text) m.reply(`Baka!! what image you wnt?`)
+        if (!ter) return m.reply(`❌ No query provided!`)
         let gis = require('g-i-s')
-        gis(text, async (error, result) => {
+        gis(ter, async (error, result) => {
         n = result
         images = n[Math.floor(Math.random() * n.length)].url
-        let buttons = [
-                    {buttonId: `.gimage ${text}`, buttonText: {displayText: 'Next Image'}, type: 1}
-                ]
-                let buttonMessage = {
-                    image: { url: images },
-                    caption: `
-💥 *Query* : ${text}
-`,
-                    footer: '©Aku',
-                    buttons: buttons,
-                    headerType: 4
-                }
-                arus.sendMessage(m.chat, buttonMessage, { quoted: m })
+        arus.sendMessage(m.chat, { image: { url: images }, caption: "Here you go" }, { quoted: m })
         })
         }
         break
  case 'google': {
-                if (!text) m.reply(`Example : ${prefix + command} Russia vs Ukraine`)
+                if (!ter) return m.reply(`❌ No query provided!`)
                 let google = require('google-it')
-                google({'query': text}).then(res => {
-                let teks = `Google Search From : ${text}\n\n`
+                google({'query': ter}).then(res => {
+                let teks = `Google Search From : ${q}\n\n`
                 for (let g of res) {
-                teks += `📒 *Title* : ${g.title}\n`
-                teks += `🎯 *Description* : ${g.snippet}\n`
-                teks += `🌐 *Link* : ${g.link}\n\n────────────────────────\n\n`
+                teks += `*📒Title* : ${g.title}\n`
+                teks += `*🍃Description* : ${g.snippet}\n`
+                teks += `*🌐Link* : ${g.link}\n\n`
                 } 
                 m.reply(teks)
                 })
                 }
                 break
- //////////////////////////ANIME\\\\\\\\\\\\\\\\\\\\\\\\               
- case 'waifu':
-                waifud = await axios.get('https://waifu.pics/api/sfw/waifu')
-              
-                var wbutss = [
-        {buttonId: `.waifu`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        {buttonId: `.neko`, buttonText: {displayText: `🐱Neko`}, type: 1},
-        ]
-      let buttonsMessage = {
-       image: await getBuffer(waifud.data.url),
-       caption:  `*Here is your waifu*`,
-      footer: '©Aku 2022',
-      buttons: wbutss,
-      headerType: 4
-      }
-            await arus.sendMessage(m.chat,buttonsMessage, { quoted:m }).catch(err => {
-                    return('error..')
-                })
+				case 'take': case 'steal':
+if (!quoted) return m.reply(`❌ Could not find any sticker in context`)
+		 if (q) {
+	anu = args.join(' ').split('|')
+    pack = anu[0] !== '' ? anu[0] : global.packname
+    author = anu[1] !== '' ? anu[1] : global.author
+    } else {
+    	pack = global.packname
+        author = global.author
+        }
+if(/webp/.test(mime)) {
+let media = await quoted.download()
+let sticker = new Sticker(media, {
+    pack: pack, // The pack name
+    author: author, // The author name
+    type: StickerTypes.FULL, // The sticker type
+    categories: ['🤩', '🎉'], // The sticker category
+    id: '12345', // The sticker id
+    quality: 75, // The quality of the output file
+    background: 'transparent' // The sticker background color (only for full stickers)
+})
+
+const buffer = await sticker.toBuffer()
+arus.sendMessage(m.chat, {sticker: buffer}, {quoted: m})
+}
+break
+case 'iguser':
+try {
+if (!q)  return m.reply(`Please provide a valid instagram ID.`)
+fids = await axios.get(`https://api.popcat.xyz/instagram?user=${q}`)
+const reply = `
+*🀄 Username:* ${fids.data.username}
+*📃 Name:* ${fids.data.full_name}
+*🗣 Private:* ${fids.data.private}
+*✔ Verified:* ${fids.data.verified}
+*🗻 Followers:* ${fids.data.followers}
+*🍃 Following:* ${fids.data.following}
+*🎛 Post:* ${fids.data.posts}
+*🧑🏻‍🎤 reels:* ${fids.data.reels}
+*📖 Bio:* ${fids.data.biography}
+              `
+arus.sendMessage(m.chat, {image: { url: fids.data.profile_pic }, caption:reply}, {quoted:m})
+} catch (err) {
+console.log(err)
+return m.reply (`Please give me valid insagram ID.`)
+              }
+break
+			       case 'update': {
+					   if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+      stdout = execSync('git remote set-url origin https://github.com/Arus-Bots/Mizuhara.git && git pull')
+      m.reply(stdout.toString())
+    }
+			   break
+case 'ship':{
+	const { Ship, IShipOptions } = require('@shineiichijo/canvas-chan')
+let usep = m.sender
+let recp=``
+try {
+users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} x  themselves`
+     console.log(recp)
+
+} else {
+let rcpp =`@${users.split("@"[0])}`
+ recp = `@${m.sender.split("@")[0]} x  @${users.split("@")[0]}`
+
+console.log(recp)
+}
+const ll = Math.floor(Math.random() * 100)
+if ( ll < 30 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\t\tThere's still time to reconsider your choices`
+rate = "Not Good"
+}
+else if ( ll < 40 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\t\tThere's still time to reconsider your choices`
+rate = "Not Good"
+}
+else if ( ll > 50 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\t\t Good enough, I guess!💫`
+rate = "Avarage"
+}
+else if ( ll > 60 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\t\t Good enough, I guess!💫`
+rate = "Avarage"
+}
+else if ( ll > 70 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\t\t\tStay together and you'll find a way⭐️`
+rate = "Good"
+}
+else if ( ll > 80 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\t\t\tStay together and you'll find a way⭐️`
+rate = "Good"
+}
+else if ( ll > 90 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\tAmazing! You two will be a good couple💖`
+rate = "Amazing"
+} else if ( ll == 100 ){
+jj = `\t\t\t\t\t*ShipCent : ${ll}%* \n\tYou two are fated to be together💙`
+rate = "Fated to be together"
+}
+        let caption = `\t❣️ *Matchmaking...* ❣️ \n`
+        caption += `\t\t---------------------------------\n`
+        caption += `*${recp}*\n`
+        caption += `\t\t---------------------------------\n`
+        caption += `${jj}`
+		try {
+                    ppuser = await arus.profilePictureUrl(m.sender, 'image')
+                } catch {
+                    ppuser = 'https://www.linkpicture.com/q/IMG-20220118-WA0387.png'
+                }
+				if(users == 'none'){
+							try {
+                    ppuser2 = await arus.profilePictureUrl(m.sender, 'image')
+                } catch {
+                    ppuser2 = 'https://www.linkpicture.com/q/IMG-20220118-WA0387.png'
+                    }
+				  } else {
+												try {
+                    ppuser2 = await arus.profilePictureUrl(users, 'image')
+                } catch {
+                    ppuser2 = 'https://www.linkpicture.com/q/IMG-20220118-WA0387.png'
+                    }
+				}
+		    const options = [
+        {
+            name: 'Person1',
+            image: ppuser
+        },
+        {
+            name: 'Person2',
+            image: ppuser2
+        }
+    ]
+    const ship = await new Ship(options, ll, rate).build()
+	arus.sendMessage(m.chat,{image:ship,caption:caption,mentions:ment},{quoted:m})
+		}
+
+break
+
+case "quote":
+try {
+quoo = await axios.get(`https://favqs.com/api/qotd`)
+const reply = `
+📝 *Content:* ${quoo.data.quote.body}
+*✍️ Author:* ${quoo.data.quote.author}
+              `
+arus.sendMessage(m.chat, { text:reply },  {quoted:m})
+} catch (err) {
+console.log(err)
+return m.reply (`*❌ Something went wrong.*`)
+    }
+break 
+case 'fact':{
+				 await axios
+            .get(`https://nekos.life/api/v2/fact`)
+            .then((response) => {
+                // console.log(response);
+                const tet = `📛 *Fact:* ${response.data.fact}`
+                m.reply(tet)
+            })
+            .catch((err) => {
+                m.reply(`✖  An error occurred.`)
+            })
+			}
+				break
+							case 'advice':{
+        await axios
+            .get(`https://api.adviceslip.com/advice`)
+            .then((response) => {
+                // console.log(response);
+                const tet = `*Advice for you🔖:* ${response.data.slip.advice}`
+                m.reply(tet)
+            })
+            .catch((err) => {
+                m.reply(`🔍 Error: ${err}`)
+            })
+							}
+				break
+			case 'bot':{
+				        if (!q) return m.reply(' *Baka!* ')
+        await axios.get(`https://api.simsimi.net/v2/?text=${q}&lc=en`)
+        .then((response) => {
+                // console.log(response);
+                const txt = `🎍 *Bot*:  ${response.data.success}`
+                m.reply(txt);
+            }).catch(err => {
+                m.reply(`Sorry ${packname} I did not get you`)
+            }
+            )
+			}
+				break
+ //////////////////////////ANIME\\\\\\\\\\\\\\\\\\\\\\\\      
+case 'pat':{
+	var pat = await fetchJson(`https://api.waifu.pics/sfw/pat`)
+	try {
+		let usep = m.sender
+let recp=``
+try {
+      let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} patted themselves`
+     console.log(recp)
+
+} else {
+const rcpp =`@${users.split("@"[0])}`
+ recp= `@${m.sender.split("@")[0]} patted @${users.split("@")[0]} `
+
+console.log(recp)
+}
+        const response = await axios.get(pat.url,  { responseType: 'arraybuffer' })
+        const buffer = Buffer.from(response.data, "utf-8")
+		var sgif = await GIFBufferToVideoBuffer(buffer)
+		arus.sendMessage(m.chat,{video: sgif, gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
+    } catch (error) {
+        console.log(error);
+    }
+}
+break
+case 'hug':{
+	var pat = await fetchJson(`https://api.waifu.pics/sfw/hug`)
+	try {
+		let usep = m.sender
+let recp=``
+try {
+      let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} hugged themselves`
+     console.log(recp)
+
+} else {
+const rcpp =`@${users.split("@"[0])}`
+ recp= `@${m.sender.split("@")[0]} hugged @${users.split("@")[0]} `
+
+console.log(recp)
+}
+        const response = await axios.get(pat.url,  { responseType: 'arraybuffer' })
+        const buffer = Buffer.from(response.data, "utf-8")
+		var sgif = await GIFBufferToVideoBuffer(buffer)
+		arus.sendMessage(m.chat,{video: sgif, gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
+    } catch (error) {
+        console.log(error);
+    }
+}
+break
+case 'kiss':{
+	var pat = await fetchJson(`https://api.waifu.pics/sfw/kiss`)
+	try {
+		let usep = m.sender
+let recp=``
+try {
+      let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} kissed themselves`
+     console.log(recp)
+
+} else {
+const rcpp =`@${users.split("@"[0])}`
+ recp= `@${m.sender.split("@")[0]} kissed @${users.split("@")[0]} `
+
+console.log(recp)
+}
+        const response = await axios.get(pat.url,  { responseType: 'arraybuffer' })
+        const buffer = Buffer.from(response.data, "utf-8")
+		var sgif = await GIFBufferToVideoBuffer(buffer)
+		arus.sendMessage(m.chat,{video: sgif, gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
+    } catch (error) {
+        console.log(error);
+    }
+}
+break
+case 'slap':{
+	var pat = await fetchJson(`https://api.waifu.pics/sfw/slap`)
+	try {
+		let usep = m.sender
+let recp=``
+try {
+      let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} slapped themselves`
+     console.log(recp)
+
+} else {
+const rcpp =`@${users.split("@"[0])}`
+ recp= `@${m.sender.split("@")[0]} slapped @${users.split("@")[0]} `
+
+console.log(recp)
+}
+        const response = await axios.get(pat.url,  { responseType: 'arraybuffer' })
+        const buffer = Buffer.from(response.data, "utf-8")
+		var sgif = await GIFBufferToVideoBuffer(buffer)
+		arus.sendMessage(m.chat,{video: sgif, gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
+    } catch (error) {
+        console.log(error);
+    }
+}
+break
+case 'cuddle':{
+	var pat = await fetchJson(`https://api.waifu.pics/sfw/cuddle`)
+	try {
+		let usep = m.sender
+let recp=``
+try {
+      let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} cuddled themselves`
+     console.log(recp)
+
+} else {
+const rcpp =`@${users.split("@"[0])}`
+ recp= `@${m.sender.split("@")[0]} cuddled @${users.split("@")[0]} `
+
+console.log(recp)
+}
+        const response = await axios.get(pat.url,  { responseType: 'arraybuffer' })
+        const buffer = Buffer.from(response.data, "utf-8")
+		var sgif = await GIFBufferToVideoBuffer(buffer)
+		arus.sendMessage(m.chat,{video: sgif, gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
+    } catch (error) {
+        console.log(error);
+    }
+}
+break
+case 'kick':{
+	var pat = await fetchJson(`https://api.waifu.pics/sfw/kick`)
+	try {
+		let usep = m.sender
+let recp=``
+try {
+      let mention = mentionByTag
+      let users = await (mention[0]) || m.msg.contextInfo.participant
+
+ ment=[usep,users]
+} catch {
+	users = "none"
+	 ment=[usep,m.sender]
+}
+if(users == 'none'){
+     recp =`@${m.sender.split("@")[0]} kicked themselves`
+     console.log(recp)
+
+} else {
+const rcpp =`@${users.split("@"[0])}`
+ recp= `@${m.sender.split("@")[0]} kicked @${users.split("@")[0]} `
+
+console.log(recp)
+}
+        const response = await axios.get(pat.url,  { responseType: 'arraybuffer' })
+        const buffer = Buffer.from(response.data, "utf-8")
+		var sgif = await GIFBufferToVideoBuffer(buffer)
+		arus.sendMessage(m.chat,{video: sgif, gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
+    } catch (error) {
+        console.log(error);
+    }
+}
+break 
+ case 'waifu': {
+               let waifud = await axios.get('https://waifu.pics/api/sfw/waifu')
+ arus.sendMessage(m.chat, { image: { url: waifud.data.url }, caption: "Here you go" }, { quoted: m })
+ }
                 break  
  case 'couplepp': case 'ppcouple': {
                 //replay(mess.wait)
                 let anu = await fetchJson('https://raw.githubusercontent.com/iamriz7/kopel_/main/kopel.json')
                 let random = anu[Math.floor(Math.random() * anu.length)]
-                arus.sendMessage(m.chat, { image: { url: random.male }, caption: `Couple Male` }, { quoted: m })
-                arus.sendMessage(m.chat, { image: { url: random.female }, caption: `Couple Female` }, { quoted: m })
+                arus.sendMessage(m.chat, { image: { url: random.male }, caption: `Male` }, { quoted: m })
+                arus.sendMessage(m.chat, { image: { url: random.female }, caption: `Female` }, { quoted: m })
             }
         break
 
 
-case 'neko':
+case 'neko':{
    waifud = await axios.get('https://waifu.pics/api/sfw/neko')
-              
-                var wbutsss = [
-        {buttonId: `.neko`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        {buttonId :`.waifu`,buttonText:{displayText:`👯‍♀️Waifu`},type:1}
-        ]
-      let buttonssMessage = {
-       image: {url:waifud.data.url},
-       caption:  `*Here is your 🐱Neko*`,
-      footer: '©Aku 2022',
-      buttons: wbutsss,
-      headerType: 4
-      }
-            await arus.sendMessage(m.chat,buttonssMessage, { quoted:m }).catch(err => {
-                    return('error..')
-                })               
-                break 
-case 'shinobu':
-                    ud = await axios.get('https://waifu.pics/api/sfw/shinobu')
-                               
-var wbutsss = [
-    {buttonId: `.shinobu`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-    {buttonId :`.neko`,buttonText:{displayText:`👯‍♀️Neko`},type:1}
-         ]
-      let buttonsesMessage = {
-      image: {url:ud.data.url},
-       caption:  `*Here is your Vampire*`,
-      footer: '©Aku 2022',
-          buttons: wbutsss,
-     headerType: 4
-                      }
-await arus.sendMessage(m.chat,buttonsesMessage, { quoted:m }).catch(err => {
-     return('error..')
-    })               
-break
-case 'megumin':
-                    ud = await axios.get('https://waifu.pics/api/sfw/megumin')
-                               
-var wbutsss = [
-    {buttonId: `.megumin`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-    {buttonId :`.waifu`,buttonText:{displayText:`👯‍♀️Waifu`},type:1}
-         ]
-      let buttonzMessage = {
-      image: {url:ud.data.url},
-       caption:  `*Here You Go*`,
-      footer: '©Aku 2022',
-          buttons: wbutsss,
-     headerType: 4
-                      }
-await arus.sendMessage(m.chat,buttonzMessage, { quoted:m }).catch(err => {
-     return('error..')
-    })               
-break     
-case 'awoo':
- waifudd = await axios.get(`https://waifu.pics/api/sfw/${command}`)
-            
- var wbuttsss = [
-    {buttonId: `.${command}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-    
-    ]
-  let button1Messages = {
-   image: {url:waifudd.data.url},
-   caption:  `*awoo awoo*`,
-  buttons: wbuttsss,
-  headerType: 2
-  }     
-    
-            await arus.sendMessage(m.chat, button1Messages, { quoted:m }).catch(err => {
-                    return('error..')
-                })
-break                          
-case 'holo':
-case 'fox_girl':
-case 'kemonomimi':
- waifudd = await axios.get(`https://nekos.life/api/v2/img/${command}`)
-                
-                           var wbuttsss = [
-        {buttonId: `.${command}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        
-        ]
-      let buttonssMessages = {
-       image: {url:waifudd.data.url},
-       caption:  `*Here You Go...*`,
-      footer: '©Aku 2022',
-      buttons: wbuttsss,
-      headerType: 4
-      }     
-            await arus.sendMessage(m.chat, buttonssMessages,{ quoted:m }).catch(err => {
-                    return('error..')
-                })
-break   
-case 'haigusha' : 
-const waifu= await axios.get(`https://reina-api.vercel.app/api/mwl/random`)
-//const avv = `❤️ *Name : ${waifu.data.name}*\n\n💎️ Description : ${waifu.data.description}\n\n💚️ Source : ${waifu.data.series.name}\n\n✨️ URL: ${waifu.data.url}`
-//console.log(hai.data.display_picture)
-let hait = "";
-hait += `💙 *Name: ${waifu.data.name}*\n`;
-if (waifu.data.original_name !== "" && waifu.data.original_name !== null)
-    hait += `💚 *Original Name: ${waifu.data.original_name}*\n`;
-if (waifu.data.weight !== null) hait += `⚖ *Weight: ${waifu.data.weight}*\n`;
-if (waifu.data.height !== null) hait += `📍 *Height: ${waifu.height}*\n`;
-if (waifu.data.bust !== null) hait += `💠 *Bust: ${waifu.data.bust}*\n`;
-if (waifu.data.hip !== null) hait += `🎗 *Hip: ${waifu.data.hip}*\n`;
-if (waifu.data.waist !== null) hait += `🎀 *Waist: ${waifu.data.waist}*\n`;
-if (waifu.data.blood_type !== null)
-    hait += `🩸 *Blood Type: ${waifu.data.blood_type}*\n`;
-if (waifu.data.origin !== null && waifu.data.origin !== "") hait += `🎐 *Origin: ${waifu.data.origin}*\n`;
-if (waifu.data.age !== null&& waifu.data.age !== 0) hait += `🎂 *Age: ${waifu.data.age}*\n`;
-if (waifu.data.likes !== null) hait += `🖤 *Likes: ${waifu.data.likes}*\n`;
-hait += `🏅 *Like Rank: ${waifu.data.like_rank}*\n`;
-hait += `📈 *Popularity Rank: ${waifu.data.popularity_rank}*\n\n`;
-hait += `💛 *Source: ${waifu.data.series.name}*\n\n`;
-hait += `🌐 *URL: ${waifu.data.url}*\n\n`;
-hait += `❤ *Description:* ${waifu.data.description}\n`;
-console.log(hait)
-
-const suu =tb.set(`${m.chat}.hp`,waifu.data.display_picture )
-//console.log(suu)
-
-   const wname = ` ${waifu.data.name}`
-   //var wan = wname.replace(' (husbu)', '')
-   const wanarr = [wname]
-   await fs.writeFileSync(`./src/${m.sender}.json`, JSON.stringify(wanarr))
-   const haibu=[{buttonId:'.marry',buttonText:{displayText:'💕 Marry'},type:1},
-   {buttonId:'.divorce',buttonText:{displayText:'💔 Divorce'},type:1}]
-   const haib={
- image:{url:waifu.data.display_picture},
- caption:hait,
-buttons:haibu,
-footer:'©Aku 2022',
-headerType:4
-   }
-arus.sendMessage(m.chat,haib,{quoted:m})
-console.log(waifu.data.name)
-break
-
-case'marry':
-case'claim':
-const hp = tb.get(`${m.chat}.hp`)
- tb.set(`${m.sender}.hp`,hp)
-const ssar = JSON.parse(fs.readFileSync('./src/hai.json'))
-const hs = fs.readFileSync(`./src/${m.sender}.json`)
-    const hs1 = JSON.parse(hs)
-    try {
-        
-    pfp=await arus.profilePictureUrl(m.sender, 'image')
-
-      } catch (e) {
-  //let [pfp ] = await Promise.all([ contacts.getProfilePicUrl(contacts)])
-  pfp ='https://steamuserimages-a.akamaihd.net/ugc/954087817129084207/5B7E46EE484181A676C02DFCAD48ECB1C74BC423/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
-// 
-}
-    if (ssar.includes(hs1[0])) {
-       
-        await m.reply('Already Taken! 💔️')
-
-    } else {
-       
-        tb.set(`${m.sender}.haigusha`, hs1[0])
-     
-            ssar.push(hs1[0])
-           
-            fs.writeFileSync('./src/hai.json', JSON.stringify(ssar))
-            const thu=axios.get(`https://api.popcat.xyz/ship?user1=${hp}&user2=${pfp}`)
-            console.log(thu)
-            
-  
-            const sp = `Congratulations! You are now married to *${hs1[0]}* 🎉️`
-        // await msg.reply( `Congratulations! You are now married to *${hs1[0]}* 🎉️`)
-        //msg.reply(mediacd,from,{caption: sp})
-       // const thuu=await getBuffer(thu)
-  //  arus.sendMessage(m.chat,{image:{url:thuu},caption:sp},{quoted:m})
-  m.reply(sp)
-}
-break
-
-
-case'divorce':
-if(isGroup){
-const none = 'none'
-//const mon = tb.get(`${sender}.gold`)
-//f(mon < 2000 )  return msg.reply('you broke. make sure you have atleast 2k gold before you marry')
-//tb.set(`${sender}.gold`,mon - 2000)
- 
-const ds=fs.readFileSync(`./src/${m.sender}.json`)
-   const namee = tb.get(`${m.sender}.haigusha`)
-     tb.delete(`${m.sender}.haigusha`,ds[0])
-         await m.reply( `Sadddd! you have divorced ${namee}`)
-
-  //  tb.const(`${sender}.haigusha`)
-}
-
-break
-case 'tes': case 'test': case 'alive': case 'bot': case 'robot': case 'cheems': case 'Kurumi':{
-    anu = `Hi ${pushname}
-Kurumi With You Forever!! 👻🤚`
-const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
-        templateMessage: {
-            hydratedTemplate: {
-                hydratedContentText: anu,
-                locationMessage: {
-                jpegThumbnail: fs.readFileSync('./src/assests/info.jpeg')},
-                hydratedFooterText: `Kurumi`,
-                hydratedButtons: [{
-                    urlButton: {
-                        displayText: 'Profile 📍',
-                        url: 'https://github.com/Eximinati'
-                    }
-                }, {
-                    urlButton: {
-                    displayText: 'Script🔖',
-                        url: 'https://github.com/Eximinati/Kurumi-md'
-                    }
-                }, {
-                    quickReplyButton: {
-                        displayText: '🍒Help Menu🍒',
-                        id: `${prefix}help`
-                    }
-                    }, {
-                    quickReplyButton: {
-                        displayText: '👤Owner👤',
-                        id: `${prefix}owner`
-                    }
-                }]
-            }
-        }
-    }), { userJid: m.chat })
-arus.relayMessage(m.chat, template.message, { messageId: template.key.id })
-    }
-    var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
-    var __generator = (this && this.__generator) || function (thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-        function verb(n) { return function (v) { return step([n, v]); }; }
-        function step(op) {
-            if (f) throw new TypeError("Generator is already executing.");
-            while (_) try {
-                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-                if (y = 0, t) op = [op[0] & 2, t.value];
-                switch (op[0]) {
-                    case 0: case 1: t = op; break;
-                    case 4: _.label++; return { value: op[1], done: false };
-                    case 5: _.label++; y = op[1]; op = [0]; continue;
-                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                    default:
-                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                        if (t[2]) _.ops.pop();
-                        _.trys.pop(); continue;
-                }
-                op = body.call(thisArg, _);
-            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-        }
-    };
-    var _this = this;
-    run = function (M, _a) {
-        var joined = _a.joined;
-        return __awaiter(_this, void 0, void 0, function () {
-            var term, images;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!!joined) return [3 /*break*/, 2];
-                        return [4 /*yield*/, M.reply("Please provide the Broadcast Message.")];
-                    case 1: return [2 /*return*/, void (_b.sent())];
-                    case 2:
-                        term = joined.trim();
-                        images = [
-                            "https://c.tenor.com/IhiRfFF2eO8AAAPo/anime-kurumi.mp4",
-                            "https://c.tenor.com/xtUvNrfMOScAAAPo/kurumi-tokisaki-anime.mp4",
-                            "https://c.tenor.com/4Z5XJh3m3S0AAAPo/100.mp4",
-                            "https://c.tenor.com/Yoitobm0iaQAAAPo/date-a-live-kurumi.mp4",
-                            "https://c.tenor.com/v3WTdkIo1kkAAAPo/kurumi.mp4",
-                            "https://c.tenor.com/aflCuh8Hk_EAAAPo/kurumi-wedding-dress.mp4",
-                            "https://c.tenor.com/npZTSqG9iwMAAAPo/kurumi.mp4",
-                        ];
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    
-break
-
+ arus.sendMessage(m.chat, { image: { url: waifud.data.url }, caption: "Here you go" }, { quoted: m })
+ }             
+                break                                
 case 'anime':
-const { Anime } =require("@shineiichijo/marika")
-    const client = new Anime();
-    
-    
-     let anime = await client.searchAnime(q)
-    let result = anime.data[0];
-    console.log(result)
-   let details = `🎀 *Title: ${result.title}*\n`;
-    details += `🎋 *Format: ${result.type}*\n`;
-    details += `📈 *Status: ${result.status.toUpperCase().replace(/\_/g, " ")}*\n`;
-    details += `🍥 *Total episodes: ${result.episodes}*\n`;
-    details += `🎈 *Duration: ${result.duration}*\n`;
-    details += `🧧 *Genres:*\n`;
-    for (let i = 0; i < result.genres.length; i++) {
-      details += `\t\t\t\t\t\t\t\t*${result.genres[i].name}*\n`;
-    }
-    details += `✨ *Based on: ${result.source.toUpperCase()}*\n`;
-    details += `📍 *Studios:*\n`;
-    for (let i = 0; i < result.studios.length; i++) {
-      details += `\t\t\t\t\t\t\t\t*${result.studios[i].name}*\n`;
-    }
-    details += `🎴 *Producers:*\n`;
-    for (let i = 0; i < result.producers.length; i++) {
-      details += `\t\t\t\t\t\t\t\t\t\t*${result.producers[i].name}*\n`;
-    }
-    details += `💫 *Premiered on: ${result.aired.from}*\n`;
-    details += `🎗 *Ended on: ${result.aired.to}*\n`;
-    details += `🎐 *Popularity: ${result.popularity}*\n`;
-    details += `🎏 *Favorites: ${result.favorites}*\n`;
-    details += `🎇 *Rating: ${result.rating}*\n`;
-    details += `🏅 *Rank: ${result.rank}*\n\n`;
-    if (result.trailer.url !== null)
-      details += `♦ *Trailer: ${result.trailer.url}*\n\n`;
-    details += `🌐 *URL: ${result.url}*\n\n`;
-    if (result.background !== null)
-      details += `🎆 *Background:* ${result.background}*\n\n`;
-    details += `❄ *Description:* ${result.synopsis.replace(
-      /\[Written by MAL Rewrite]/g,
-      ""
-    )}`
-arus.sendMessage(m.chat,{image:{url:result.images.jpg.large_image_url},caption:details},{quoted:m})   
+if (!q) return m.reply(`❌ No query provided!`)
+const { data: jap } = await axios.get(`https://api.jikan.moe/v3/search/anime?q=${q}`)
+if(!jap.results[0].title) return m.reply(`❌ Couldn't find any results on the term *${q}*`)
+const { data } = (await axios.get(`https://api.jikan.moe/v4/anime?q=${jap.results[0].title}`)).data;
+			let data3 =
+				`*Result:* ${0 + 1} of ${data.length}\n\n*📕Title:* ${data[0].title}/${
+					data[0].title_english
+				}/${data[0].title_japanese}\n*🔖Trailer:* ${data[0].trailer.url}\n` +
+				`*🔍MAL_ID:* ${data[0].mal_id}\n*✴️Type:* ${data[0].type}\n*🎬Episode(s):* ${data[0].episodes}\n*📢Airing:* ${data[0].status}\n*🔔Date:* ${data[0].aired.string}\n` +
+				`*🔱Rating:* ${data[0].rating}\n*⚜️Duration:* ${data[0].duration}\n*♨️Score:* ${
+					data[0].score
+				}\n*📦Studio(s):* ${data[0].studios.map((val) => `${val.name}`).join(", ")}\n` +
+				`*🎞️Genre(s):* ${data[0].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${
+					data[0].synopsis
+				}`;
+arus.sendMessage(m.chat,{image:{url:data[0].images.jpg.image_url},caption:data3},{quoted:m})   
+break
+case 'chara':
+case 'charecter':{
+	if (!q) return m.reply(`❌ No query provided!`)
+			const client = new Character();
+		const chara = await client.character(q).catch((err) => {
+			return m.reply(`❌ Couldn't find any results on the term *${q}*`)
+		});
+		let texty = "";
+		texty += `💙 *Name: ${chara.data.characters.results[0].name.full}*\n`;
+		texty += `💛 *Source: ${chara.data.characters.results[0].media.edges[0].node.title.userPreferred}*\n\n`;
+		texty += `🌐 *URL: ${chara.data.characters.results[0].siteUrl}*\n\n`;
+		texty += `❤ *Description:* ${chara.data.characters.results[0].description}\n`;
+			const { data: char } = (
+				await axios.get(`https://api.jikan.moe/v4/characters?q=${chara.data.characters.results[0].name.full}`)
+			).data;
+			const { data: anime } = (
+				await axios.get(`https://api.jikan.moe/v4/characters/${char[0].mal_id}/anime`)
+			).data;
+			const { data: voice } = (
+				await axios.get(`https://api.jikan.moe/v4/characters/${char[0].mal_id}/voices`)
+			).data;
+			let data2 =
+				`*📕Name:* ${char[0].name}\n*⚜️About:* ${
+					char[0].about
+				}\n*🔍MAL_ID:* ${char[0].mal_id}\n🌐 *URL:*  ${chara.data.characters.results[0].siteUrl}\n` +
+				`\n*🔖Appears:*${anime
+					.map((val) => `\n*🔮Role:* ${val.role}\n*🎬Title:* ${val.anime.title}`)
+					.join("\n")}\n❤ *Description:* ${chara.data.characters.results[0].description}\n` +
+				`\n*👥VA:*${voice
+					.map((val) => `\n*🌐Language:* ${val.language}\n*👤Person:* ${val.person.name}`)
+					.join("\n")}`;
+arus.sendMessage(m.chat,{image:{url:char[0].images.jpg.image_url},caption:data2},{quoted:m})  
+}
 
 break
+case 'haigusha':
+                case 'hg' :  {
+		try{
+	const r = require("@shineiichijo/marika")
+	const charaClient = new r.Character();
+	let charaoo = await charaClient.getRandomCharacter();
+	const client = new Character();
+		const chara = await client.character(charaoo.name).catch((err) => {
+			return m.reply(`❌ Error`)
+		});
+		let texty = "";
+		texty += `*💛Source:* ${chara.data.characters.results[0].media.edges[0].node.title.userPreferred}\n\n`;
+			const { data: cha } = (
+				await axios.get(`https://api.jikan.moe/v4/characters?q=${chara.data.characters.results[0].name.full}`)
+			).data;
+			const { data: anim } = (
+				await axios.get(`https://api.jikan.moe/v4/characters/${cha[0].mal_id}/anime`)
+			).data;
+			let data2 =
+				`*📕Name:* ${cha[0].name}\n${texty}\n*⚜️About:* ${
+					cha[0].about
+				}\n*🔍MAL_ID:* ${cha[0].mal_id}\n🌐 *URL:*  ${chara.data.characters.results[0].siteUrl}\n` +
+				`\n`;
+				await db.set(m.chat, charaoo.name)
+await arus.sendMessage(m.chat,{image:{url:cha[0].images.jpg.image_url},caption:data2},{quoted:m})
+}catch(err){
+	const animeCharacter = require('anime-character-random')
+	let a = await animeCharacter.getRandomChar(async (anime) => {
+		const client = new Character();
+		const chara = await client.character(anime.tags[0]).catch((err) => {
+			return m.reply(`❌ Error`)
+		});
+		let texty = "";
+		texty += `💙 *Name: ${chara.data.characters.results[0].name.full}*\n`;
+		texty += `💛 *Source: ${chara.data.characters.results[0].media.edges[0].node.title.userPreferred}*\n\n`;
+		texty += `🌐 *URL: ${chara.data.characters.results[0].siteUrl}*\n\n`;
+		texty += `❤ *Description:* ${chara.data.characters.results[0].description}\n`;
+			const { data: cha } = (
+				await axios.get(`https://api.jikan.moe/v4/characters?q=${chara.data.characters.results[0].name.full}`)
+			).data;
+			const { data: anim } = (
+				await axios.get(`https://api.jikan.moe/v4/characters/${cha[0].mal_id}/anime`)
+			).data;
+			let data2 =
+				`*📕Name:* ${cha[0].name}\n*⚜️About:* ${
+					cha[0].about
+				}\n*🔍MAL_ID:* ${cha[0].mal_id}\n🌐 *URL:*  ${chara.data.characters.results[0].siteUrl}\n` +
+				`\n`;
+await arus.sendMessage(m.chat,{image:{url:cha[0].images.jpg.image_url},caption:data2},{quoted:m})
+})
+		console.log(err)
+			}
+				}
+			break
 case 'manga':
 const { Manga } =require("@shineiichijo/marika")
 const manga = new Manga();
-if(!q) m.reply('*Don\'t be a stupid dude what u want to search*')
-let srh = await manga.searchManga(q)
+if (!ter) return m.reply(`❌ No query provided!`)
+	try {
+let srh = await manga.searchManga(ter)
 
-    let mang = `🎀 *Title: ${srh.data[0].title}*\n`;
-    mang += `📈 *Status: ${srh.data[0].status}*\n`;
-    mang += `🌸 *Total Volumes: ${srh.data[0].volumes}*\n`;
-    mang += `🎗 *Total Chapters: ${srh.data[0].chapters}*\n`;
+    let mang = `🎀 *Title:* ${srh.data[0].title}\n`;
+    mang += `📈 *Status:* ${srh.data[0].status}\n`;
+    mang += `🌸 *Total Volumes:* ${srh.data[0].volumes}\n`;
+    mang += `🎗 *Total Chapters:* ${srh.data[0].chapters}\n`;
     mang += `🧧 *Genres:*\n`;
     for (let i = 0; i < srh.data[0].genres.length; i++) {
       mang += `\t\t\t\t\t\t\t\t*${srh.data[0].genres[i].name}*\n`;
     }
-    mang += `✨ *Published on: ${srh.data[0].published.from}*\n`;
+    mang += `✨ *Published on:* ${srh.data[0].published.from}\n`;
     mang += `🌟 *Score: ${srh.data[0].scored}*\n`;
-    mang += `🎐 *Popularity: ${srh.data[0].popularity}*\n`;
-    mang += `🎏 *Favorites: ${srh.data[0].favorites}*\n`;
+    mang += `🎐 *Popularity:* ${srh.data[0].popularity}\n`;
+    mang += `🎏 *Favorites:* ${srh.data[0].favorites}\n`;
     mang += `✍ *Authors:*\n`;
     for (let i = 0; i < srh.data[0].authors.length; i++) {
       mang += `\t\t\t\t\t\t\t\t\t*${srh.data[0].authors[i].name}* *(${srh.data[0].authors[0].type})*\n`;
     }
-    mang += `\n🌐 *URL: ${srh.data[0].url}*\n\n`;
+    mang += `\n🌐 *URL:* ${srh.data[0].url}\n\n`;
     if (srh.data[0].background !== null)
       mang += `🎆 *Background:* ${srh.data[0].background}`;
     mang += `❄️ *Description:* ${srh.data[0].synopsis.replace(
@@ -1663,372 +1822,58 @@ let srh = await manga.searchManga(q)
       ""
     )}`;
 arus.sendMessage(m.chat,{image:{url:srh.data[0].images.jpg.large_image_url},caption:mang},{quoted:m})   
+	} catch { 
+	return m.reply(`❌ Couldn't find any results on the term *${q}*`)
+	}
+
 break
 
 case 'wallpaper':
 const { AnimeWallpaper } =require("anime-wallpaper")
-if(!q) m.reply('Tell me clearly what wallpaper you want?')
+if (!ter) return m.reply(`❌ No query provided!`)
 const wall = new AnimeWallpaper();
     const pages = [1,2,3,4];
         const random=pages[Math.floor(Math.random() * pages.length)]
         const wallpaper = await wall
-            .getAnimeWall4({ title: q, type: "sfw", page: pages })
+            .getAnimeWall4({ title: ter, type: "sfw", page: pages })
             .catch(() => null);
-const i = Math.floor(Math.random() * wallpaper.length);
-var walb = [
-        {buttonId: `.${command} ${q}`, buttonText: {displayText: `➡️NEXT`}, type: 1},
-        
-        ]
-      let wal = {
-       image: {url:wallpaper[i].image},
-       caption: `*Query :* ${q}`,
-      footer: '©Aku 2022',
-      buttons: walb,
-      headerType: 4
-      }     
-            await arus.sendMessage(m.chat, wal,{ quoted:m }).catch(err => {
-                    return('error..')
-                })
+			if(!wallpaper) return m.reply(`❌ Couldn't find any results on the term *${ter}*`)
+const i = Math.floor(Math.random() * wallpaper.length);    
+            await arus.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`Here you go`},{quoted:m}) 
 //arus.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
 break
 
-case 'cry':
-case 'kiss':
-case 'hug':
-case 'cuddle':
-case 'smug':
-case 'pat':
-case 'highfive':
-case 'bonk':
-case 'yeet':
-case 'blush':
-case 'wave':
-case 'smile':
-case 'handhold':
-case 'nom':
-case 'bite':
-case 'glomp':
-case 'kill':
-case 'slap':
-case 'cringe':
-case 'wink':
-case 'happy':
-case 'happy':
-case 'poke':
-case 'dance':
-var slap = await fetchJson(`https://api.waifu.pics/sfw/${command}`)
-var buff = await getBuffer(slap.url)
-var sgif = await GIFBufferToVideoBuffer(buff)
-  mentioned = mentionByTag
-let rtag =   await (mentioned[0])
-//const rtag=rtagg.map(v => v.id)
-let usep=m.sender
-const ment=[usep,rtag]
-let recp=``
-if(command=='cry'){
-    //console.log(recp)
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.cry} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]} ${reac.cry} @${rtag.split("@")[0]} `
-
-console.log(recp)
-}
-}
-if(command=='kiss'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.kiss} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.kiss}  @${rtag.split("@")[0]}`
-}
-console.log(recp)
-}
-if(command=='bite'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.bite} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.bite}  @${rtag.split("@")[0]}`
-}
-console.log(recp)
-}if(command=='bully'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.bully} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.bully}  @${rtag.split("@")[0]}`
-}
-console.log(recp)
-}if(command=='hug'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.hug} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.hug}  @${rtag.split("@")[0]}`
-}
-console.log(recp)
-}if(command=='cuddle'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.cuddle} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.cuddle}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='pat'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.pat} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.pat}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='smug'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.smug} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.smug}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='highfive'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.highfive} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.highfive}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='bonk'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.bonk} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.bonk}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='yeet'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.yeet} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.yeet}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='blush'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.blush} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.blush}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}if(command=='wave'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.wave} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}` 
- recp=`@${m.sender.split("@")[0]}  ${reac.wave}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='smile'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.smile} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.smile}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='handhold'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.handhold} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.handhold}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='nom'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.nom} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.nom}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='glomp'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.glomp} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.glomp}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='kill'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.kill} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.kil}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='slap'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.slap} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.slap}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='cringe'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.cringe} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.cringe}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='wink'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.wink} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.wink}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='happy'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.happy} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.happy}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='poke'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.poke} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.poke}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-if(command=='dance'){
-if(!q){
-     recp=`@${m.sender.split("@")[0]} ${reac.dance} themselves`
-     console.log(recp)
-}else{
-const rcpp=`@${rtag.split("@"[0])}`
- recp=`@${m.sender.split("@")[0]}  ${reac.dance}  @${rtag.split("@")[0]}  `
-}
-console.log(recp)
-}
-arus.sendMessage(m.chat,{video: sgif,gifPlayback:true,mentions:ment,caption:recp},{quoted:m})
-
-break
-case 'pick':
-if(!q) return m.reply('Shall I pick you?')
-  let member = participants.map(u => u.id)
-            let me = m.sender
-            let pick = member[Math.floor(Math.random() * member.length)]
-arus.sendMessage(m.chat,{text:`${q} in this group\n *@${pick.split("@")[0]}*`,mentions:[pick]},{quoted:m})
-break
-
-  case 'bcgc': case 'bcgroup': case 'bc' : {
-                if (!isCreator) throw mess.owner
-                if (!text) throw `Text mana?\n\nExample : ${prefix + command} fatih-san`
+ case 'bc': case 'bcgroup': {
+    if (!isCreator) return m.reply("📍The user of this command must be the owner of the bot")
+                if (!ter) return m.reply("❌ No query provided!")
+                const bct = ter
                 let getGroups = await arus.groupFetchAllParticipating()
                 let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
                 let anu = groups.map(v => v.id)
                 m.reply(` Broadcasting in ${anu.length} Group Chat, in ${anu.length * 1.5} seconds`)
                 for (let i of anu) {
-                    await sleep(1500)
-                    
-                      let txt = `「 Kurumi BROADCAST 」\n\n${text}\n\nRegards~${pushname}`
-const bcbut=[{buttonId:".info",buttonText:{displayText:"Info"},type:1},
-{buttonId:".creator",buttonText:{displayText:"Creator"},type:1},
-{buttonId:".mods",buttonText:{displayText:"Arus Team"},type:1}]
+                    //await sleep(1500)
 
-const bcbutt={
-    image: fs.readFileSync('./src/assests/info.jpeg'),
-    caption:txt,
-    footer:`©Aku 2022`,
-    buttons: bcbut,
-    headerType:1
-} 
+  let txt = `🔰</ _*Arus Broadcast*_ >🔰\n\n🍀 *Author:* ${pushname}\n\n🔖 *Message:* ${bct}`
 //const stick=fs.readFileSync(`./src/right.webp`)
-//await arus.sendMessage(m.chat,{sticker:stick},{quoted:m})      
-await arus.sendMessage(i,bcbutt)
+//await arus.sendMessage(m.chat,{sticker:stick},{quoted:m})
+await arus.sendMessage(i, { video: { url: "https://telegra.ph/file/3c3f94c8463e7f9c29d73.mp4" }, mimetype: 'video/mp4', fileName: `bc.mp4`, caption: `${txt}` })
                     }
                 m.reply(`Successfuly Broadcasted in ${anu.length} Groups`)
             }
-    break
-    
-case 'tqtt':
-case 'special-thanks' :
-     reply(`Thanks to
-    Aku and pratyush
-    And all friends who helped assemble this sexy script !!!`)
-            break
-  case 'listgc': {
-                 let anu = await store.chats.all().filter(v => v.id.endsWith('@g.us')).map(v => v.id)
-                 let teks = `⬣ *GROUP CHAT LIST*\n\nTotal Group : ${anu.length} Group\n\n`
-                 for (let i of anu) {
-                     let metadata = await arus.groupMetadata(i)
-                     teks += `⬡ *Name :* ${metadata.subject}\n⬡ *Owner :* @${metadata.owner.split('@')[0]}\n⬡ *ID :* ${metadata.id}\n⬡ *Made :* ${moment(metadata.creation * 1000).tz('Asia/Kolkata').format('DD/MM/YYYY HH:mm:ss')}\n⬡ *Member :* ${metadata.participants.length}\n\n────────────────────────\n\n`
-                 }
-                 arus.sendTextWithMentions(m.chat, teks, m)
-             }
-             break            
+            break          
             default:
-arus.sendMessage(m.chat,{text:`Baka!! Try using the commands from help list`},{quoted:m})
+arus.sendMessage(m.chat,{text:`❗ Couldn't find any matching commands. Try again with the commands from the help list`},{quoted:m})
         }
-        
-       
         
 
     } catch (err) {
         console.log(util.format(err))
         const time = moment.tz('Asia/Kolkata').format('DD/MM HH:mm:ss')
-        arus.sendMessage("120363039020236931@g.us",{text:`*Time:* ${time}\n\n`+`*ERROR:* ${util.format(err)}`})
+        //arus.sendMessage("12033039020236931@g.us",{text:`*Time:* ${time}\n\n`+`*ERROR:* ${util.format(err)}`})
     
     }
 }
-
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {

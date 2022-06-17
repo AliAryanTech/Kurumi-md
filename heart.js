@@ -1,4 +1,3 @@
-
 require('./config')
 require('./brain.js')
 const { default: arusConnect, useSingleFileAuthState, DisconnectReason, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys")
@@ -6,12 +5,25 @@ const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`)
 const pino = require('pino')
 const fs = require('fs')
 const chalk = require('chalk')
+const qrcode = require("qrcode");
+const express = require("express");
 const CFonts=require('cfonts')
 const FileType = require('file-type')
-const path = require('path')
+const moment = require('moment-timezone')
+const mongoose = require('mongoose');
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect(mongodb);
+}
+const user = require("./models/user")
+const group = require("./models/group")
+//const usere = JSON.parse(fs.readFileSync('./lib/user.json'))
+const { smsg, formatp,  formatDate, getTime, isUrl, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention,GIFBufferToVideoBuffer, getRandom, await, sleep, getSizeMedia, generateMessageTag } = require('./lib/myfunc')
+const Canvas = require('discord-canvas')
+const path = require('path');                               
 const PhoneNumber = require('awesome-phonenumber')
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/exif')
-const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/myfunc')
 global.api = (name, path = '/', query = {}, apikeyqueryname) => (name in global.APIs ? global.APIs[name] : name) + path + (query || apikeyqueryname ? '?' + new URLSearchParams(Object.entries({ ...query, ...(apikeyqueryname ? { [apikeyqueryname]: global.APIKeys[name in global.APIs ? global.APIs[name] : name] } : {}) })) : '')
 
 const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
@@ -26,9 +38,11 @@ const getVersionWaweb = () => {
     }
     return version
 }
-
+const PORT = port
+const app = express();
+let QR_GENERATE = "invalid";
 async function startArus() {
-    CFonts.say('Kurumi\nBy\nAku', {
+    CFonts.say('Kurumi\nBY\nAKU', {
         font: 'block',
         align: 'center',
         gradient: ['blue', 'magenta']
@@ -36,7 +50,7 @@ async function startArus() {
     const arus = arusConnect({
         logger: pino({ level: 'silent' }),
         printQRInTerminal: true,
-        browser: ['Ari-Ani','Safari','1.0.0'],
+        browser: ['Kurumi','Safari','1.0.0'],
         auth: state,
         version: getVersionWaweb() || [2, 2204, 13]
     })
@@ -70,14 +84,13 @@ async function startArus() {
     })
 
    arus.ev.on('group-participants.update', async (grp) => {
-let wel=gp.get(`${grp.id}.welc`)
-let wlc=(wel)?wel:[]
-
-        try {
+try {
             
             let metadata = await arus.groupMetadata(grp.id)
             let participants = grp.participants
             let mem = grp.participants[0]
+			const groupName = metadata.subject || ''
+			const groupAdmins = await participants.filter(v => v.admin !== null).map(v => v.id) || ''
       
             for (let num of participants) {
                 // Get Profile Picture User
@@ -94,43 +107,24 @@ let wlc=(wel)?wel:[]
                     ppgroup = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
                 }
 
-                if (grp.action == 'add'&& mem.includes(arus.user.jid)) {
-                    const des=`
-}
-🎗️ *hue hue Welcome to*  *${metadata.subject}* 🎗️  
-
-*@${num.split('@')[0]}*
-        
-🎋*Group Description:*
-        
-${metadata.desc}                    
-                    `
-                    arus.sendMessage(grp.id, { video: { url: "https://c.tenor.com/tmcZ4TIVSrMAAAPo/welcome.mp4" }, gifPlayback:true,thumbnail:await getBuffer(ppgroup) ,contextInfo: { mentionedJid: [num] }, caption: des })
-                } 
-
-if(wlc.includes(`${grp.id}`)){
- console.log(grp)
+		let Igroup = await group.findOne({ id: grp.id})
+		if (Igroup) {
+			let hh = Igroup.events || "false"
                 
-if (grp.action == 'add'&& !mem.includes(arus.user.jid)) {
-                    const des=`
-🎗️ *Welcome to*  *${metadata.subject}* 🎗️  
+if (grp.action == 'add' && hh == "true") {
+	let name = arus.getName(num)
 
-*@${num.split('@')[0]}*
-        
-🎋 *Group Description:*
-        
-${metadata.desc}                     
-                    `
-                    arus.sendMessage(grp.id, { video: { url: "https://c.tenor.com/tmcZ4TIVSrMAAAPo/welcome.mp4" }, gifPlayback:true,thumbnailUrl:await getBuffer(ppgroup) ,contextInfo: { mentionedJid: [num] }, caption: des })
-                }                     
-         if (grp.action == 'remove') {
-                    arus.sendMessage(grp.id, { image: { url: ppuser }, contextInfo: { mentionedJid: [num] }, caption: `@${num.split("@")[0]} Leaving from ${metadata.subject}` })
+                    const des=`*━━━━『🍀WELCOME🍀』━━━━*\n\n*🎐Name:* ${groupName}\n\n*🔩ID Group:* ${grp.id}\n\n*🍀Made:* ${moment(`${metadata.creation}` * 1000).tz('Asia/Kolkata').format('DD/MM/YYYY HH:mm:ss')}\n\n*🔍Number Of Admins:* ${groupAdmins.length}\n\n*🎍Number Of Participants:* ${participants.length}\n\n*🔍Desc:* \n\n${metadata.desc}\n\n*`
+						arus.sendMessage(grp.id,{image: {url: ppgroup},contextInfo: { mentionedJid: [num] },caption:des})
+                }    				
+         if (grp.action == 'remove' && hh == "true") {
+                    arus.sendMessage(grp.id, { image: { url: ppuser }, contextInfo: { mentionedJid: [num] }, caption: `@${num.split("@")[0]} left from ${metadata.subject}` })
                 }
+		}
             }
-        } }catch (err) {
+        } catch (err) {
             console.log(err)
         }
-    
     })
 	
     // Setting
@@ -142,11 +136,20 @@ ${metadata.desc}
         } else return jid
     }
     
-    arus.ev.on('contacts.update', update => {
-        for (let contact of update) {
-            let id = arus.decodeJid(contact.id)
-            if (store && store.contacts) store.contacts[id] = { id, name: contact.notify }
-        }
+    arus.ev.on('contacts.update', async update => {
+		        for (let contact of update) {
+              let id = arus.decodeJid(contact.id)
+			   user.findOne({ id : id }).then((usr) => {
+						if (!usr) {
+							new user({ id: id, name: contact.notify }).save()	
+							console.log("user added")				
+						} else {
+									user.updateOne({ id: id }, {name:contact.notify})
+						console.log("user updated")
+							
+						}		
+				})
+			}  
     })
 
     arus.getName = (jid, withoutContact  = false) => {
@@ -172,7 +175,7 @@ ${metadata.desc}
 	for (let i of kon) {
 	    list.push({
 	    	displayName: await arus.getName(i + '@s.whatsapp.net'),
-	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await arus.getName(i + '@s.whatsapp.net')}\nFN:${await arus.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Phone:Phone\nitem2.EMAIL;type=INTERNET:arusbots@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/ari_wadood\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Pakistan;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
+	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await arus.getName(i + '@s.whatsapp.net')}\nFN:${await arus.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Phone\nitem2.EMAIL;type=INTERNET:Aliwadood561@gmail.com, arusbots@gmail.com\nitem2.X-ABLabel:Email\nitem4.ADR:;;Pakistan;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
 	    })
 	}
 	arus.sendMessage(jid, { contacts: { displayName: `${list.length} contact`, contacts: list }, ...opts }, { quoted })
@@ -183,10 +186,13 @@ ${metadata.desc}
     arus.serializeM = (m) => smsg(arus, m, store)
 
     arus.ev.on('connection.update', async (update) => {
-        const { connection, lastDisconnect } = update
+        const { lastDisconnect, connection, qr } = update
         if (connection === 'close') {
             lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? startArus() : console.log('Conneting...')
         }
+		if (qr) {
+			QR_GENERATE = qr;
+		}
         console.log('Connection...', update)
     })
 
@@ -512,6 +518,14 @@ ${metadata.desc}
 
 startArus()
 
+app.use(async (req, res) => {
+	res.setHeader("content-type", "image/png");
+	res.end(await qrcode.toBuffer(QR_GENERATE));
+});
+
+app.listen(PORT, () => {
+	console.log(`Server running on PORT ${PORT}`);
+});
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {
